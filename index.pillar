@@ -1,0 +1,19 @@
+!Testing in Pharo
+
+In this book we will present the how you can develop testing strategies in Pharo. 
+We will present the SUnit framework, but also DrTests a plugin architecture to propose extensions and analysis
+to improve your tests. We will finish with showing that contrary to what is commonly believed, testing UI is possible 
+and that you can take advantage of it. 
+
+${inputFile:path=Chapters/SUnit/Testing.pillar}$
+
+${inputFile:path=Chapters/DrTests/DrTests.pillar}$
+
+${inputFile:path=Chapters/SUnit/SUnit.pillar}$
+
+
+!! Testing Spec UI
+
+to be done
+
+
