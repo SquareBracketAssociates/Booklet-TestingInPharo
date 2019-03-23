@@ -5,9 +5,9 @@
         "subject": "squarebracketassociates",
         "desc": "How to code well in Pharo",
         "licenses": ["MIT"],
-        "website_url": "https://github.com/SquareBracketAssociates/Booklet-PharoWithStyle",
-        "issue_tracker_url": "https://github.com/SquareBracketAssociates/Booklet-PharoWithStyle/issues",
-        "vcs_url": "https://github.com/SquareBracketAssociates/Booklet-PharoWithStyle.git",
+        "website_url": "https://github.com/SquareBracketAssociates/Booklet-TestingInPharo",
+        "issue_tracker_url": "https://github.com/SquareBracketAssociates/Booklet-TestingInPharo/issues",
+        "vcs_url": "https://github.com/SquareBracketAssociates/Booklet-TestingInPharo.git",
         "labels": ["work-in-progress"]
     },
 
@@ -18,8 +18,8 @@
 
     "files": [
         {
-            "includePattern": "_result/pdf/withstylebook.pdf",
-            "uploadPattern": "withStyle-wip.pdf",
+            "includePattern": "_result/pdf/index.pdf",
+            "uploadPattern": "testingInPharos-wip.pdf",
             "matrixParams": { "override": 1 }
         }
     ],
