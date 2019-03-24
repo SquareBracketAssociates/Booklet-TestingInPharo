@@ -1,0 +1,30 @@
+!! UI testing
+@cha:uitesting
+
+
+!!! Testing Spec
+
+Because... we can ensure something works Because... we can do refactorings without fear Because... we SHOULD apply all our SE practices Uis
+Also, TDD to think and enforce an API 
+Build more complex programs Documentation
+
+!!! Architecture
+
+!!!! Three roles and concerns
+
+!!! The Spec User
+
+- He does not care about backends
+- « My UI should work with any backend ! »
+- I assume all widgets work ok...
+- My UI updates if my model changes My model updates if my UI changes
+
+!!! Example
+
+- Click the button add an element to the list
+- Select an element in the list should populate form
+- Changing values in the form should change the objects in the list
+
+
+Select an element in the list should populate form
+
