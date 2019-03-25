@@ -10,12 +10,20 @@ Build more complex programs Documentation
 
 !!! Architecture
 
++Spec Architecture (to be redone).>file://figures/Architecture.png|width=75|label=fig:Architecture+
+
 !!!! Three roles and concerns
+
+- ""Spec User."" The Spec user is a developer that builds a new application. It defines the logic of his application by assembling together.
+- ""Spec Developer."" The Spec developer is more concerned with the development of new Spec presenter and their link with the adapter.
+- ""Widget Developer."" The widget developer is concerned about the logic and working of a given widget is a given back-end.
+
++UI element under test.>file://figures/UI.png|width=75|label=fig:UI+
 
 !!! The Spec User
 
 - He does not care about backends
-- « My UI should work with any backend ! »
+- My UI should work with any backend !
 - I assume all widgets work ok...
 - My UI updates if my model changes My model updates if my UI changes
 
@@ -25,6 +33,87 @@ Build more complex programs Documentation
 - Select an element in the list should populate form
 - Changing values in the form should change the objects in the list
 
-
+!!!! Spec User Test 1:
 Select an element in the list should populate form
 
+[[[
+testClickOnLaunchConfigurationListItemSetsFormName
+	| name |
+	name := 'test'.
+	image addLaunchConfiguration: (PhLaunchConfiguration named: name).
+	editor refreshList.
+	
+	editor configurationList clickItem: 3.
+	self assert: editor form nameInput text equals: name
+]]]
+
+!!!! Spec User Test 2: 
+Click the button add an element to the list
+
+[[[
+testClickAddButtonCreatesNewLaunchConfiguration
+	
+	| old |
+	old := image launchConfigurations size.
+	editor addButton click.
+	self assert: image launchCOnfigurations size euqals: old + 1
+]]]
+
+
+!!!! Spec User Test 3:
+Changing values in the form should change the objects in the list
+
+[[[
+testEditConfigurationNameUpdatesListItem
+	| newName |
+	newName := 'some name'.
+	editor addButton click.
+	editor configurationList clickItem: 2.
+	editor fomr nameInput text: newName.
+	
+	self 
+		assert: (editor configurationList displayValueAt: 2)
+		equals: newName
+]]]
+
+
+!!! Concerns for the Spec Developer
+
+- I should write a presenter that works with many backends
+- « I should agree with all backends! »
+- I make sure widgets work OK
+- My widget updates if my model changes My model updates if my Widget cha
+
+
++List Presenter.>file://figures/ListPresenter.png|width=75|label=fig:ListPresenter+
+
+!!!! Example of Presenter
+
+When we consider a list presenter as shown in Figure *@fig:ListPresenter*.
+- Changing the selection should raise an event.
+- The argument of the event should contain the changes.
+
+!!!! Example of Presenter Test 1.
+Changing the selection should raise an event. 
+
+[[[
+testSetSelectIndexRaisesSelectionChangeEventOnlyOnce
+
+	| count |
+	count := 0.
+	presenter 
+		whenSelectionChangedDo: [ count := count + 1].
+	presenter selectIndex: 1. 
+	self assert: count equals: 1
+]]]
+
+!!!! Example of Presenter Test 2.
+The argument of the event should contain the changes
+
+[[[
+testSetSelectIndexRaisesSelectionItemChangeEventWithSelectedIndex
+
+	| selectedItem |
+	presenter
+	whenSelectionChangedDo:
+]]]
