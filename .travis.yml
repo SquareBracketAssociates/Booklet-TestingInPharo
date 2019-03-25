@@ -24,12 +24,11 @@ install:
 script:
   - ./pillar/build/pillar build pdf
 
-deploy:
-- provider: bintray
-  file: .bintray.json
-  on:
-    repo: SquareBracketAssociates/Booklet-TestingInPharo
-  skip_cleanup: true
-  user: ducasse
-  key:
-    secure: FiFVkmdip7Xpe1SS0yDSkXnYOe0IsuH8FA8zuvlZo1Xmb04FPdF5shV8i2nP+ZLTvzwSNPELZFa76z4pEz7M8hOXg6J+OGZ4dyvaIQpCSP2kvCQSqXkk3iq3xy3ZmE2VQLGf0ZLFh8gJ//LtiHQALQYhQab3KgdyRO20p+/+Ntl/W0DF++Cv6+VpkJl5yV2WRS2ySZHkMzYTvHBthGXBkULP3gb2tCvNx/RFbDKkoH7+I2v0w0//F/NYQGkprW/h0ktXFy/49oiqKQEEZmHUKvE7yFkaRPn5qEbwdS+VN7bVPmkH8BEtHlzBAADF/uPXXHKdHBrHEcdsE7wJ1EMR/iAoEukdndfj7cjh971Om6Bfhw8l7o1tCzn1QVXmskswWc29W+odDs2yhGW5aBhAK3ZHtqP0mQCsHYcMBppdcjzOL9uDPYUTMcx19CKosRIyEkZ7NF+FTftmfroZ2mmpboqdIId8uiP4Zu75u9qEwycCF3zrjoeBh7MmQAEByRsi6cZ5dNEG/6xVjg1kxnxHw59FdS8kwYBTA6JtRY55d/7VodM316OexkOzs05Oz9TjAh9AZ3kMvYWs6sijUPQrm49zFhoBSNNOezoFHAoe8ivIiNiIq519QW6b3kLDuoXzPCPsvuqKtQ1S86afB9tPaV1XR3wvJK+otGTxyF9cPgQ=
+after_success:
+  - wget -c https://github.com/probonopd/uploadtool/raw/master/upload.sh
+  - mv _result/pdf/index.pdf TestingInPharo-wip.pdf
+  - bash upload.sh TestingInPharo-wip.pdf
+
+branches:
+  except:
+    - /^(?i:continuous)$/
