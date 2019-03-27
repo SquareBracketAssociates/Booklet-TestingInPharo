@@ -1,9 +1,10 @@
 !!The SUnit cookbook
 
-This section will give you more details on how to use SUnit. If you have used
+This chapter will give you more details on how to use SUnit. If you have used
 another testing framework such as JUnit, much of this will be familiar, since
 all these frameworks have their roots in SUnit. Normally you will use SUnit's
 GUI to run tests, but there are situations where you may not want to use it.
+
 
 !!!Other assertions
 
@@ -30,6 +31,53 @@ method below illustrates the use of ==should:raise:==.
 
 Try running this test. Note that the first argument of the ==should:== and
 ==shouldnt:== methods is a block that contains the expression to be executed.
+
+
+!!!Using ==assert:equals:==
+
+In addition to ==assert:==, there is also ==assert:equals:== that offers a
+better report in case of error (incidentally, ==assert:equals:== uses
+==assert:description:==).
+
+For example, the two following tests are equivalent. However, the second one
+will report the value that the test is expecting: this makes easier to
+understand the failure. In this example, we suppose that ==aDateAndTime== is an
+instance variable of the test class.
+
+[[[
+testAsDate
+	self assert: aDateAndTime asDate = ('February 29, 2004' asDate translateTo: 2 hours).
+
+testAsDate
+	self
+		assert: aDateAndTime asDate
+		equals: ('February 29, 2004' asDate translateTo: 2 hours).
+]]]
+
+
+!!!Assertion description strings
+@sec:descriptionStrings
+
+The ==TestAsserter== assertion protocol includes a number of methods that allow
+the programmer to supply a description of the assertion. The description is a
+==String==; if the test case fails, this string will be displayed by the test
+runner. Of course, this string can be constructed dynamically.
+
+[[[
+...
+e := 42.
+self assert: e = 23 description: 'expected 23, got ', e printString
+...
+]]]
+
+The relevant methods in ==TestAsserter== are:
+
+[[[
+assert:description:
+deny:description:
+should:description:
+shouldnt:description:
+]]]
 
 !!!Running a single test
 
@@ -64,57 +112,15 @@ methods like ==assert:==. We recommend, however, that you not try to do this.
 The framework is there: use it.
 
 
-!!Advanced features of SUnit
+
+
+!!!Advanced features of SUnit
 
 In addition to ==TestResource==, SUnit contains assertion description strings,
 logging support, the ability to skip tests, and resumable test failures.
 
-!!!Assertion description strings
-@sec:descriptionStrings
 
-The ==TestAsserter== assertion protocol includes a number of methods that allow
-the programmer to supply a description of the assertion. The description is a
-==String==; if the test case fails, this string will be displayed by the test
-runner. Of course, this string can be constructed dynamically.
-
-[[[
-...
-e := 42.
-self assert: e = 23 description: 'expected 23, got ', e printString
-...
-]]]
-
-The relevant methods in ==TestAsserter== are:
-
-[[[
-assert:description:
-deny:description:
-should:description:
-shouldnt:description:
-]]]
-
-!!!Using ==assert:equals:==
-
-In addition to ==assert:==, there is also ==assert:equals:== that offers a
-better report in case of error (incidentally, ==assert:equals:== uses
-==assert:description:==).
-
-For example, the two following tests are equivalent. However, the second one
-will report the value that the test is expecting: this makes easier to
-understand the failure. In this example, we suppose that ==aDateAndTime== is an
-instance variable of the test class.
-
-[[[
-testAsDate
-	self assert: aDateAndTime asDate = ('February 29, 2004' asDate translateTo: 2 hours).
-
-testAsDate
-	self
-		assert: aDateAndTime asDate
-		equals: ('February 29, 2004' asDate translateTo: 2 hours).
-]]]
-
-!!!Logging support
+!!!!Logging support
 
 The description strings mentioned above may also be logged to a ==Stream==, such
 as the ==Transcript== or a file stream. You can choose whether to log by
@@ -122,7 +128,7 @@ overriding ==isLogging== in your test class; you must also choose where to log
 by overriding ==failureLog== to answer an appropriate stream. By default, the
 ==Transcript== is used to log.
 
-!!!Skipping tests
+!!!!Skipping tests
 
 Sometimes in the middle of a development, you may want to skip a test instead of
 removing it or renaming it to prevent it from running. You can simply invoke the
@@ -137,7 +143,7 @@ OCCompiledMethodIntegrityTest >> testPragmas
 	...
 ]]]
 
-!!Continuing after a failure
+!!!! Continuing after a failure
 
 SUnit also allows us to specify whether or not a test should continue after a
 failure. This is a really powerful feature that uses Pharo's exception
@@ -168,211 +174,6 @@ methods that we have seen are not resumable by default;
 ==assert: p description: s== is equivalent to
 ==assert: p description: s resumable: false==.
 
-!!SUnit implementation
 
-The implementation of SUnit makes an interesting case study of a Pharo
-framework. Let's look at some key aspects of the implementation by following the
-execution of a test.
 
-!!!Running one test
 
-To execute one test, we execute the expression ==(aTestClass selector: aSymbol)
-run.==
-
-+Running one test.>file://figures/sunit-scenario.png|width=60|label=fig:sunit-scenario+
-
-The method ==TestCase >> run== creates an instance of ==TestResult== that will
-accumulate the results of the test, then it sends itself the message
-==TestCase >> run:== (See Figure *@fig:sunit-scenario*).
-
-[[[
-TestCase >> run
-	| result |
-	result := self classForTestResult new.
-	[ self run: result ]
-		ensure: [ self classForTestResource resetResources: self resources ].
-	^ result
-]]]
-
-The method ==TestCase >> run:== sends the message ==runCase:== to the test result:
-
-[[[caption=Passing the test case to the test result
-TestCase >> run: aResult
-	aResult runCase: self
-]]]
-
-The method ==TestResult >> runCase:== sends the message ==TestCase >> runCase==
-to an individual test, to execute the test. ==TestResult >> runCase== deals with
-any exceptions that may be raised during the execution of a test, runs a
-==TestCase== by sending it the ==runCase==, and counts the errors, failures, and
-passes.
-
-[[[caption=Catching test case errors and failures
-TestResult >> runCase: aTestCase
-	[
-	aTestCase announce: TestCaseStarted withResult: self.
-	aTestCase runCase.
-	aTestCase announce: TestCaseEnded withResult: self.
-	self addPass: aTestCase ]
-		on: self class failure, self class skip, self class warning, self class error
-		do: [ :ex | ex sunitAnnounce: aTestCase toResult: self ]
-]]]
-
-The method ==TestCase >> runCase== sends the messages ==TestCase >> setUp== and
-==TestCase >> tearDown== as shown below.
-
-[[[
-TestCase >> runCase
-		self resources do: [ :each | each availableFor: self ].
-		[ self setUp.
-		self performTest ] ensure: [
-			self tearDown.
-			self cleanUpInstanceVariables ]
-]]]
-
-!!!Running a TestSuite
-
-To run more than one test, we send the message ==run== to a ==TestSuite== that
-contains the relevant tests. ==TestCase class== provides some functionality to
-build a test suite from its methods. The expression ==MyTestCase
-buildSuiteFromSelectors== returns a suite containing all the tests defined in
-the ==MyTestCase== class. The core of this process is:
-
-[[[caption=Auto-building the test suite
-TestCase class >> testSelectors
-	^ (self selectors select: [ :each | (each beginsWith: 'test') and: [ each numArgs isZero ]])
-]]]
-
-The method ==TestSuite >> run== creates an instance of ==TestResult==, verifies
-that all the resources are available, and then sends itself the message
-==TestSuite >> run:==, which runs all the tests in the suite. All the resources
-are then released.
-
-[[[
-TestSuite >> run: aResult
-	self setUp.
-	[ self tests
-		do: [ :each |
-			each run: aResult.
-			self announceTest: each.
-			self changed: each ] ]
-		ensure: [ self tearDown ]
-
-TestSuite >> setUp
-	self resources do: [ :each |
-				each isAvailable ifFalse: [ each signalInitializationError ]
-		].
-
-TestSuite >> tearDown
-	self resourceClass resetResources: self resources
-]]]
-
-The class ==TestResource== and its subclasses keep track of their currently
-created singleton instances that can be accessed and created using the class
-method ==TestResource class >> current==. This instance is cleared when the
-tests have finished running and the resources are reset.
-
-The resource availability check makes it possible for the resource to be
-re-created if needed, as shown in the class method ==TestResource
-class >> isAvailable==. During the ==TestResource== instance creation, it is
-initialized and the message ==setUp== is sent to a test resource.
-
-[[[caption=Test resource availability
-TestResource class >> isAvailable
-	"This is (and must be) a lazy method. If my current has a value, an attempt to make me available has already been made: trust its result. If not, try to make me available."
-
-	current ifNil: [ self makeAvailable ].
-	^ self isAlreadyAvailable
-]]]
-
-[[[caption=Test resource creation
-TestResource class >> current
-	"This is a lazy accessor: the assert of self isAvailable does no work unless current isNil. However this method should normally be sent only to a resource that should already have been made available, e.g. in a test whose test case class has the resource class in its #resources, so should never be able to fail the assert.
-	If the intent is indeed to access a possibly-unprepared or reset-in-earlier-test resource lazily, then preface the call of 'MyResource current' with 'MyResource availableFor: self'."
-
-	self
-		assert: self isAvailable
-		description:
-			'Sent #current to unavailable resource ', self name,
-				'. Add it to test case'' class-side #resources (recommended) or send #availableFor: beforehand'.
-	^ current
-]]]
-
-!!A piece of advices on testing
-
-While the mechanics of testing are easy, writing good tests is not. Here is some
-advice on how to design tests.
-
-!!!Self-contained tests
-
-You do not want to have to change your tests each time you change your code,
-so try to write the tests so that they are self-contained. This can be
-difficult, but pays off in the long term. Writing tests against stable
-interfaces supports this effort.
-
-!!!Do not over-test
-
-Try to build your tests so that they do not overlap. It is annoying to have many
-tests covering the same functionality, because one bug in the code will then
-break many tests at the same time. This is covered by Black's rule, below.
-
-!!!Feathers' Rules for Unit tests
-
-Michael Feathers, an agile process consultant and author, writes:
-
-''A test is not a unit test if: it talks to the database, it communicates across
-the network, it touches the file system, it can't run at the same time as any of
-your other unit tests, or you have to do special things to your environment
-(such as editing config files) to run it. Tests that do these things aren't bad.
-Often they are worth writing, and they can be written in a unit test harness.
-However, it is important to be able to separate them from true unit tests so
-that we can keep a set of tests that we can run fast whenever we make our
-changes. Never get yourself into a situation where you don't want to run your
-unit test suite because it takes too long.''
-
-!!!Unit Tests vs. Acceptance Tests
-
-Unit tests capture one piece of functionality, and as such make it easier to
-identify bugs in that functionality. As far as possible try to have unit tests
-for each method that could possibly fail, and group them per class. However, for
-certain deeply recursive or complex setup situations, it is easier to write
-tests that represent a scenario in the larger application. These are called
-acceptance tests (or integration tests, or functional tests).
-
-Tests that break Feathers' rules may make good acceptance tests. Group
-acceptance tests according to the functionality that they test. For example, if
-you are writing a compiler, you might write acceptance tests that make
-assertions about the code generated for each possible source language statement.
-Such tests might exercise many classes, and might take a long time to run
-because they touch the file system. You can write them using SUnit, but you
-won't want to run them each time you make a small change, so they should be
-separated from the true unit tests.
-
-!!!Black's Rule of Testing
-
-For every test in the system, you should be able to identify some property for
-which the test increases your confidence. It's obvious that there should be no
-important property that you are not testing. This rule states the less obvious
-fact that there should be no test that does not add value to the system by
-increasing your confidence that a useful property holds. For example, several
-tests of the same property do no good. In fact, they do harm in two ways.
-First, they make it harder to infer the behaviour of the class by reading the
-tests. Second, because one bug in the code might then break many tests, they
-make it harder to estimate how many bugs remain in the code. So, have a property
-in mind when you write a test.
-
-!!Chapter summary
-
-This chapter explained why tests are an important investment in the future of
-your code. We explained in a step-by-step fashion how to define a few tests for
-the class ==Set==. Then we gave an overview of the core of the SUnit framework
-by presenting the classes ==TestCase==, ==TestResult==, ==TestSuite== and
-==TestResources==. Finally we looked deep inside SUnit by following the
-execution of a test and a test suite.
-
-- To maximize their potential, unit tests should be fast, repeatable, independent of any direct human interaction and cover a single unit of functionality.
-- Tests for a class called ==MyClass== belong in a class named ==MyClassTest==, which should be introduced as a subclass of ==TestCase==.
-- Initialize your test data in a ==setUp== method.
-- Each test method should start with the word ''test''.
-- Use the ==TestCase== methods ==assert:==, ==deny:== and others to make assertions.
-- Run tests!

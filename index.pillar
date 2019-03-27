@@ -4,7 +4,8 @@ to improve your tests.
 We will finish with showing that contrary to what is commonly believed, testing UI is possible 
 and that you can take advantage of it. 
 
-${inputFile:path=Chapters/SUnit/Testing.pillar}$
+${inputFile:path=Chapters/SUnit/Testing.pillar}$ 
+%Validated
 
 ${inputFile:path=Chapters/SUnit/SUnit.pillar}$
 
@@ -13,6 +14,8 @@ ${inputFile:path=Chapters/SUnit/SUnit.pillar}$
 ${inputFile:path=Chapters/SUnit/Cookbook.pillar}$
 
 ${inputFile:path=Chapters/SUnit/Framework.pillar}$
+
+${inputFile:path=Chapters/SUnit/Implementation.pillar}$
 
 ${inputFile:path=Chapters/DrTests/DrTests.pillar}$
 
