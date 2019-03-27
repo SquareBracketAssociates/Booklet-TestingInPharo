@@ -15,7 +15,10 @@ ${inputFile:path=Chapters/SUnit/Framework.pillar}$
 
 ${inputFile:path=Chapters/SUnit/Implementation.pillar}$
 
+! UITesting
+${inputFile:path=Chapters/UITesting/UITesting.pillar}$
+
+! DrTest
 ${inputFile:path=Chapters/DrTests/DrTests.pillar}$
 
-${inputFile:path=Chapters/UITesting/UITesting.pillar}$
 
