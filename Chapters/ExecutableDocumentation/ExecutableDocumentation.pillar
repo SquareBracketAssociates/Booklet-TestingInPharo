@@ -1,2 +1,5 @@
 !! Executable comments
 
+An important problem that developers are facing is how to document their code. Often they would like to provide a little example to help their users.Unit Tests are already a good foundation for this 
+
+Since Pharo 7.0 you

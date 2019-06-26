@@ -1,8 +1,14 @@
 In this book we will present how you can develop testing strategies in Pharo. 
-We will present the SUnit framework, but also DrTests a plugin architecture to propose extensions and analysis
-to improve your tests. 
-We will finish with showing that contrary to what is commonly believed, testing UI is possible 
-and that you can take advantage of it. 
+We will present the SUnit framework, but also DrTests a plugin architecture to propose extensions and analyses
+to improve your tests.
+We show that contrary to what is commonly believed, testing UI is possible and that you can take advantage of it.
+We present how to connect your github repository to take advantage of integration services such as Travis or Appveyor.
+Finally we finish by describing the framework and its implementation.
+
+SUnit is a minimal yet powerful framework that supports the creation and deployment of tests. 
+As might be guessed from its name, the design of SUnit focuses on ''Unit Tests'', but in fact it can be used for integration tests and functional tests as well. 
+SUnit was originally developed by Kent Beck and subsequently extended by Joseph Pelrine and others to incorporate the notion of a resource. 
+Note that the version documented in this chapter and used in Pharo is a modified version of SUnit3.3.
 
 ${inputFile:path=Chapters/SUnit/Testing.pillar}$ 
 %Validated
@@ -11,18 +17,14 @@ ${inputFile:path=Chapters/SUnit/SUnit.pillar}$
 
 ${inputFile:path=Chapters/SUnit/Cookbook.pillar}$
 
-${inputFile:path=Chapters/SUnit/Framework.pillar}$
-
-${inputFile:path=Chapters/SUnit/Implementation.pillar}$
-
-! DrTest
 ${inputFile:path=Chapters/DrTests/DrTests.pillar}$
 
-! Getting more out of tests
 ${inputFile:path=Chapters/UITesting/UITesting.pillar}$
 
 ${inputFile:path=Chapters/SUnit/Integration.pillar}$
 
+${inputFile:path=Chapters/SUnit/Framework.pillar}$
 
+${inputFile:path=Chapters/SUnit/Implementation.pillar}$
 
 

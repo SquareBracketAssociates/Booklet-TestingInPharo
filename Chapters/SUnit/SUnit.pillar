@@ -1,23 +1,7 @@
-!SUnit
-@cha:sunit
-
-SUnit is a minimal yet powerful framework that supports the creation and
-deployment of tests. As might be guessed from its name, the design of SUnit
-focussed on ''Unit Tests'', but in fact it can be used for integration tests and
-functional tests as well. SUnit was originally developed by Kent Beck and
-subsequently extended by Joseph Pelrine and others to incorporate the notion of
-a resource (discussed below).
-
-In this chapter we start by discussing why we test, and what makes a good test.
-We then present a series of small examples showing how to use SUnit. Finally, we
-look at the implementation of SUnit, so that you can understand how Pharo
-uses the power of reflection in supporting its tools. Note that the version
-documented in this chapter and used in Pharo is a modified version of SUnit3.3.
-
-
 !!SUnit by Example
-
-Before going into the details of SUnit, we will show a step by step example. We
+@cha:sunitexample
+In this chapter we present a small example showing how simple it is to use SUnit. 
+Before going into the details of SUnit (see next Chapter), we will show a step by step example. We
 use an example that tests the class ==Set==. Try entering the code as we go
 along.
 
@@ -83,15 +67,21 @@ MyExampleSetTest >> testIncludes
 
 The second test, named ==testOccurrences==, verifies that the
 number of occurrences of 5 in ==full== set is equal to one, even if we
-add another element 5 to the set.
+add another element 5 to the set. 
 
 [[[caption=Testing occurrences
 MyExampleSetTest >> testOccurrences
-	self assert: (empty occurrencesOf: 0) = 0.
-	self assert: (full occurrencesOf: 5) = 1.
+	self assert: (empty occurrencesOf: 0) equals: 0.
+	self assert: (full occurrencesOf: 5) equals: 1.
 	full add: 5.
-	self assert: (full occurrencesOf: 5) = 1
+	self assert: (full occurrencesOf: 5) equals: 1
 ]]]
+
+Note that we use the message ==assert:equals:== and not ==assert:== as in the first test.
+We could have use ==assert:==.
+But the message ==assert:equals:== is better since it report error in a much better way. 
+When an assertion is failing, ==assert:equals:== shows the expected value and the value it got.
+While ==assert:== just mentions that something is not true. 
 
 Finally, we test that the set no longer contains the element 5 after we have
 removed it.
@@ -191,10 +181,6 @@ and are listed in the middle pane on the right, whereas tests with errors cause
 the bar to turn red, and are listed in the bottom pane on the right.
 
 Modify your tests to provoke both errors and failures.
-
-
-
-
 
 !!! Conclusion
 
