@@ -14,7 +14,7 @@ Here is an example == 'a' asByteArray >>> #[97]==
 
 
 [[[
-asByteArray
+String >> asByteArray
 	"Convert to a ByteArray with the ascii values of the string."
 	"'a' asByteArray >>> #[97]"
 	"'A' asByteArray >>> #[65]"
@@ -27,3 +27,24 @@ asByteArray
 	^ b
 ]]]
 
+Note that the message ==>>>== is a real message, a binary message so you have to pay attention when documenting other 
+binary message. 
+
+Here we show ==contractTo:== and there is no need to put extra parenthesis as in the example.
+[[[
+String >> contractTo: smallSize
+	"return myself or a copy shortened by ellipsis to smallSize"
+	"('abcd' contractTo: 10) >>> 'abcd'"
+	"('Pharo is really super cool' contractTo: 10) >>> 'Phar...ool'"
+	"('A clear but rather long-winded summary' contractTo: 18) >>> 'A clear ...summary'"
+	
+	| leftSize |
+	self size <= smallSize
+		ifTrue: [^ self].  "short enough"
+	smallSize < 5
+		ifTrue: [^ self copyFrom: 1 to: smallSize].    "First N characters"
+	leftSize := smallSize-2//2.
+	^ self copyReplaceFrom: leftSize+1		"First N/2 ... last N/2"
+		to: self size - (smallSize - leftSize - 3)
+		with: '...'
+]]]
