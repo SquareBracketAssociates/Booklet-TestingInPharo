@@ -1,24 +1,33 @@
 !! UI testing
 @cha:uitesting
 
+Developers often think that testing UI is difficult. This is true that fully testing the placement and layout of widgets can be tedious. Testing testing the logic of an application and in particular the interaction logic
+is possible and this is what we will show in this chapter. We show that testing Spec application is simple 
+and effective.
+
 
 !!! Testing Spec
+Tests are key to ensure that everything works correctly. In addition, they free us from the fear to break something without being warned about it. Tests support refactorings. While such facts are general and applicable to many domains, they also true for user interfaces.
 
-Because... we can ensure something works Because... we can do refactorings without fear Because... we SHOULD apply all our SE practices Uis
-Also, TDD to think and enforce an API 
-Build more complex programs Documentation
 
-!!! Architecture
+
+!!!! Spec Architecture
+
+Spec is based on an architecture with three different layers as shown in Figure~*@fig:Architecture*: 
+- ""Presenters:"" Presenters defined the interaction logic and manipulate domain objects. They access backwidgets but via an API that is specified by Adapters.
+- ""Adapters:"" Adapters are objects exposing low-level back-end widgets. They are a bridge between presenters and low-level widgets.
+- ""Backend widgets"". Backend widgets are plain widgets that can be used without Spec.
 
 +Spec Architecture (to be redone).>file://figures/Architecture.png|width=75|label=fig:Architecture+
 
 !!!! Three roles and concerns
+To help you understand the different possibilities of testing that you can engage, we identify the following roles and their related concerned
 
 - ""Spec User."" The Spec user is a developer that builds a new application. It defines the logic of his application by assembling together.
 - ""Spec Developer."" The Spec developer is more concerned with the development of new Spec presenter and their link with the adapter.
 - ""Widget Developer."" The widget developer is concerned about the logic and working of a given widget is a given back-end.
 
-+UI element under test.>file://figures/UI.png|width=75|label=fig:UI+
++UI elements under test.>file://figures/UI.png|width=75|label=fig:UI+
 
 !!! The Spec user
 
