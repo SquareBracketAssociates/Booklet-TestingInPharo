@@ -164,7 +164,7 @@ Try to build your tests so that they do not overlap. It is annoying to have many
 tests covering the same functionality, because one bug in the code will then
 break many tests at the same time. This is covered by Black's rule, below.
 
-!!!!Feathers' Rules for Unit tests
+!!!!Feathers' rules for unit tests
 
 Michael Feathers, an agile process consultant and author, writes:
 
@@ -178,7 +178,7 @@ that we can keep a set of tests that we can run fast whenever we make our
 changes. Never get yourself into a situation where you don't want to run your
 unit test suite because it takes too long.''
 
-!!!!Unit Tests vs. Acceptance Tests
+!!!!Unit tests vs. Acceptance tests
 
 Unit tests capture one piece of functionality, and as such make it easier to
 identify bugs in that functionality. As far as possible try to have unit tests
@@ -196,7 +196,7 @@ because they touch the file system. You can write them using SUnit, but you
 won't want to run them each time you make a small change, so they should be
 separated from the true unit tests.
 
-!!!!Black's Rule of Testing
+!!!!Black's rule of testing
 
 For every test in the system, you should be able to identify some property for
 which the test increases your confidence. It's obvious that there should be no

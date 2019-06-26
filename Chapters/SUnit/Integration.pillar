@@ -1,4 +1,4 @@
-!! Getting more with Continuous Integration
+!! Getting more with continuous integration
 
 Once you have tests you want to run them as many times as possible. 
 In this chapter we should the basic setup to execute your tests on Travis integration. 
@@ -77,7 +77,7 @@ test_script:
   - '%CYG_BASH% -lc "cd $APPVEYOR_BUILD_FOLDER; exec 0</dev/null; $SCI_RUN"'
 ]]]
 
-!!! Coverage 
+!!! Assessing test coverage 
 Finally one you have automated servers up and running you can take advantage of other services such as coverage. 
 You should create an account to coverall and enable the communication between coverall and the project you want to cover.
  

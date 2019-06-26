@@ -20,7 +20,7 @@ Build more complex programs Documentation
 
 +UI element under test.>file://figures/UI.png|width=75|label=fig:UI+
 
-!!! The Spec User
+!!! The Spec user
 
 - He does not care about backends
 - My UI should work with any backend !
@@ -33,7 +33,7 @@ Build more complex programs Documentation
 - Select an element in the list should populate form
 - Changing values in the form should change the objects in the list
 
-!!!! Spec User Test 1:
+!!!! Spec user test 1:
 Select an element in the list should populate form
 
 [[[
@@ -47,7 +47,7 @@ testClickOnLaunchConfigurationListItemSetsFormName
 	self assert: editor form nameInput text equals: name
 ]]]
 
-!!!! Spec User Test 2: 
+!!!! Spec user test 2: 
 Click the button add an element to the list
 
 [[[
@@ -60,7 +60,7 @@ testClickAddButtonCreatesNewLaunchConfiguration
 ]]]
 
 
-!!!! Spec User Test 3:
+!!!! Spec user test 3:
 Changing values in the form should change the objects in the list
 
 [[[
@@ -77,7 +77,7 @@ testEditConfigurationNameUpdatesListItem
 ]]]
 
 
-!!! Concerns for the Spec Developer
+!!! Concerns for the Spec developer
 
 - I should write a presenter that works with many backends
 - « I should agree with all backends! »
@@ -93,7 +93,7 @@ When we consider a list presenter as shown in Figure *@fig:ListPresenter*.
 - Changing the selection should raise an event.
 - The argument of the event should contain the changes.
 
-!!!! Example of Presenter Test 1.
+!!!! Example of Presenter test 1.
 Changing the selection should raise an event. 
 
 [[[
@@ -107,7 +107,7 @@ testSetSelectIndexRaisesSelectionChangeEventOnlyOnce
 	self assert: count equals: 1
 ]]]
 
-!!!! Example of Presenter Test 2.
+!!!! Example of Presenter test 2.
 The argument of the event should contain the changes
 
 [[[
