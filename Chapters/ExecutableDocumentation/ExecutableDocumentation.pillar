@@ -27,9 +27,7 @@ String >> asByteArray
 	^ b
 ]]]
 
-Note that the message ==>>>== is a real message, a binary message so you have to pay attention when documenting other 
-binary message. 
-
+Note that the message ==>>>== is a real message, a binary message, so you have to pay attention when documenting other binary messages about the execution order. You can simply surround the first expressions with parantheses.
 Here we show ==contractTo:== and there is no need to put extra parenthesis as in the example.
 [[[
 String >> contractTo: smallSize
@@ -48,3 +46,9 @@ String >> contractTo: smallSize
 		to: self size - (smallSize - leftSize - 3)
 		with: '...'
 ]]]
+
+!!! DrTests plugin
+
+Once you defined an executable comment, you can check that it is valid by comparing the results with the expected one. You can also use the DrTests plugin for executable comments.
+
+%(more in the future)
