@@ -250,7 +250,7 @@ Create new classes ==MyTestResource== and ==MyTestCase== which are subclasses of
 that the following messages are written to the ==Transcript== when you run your
 tests.
 
-!!!Solution
+!!!!Solution
 You will need to write the following six methods.
 
 [[[
@@ -279,6 +279,85 @@ MyTestResource >> tearDown
 
 
 !!! Parameterized Tests
+Since Pharo 7.0 you can express parameterized tests. To declare a parameterized test you have to
+- define your test case class as a subclass of ==ParametrizedTestCase== instead of ==TestCase==
+- define a class method named ==testParameters== which specify the actual parameters.
+
+!!!! Simple example first
+Here is an example taken from the Enlumineur project. 
+
+We define the class ==BIEnlumineurTest==
+[[[
+ParametrizedTestCase subclass: #BIEnlumineurTest
+	instanceVariableNames: 'configurationSelector formatterClass contextClass'
+	classVariableNames: ''
+	package: 'BlueInk-Enlumineur-Tests'
+]]]
+
+This class should define accessors for its parameters.
+
+Then we define the class method ==testParameters== as follows. 
+
+[[[
+BIEnlumineurTest class >> testParameters
+	^ ParametrizedTestMatrix new
+		addCase:
+			{(#formatterClass -> BIEnlumineurPrettyPrinter).
+			(#contextClass -> BIEnlumineurContext)};
+		yourself
+]]]
+
+Now the framework will run the test using the parameters we mentioned. 
+To add a new variation we just have to add a case using the ==addCase:== message. 
+
+!!!! Controlling configuration
+
+The following example generates 2 cases. Exactly the 2 cases listed in ==testParameters== method
+
+[[[
+PaSelectedCasesExampleTest class >> testParameters
+
+	^ ParametrizedTestMatrix new
+		addCase: { #number1 -> 2. #number2 -> 1.0. #result -> 3 };
+		addCase: { #number1 -> (2/3). #number2 -> (1/3). #result -> 1 };
+		yourself
+]]]
+	
+!!!! More advanced cases
+
+The class ==PaSimpleMatrixExampleTest== contains examples.
+This test execute 81 different cases. 
+
+All the combinations in the matrix
+
+[[[
+PaSimpleMatrixExampleTest class >> testParameters
+
+	^ ParametrizedTestMatrix new
+		forSelector: #item1 addOptions: { 1. 'a'. $c };
+		forSelector: #item2 addOptions: { 2. 'b'. $d };
+		forSelector: #collectionClass addOptions: { Set. Bag. OrderedCollection }
+]]]
+
+
+The test matrix can be generated with cartesian product configurations or a set of well known cases.
+
+An example of #testParameters is: 
+
+[[[
+testParameters
+
+	^ ParametrizedTestMatrix new
+		forSelector: #option1 addOptions: #(a b c);
+		forSelector: #option2 addOptions: {[1].[2].[3]};
+		yourself.
+]]] 
+
+Each option is constituted from a set of possible values and a selector that is the name of the property to set in the test case instance.
+
+Also each option can be a literal or a block to generate that value. The block has an optional parameter, the parameter is the test case to configure.
+
+In this example the generated cases will be 9. One per each combination of ==option1== and ==option2==.  The test Case should have a setter for each of the option.
 
 
 
