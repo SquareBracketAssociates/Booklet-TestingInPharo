@@ -6,6 +6,13 @@ all these frameworks have their roots in SUnit. Normally you will use SUnit's
 GUI to run tests, but there are situations where you may not want to use it.
 
 
+!!! Other Unit Test features
+
+	fails
+	expected failures
+	skip
+
+
 !!!Other assertions
 
 In addition to ==assert:== and ==deny:==, there are several other methods that
@@ -33,7 +40,7 @@ Try running this test. Note that the first argument of the ==should:== and
 ==shouldnt:== methods is a block that contains the expression to be executed.
 
 
-!!!Using ==assert:equals:==
+!!!!Using ==assert:equals:==
 
 In addition to ==assert:==, there is also ==assert:equals:== that offers a
 better report in case of error (incidentally, ==assert:equals:== uses
@@ -55,7 +62,7 @@ testAsDate
 ]]]
 
 
-!!!Assertion description strings
+!!!!Assertion description strings
 @sec:descriptionStrings
 
 The ==TestAsserter== assertion protocol includes a number of methods that allow
@@ -79,7 +86,9 @@ should:description:
 shouldnt:description:
 ]]]
 
-!!!Running a single test
+!!!Running tests
+
+!!!! Running a single test
 
 Normally, you will run your tests using the Test Runner or using your code
 browser. If you don't want to launch the Test Runner from the World menu, you
@@ -90,7 +99,7 @@ MyExampleSetTest run: #testRemove
 >>> 1 run, 1 passed, 0 failed, 0 errors
 ]]]
 
-!!!Running all the tests in a test class
+!!!!Running all the tests in a test class
 
 Any subclass of ==TestCase== responds to the message ==suite==, which will build
 a test suite that contains all the methods in the class whose names start with
@@ -103,13 +112,14 @@ MyExampleSetTest suite run
 >>> 5 run, 5 passed, 0 failed, 0 errors
 ]]]
 
-!!!Must I subclass TestCase?
+%!!!Must I subclass TestCase?
+% to move in the example
 
-In JUnit you can build a TestSuite from an arbitrary class containing ==test*==
-methods. In SUnit you can do the same but you will then have to create a suite
-by hand and your class will have to implement all the essential ==TestCase==
-methods like ==assert:==. We recommend, however, that you not try to do this.
-The framework is there: use it.
+%In JUnit you can build a TestSuite from an arbitrary class containing ==test*==
+%methods. In SUnit you can do the same but you will then have to create a suite
+%by hand and your class will have to implement all the essential ==TestCase==
+%methods like ==assert:==. We recommend, however, that you not try to do this.
+%The framework is there: use it.
 
 
 
@@ -139,7 +149,7 @@ following test uses it to define a conditional test.
 OCCompiledMethodIntegrityTest >> testPragmas
 
 	| newCompiledMethod originalCompiledMethod |
-	(Smalltalk globals hasClassNamed: #Compiler) ifFalse: [ ^ self skip ].
+	(self class environment hasClassNamed: #Compiler) ifFalse: [ ^ self skip ].
 	...
 ]]]
 
@@ -192,6 +202,9 @@ compiled code. In such cases, it may make sense to set up the database and open
 a connection to it, or to compile some source code, before any of the tests
 start to run.
 
+@@note add a diagram showing the setup teardown sequences
+
+
 Where should we cache these resources, so that they can be shared by a suite of
 tests? The instance variables of a particular ==TestCase== subclass won't
 do, because a TestCase instance persists only for the duration of a single test
@@ -227,6 +240,11 @@ MyTestCase class >> resources
 
 	^ { MyTestResource }
 ]]]
+
+@@note missing the other part of the story resourcesAt:
+
+@@note add a real example
+
 
 !!!! Checking the described behavior
 
@@ -359,5 +377,5 @@ Also each option can be a literal or a block to generate that value. The block h
 
 In this example the generated cases will be 9. One per each combination of ==option1== and ==option2==.  The test Case should have a setter for each of the option.
 
-
+@@note add a note parametrized * 
 
