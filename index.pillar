@@ -15,16 +15,16 @@ ${inputFile:path=Chapters/SUnit/Testing.pillar}$
 
 ${inputFile:path=Chapters/SUnit/SUnit.pillar}$
 
-${inputFile:path=Chapters/SUnit/Integration.pillar}$
 
 ${inputFile:path=Chapters/SUnit/Cookbook.pillar}$
 
-${inputFile:path=Chapters/ExecutableDocumentation/ExecutableDocumentation.pillar}$
-
 ${inputFile:path=Chapters/DrTests/DrTests.pillar}$
+
+${inputFile:path=Chapters/ExecutableDocumentation/ExecutableDocumentation.pillar}$
 
 ${inputFile:path=Chapters/UITesting/UITesting.pillar}$
 
+${inputFile:path=Chapters/SUnit/Integration.pillar}$
 
 ${inputFile:path=Chapters/SUnit/Framework.pillar}$
 
