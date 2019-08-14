@@ -30,20 +30,20 @@ To help you understand the different possibilities of testing that you can engag
 +UI elements under test.>file://figures/UI.png|width=75|label=fig:UI+
 
 !!! The Spec user
-
-- He does not care about backends
-- My UI should work with any backend !
-- I assume all widgets work ok...
-- My UI updates if my model changes My model updates if my UI changes
+As a Spec user, you consider that the backends are working and our responsibilities is to test the logic of the user interface components. 
+We should make sure that when the model changes, the user interface components reflect the changes. Inversely when the user interface components change, we should ensure that the model is updated.  
 
 !!! Example
 
-- Click the button add an element to the list
-- Select an element in the list should populate form
+Here is a simple example. Imagine we have the following requirements.
+- Click the button should add an element to the list
+- Select an element in the list should populate the form
 - Changing values in the form should change the objects in the list
 
+We convert such requirements into tests as follows: 
+
 !!!! Spec user test 1:
-Select an element in the list should populate form
+Select an element in the list should populate the form. 
 
 [[[
 testClickOnLaunchConfigurationListItemSetsFormName
@@ -57,7 +57,7 @@ testClickOnLaunchConfigurationListItemSetsFormName
 ]]]
 
 !!!! Spec user test 2: 
-Click the button add an element to the list
+Here we specify that clicking the button should add an element to the list.
 
 [[[
 testClickAddButtonCreatesNewLaunchConfiguration
@@ -65,7 +65,7 @@ testClickAddButtonCreatesNewLaunchConfiguration
 	| old |
 	old := image launchConfigurations size.
 	editor addButton click.
-	self assert: image launchCOnfigurations size euqals: old + 1
+	self assert: image launchConfigurations size equals: old + 1
 ]]]
 
 
