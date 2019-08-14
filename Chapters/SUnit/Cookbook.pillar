@@ -1,16 +1,11 @@
 !!The SUnit cookbook
-
+@cha:cookbook
 This chapter will give you more details on how to use SUnit. If you have used
 another testing framework such as JUnit, much of this will be familiar, since
 all these frameworks have their roots in SUnit. Normally you will use SUnit's
 GUI to run tests, but there are situations where you may not want to use it.
 
 
-!!! Other Unit Test features
-
-	fails
-	expected failures
-	skip
 
 
 !!!Other assertions
@@ -377,5 +372,9 @@ Also each option can be a literal or a block to generate that value. The block h
 
 In this example the generated cases will be 9. One per each combination of ==option1== and ==option2==.  The test Case should have a setter for each of the option.
 
-@@note add a note parametrized * 
+@@note add a note parametrized *
+
+!!! Conclusion
+
+SUnit is a simple framework but it already provides a powerset of mechanism to take real advantage of writing tests.
 

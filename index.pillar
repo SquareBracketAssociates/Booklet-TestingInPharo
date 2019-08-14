@@ -13,6 +13,8 @@ Note that the version documented in this chapter and used in Pharo is a modified
 ${inputFile:path=Chapters/SUnit/Testing.pillar}$ 
 %Validated
 
+${inputFile:path=Chapters/SUnit/SUnitExample.pillar}$
+
 ${inputFile:path=Chapters/SUnit/SUnit.pillar}$
 
 ${inputFile:path=Chapters/SUnit/Cookbook.pillar}$

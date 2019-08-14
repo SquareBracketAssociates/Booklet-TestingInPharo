@@ -1,9 +1,71 @@
-!!SUnit by example
-@cha:sunitexample
-In this chapter we present a small example showing how simple it is to use SUnit. 
-Before going into the details of SUnit (see next Chapter), we will show a step by step example. We
-use an example that tests the class ==Set==. Try entering the code as we go
-along.
+!!SUnit
+@cha:sunit
+Now that you see that writing a test is easy, we will take the time to put in perspective the different aspects of SUnit. 
+SUnit is a framework in the sense that it proposes an architecture that can be adapted. We will not cover the techniques 
+to extend the framework but we will present the key classes and discuss some important points. 
+
+!!! The framework in a nutshell
+
+SUnit consists of four main classes: ==TestCase==, ==TestSuite==,
+==TestResult==, and ==TestResource==, as shown in Figure *@fig:sunit-classes*.
++The four classes representing the core of SUnit.>file://figures/sunit-classes.png|width=80|label=fig:sunit-classes+
+
+!!!TestCase
+
+==TestCase== is an abstract class that is designed to be subclassed. Each of its
+subclasses represents a ""group"" of tests that share a common context: such a group is called a ""test suite"". 
+
+Each test is run by creating a new instance of a subclass of
+==TestCase==, running ==setUp==, running the test method itself, and then
+sending the ==tearDown==.
+
+The context is specified by instance variables of the subclass and by the
+specialization of the method ==setUp==, which initializes those instance
+variables. Subclasses of ==TestCase== can also override method ==tearDown==,
+which is invoked after the execution of each test, and can be used to release
+any objects allocated during ==setUp==.
+
+!!!TestSuite
+
+Instances of the class ==TestSuite== contain a collection of test cases. An
+instance of ==TestSuite== contains tests, and other test suites. That is, a test
+suite contains sub-instances of ==TestCase== and ==TestSuite==.
+
+Both individual test cases and test suites understand the same protocol, so
+they can be treated in the same way (for example, both can be ==run==). This is
+in fact an application of the Composite pattern in which ==TestSuite== is the
+composite and the test cases are the leaves.
+
+!!!TestResult
+
+The class ==TestResult== represents the results of a ==TestSuite== execution.
+It records the number of tests passed, the number of tests failed, and the
+number of errors signalled.
+
+!!! TestResources
+
+The notion of a ''test resource'' represents a resource that is expensive to
+set-up but which can be used by a whole series of tests. 
+A ==TestResource== specifies a ==setUp== method that is executed just once before a suite of tests;
+this is in distinction to the ==TestCase >> setUp== method, which is executed
+before each test.
+The class ==TestResource== represents resources that can be shared among a test suite:
+Subclasses of ==TestResource== are associated to test case classes and this means that all the suite of tests
+represented by the test case class (See Chapter *@cha:cookbook*).
+
+!!! Initialize vs. setUp
+
+!!! setUp and tearDown
+
+!!! Handling exceptions
+
+!!! fails/Expected failures/skip
+
+	fails
+	expected failures
+	skip
+
+
 
 !!!Step 1: Create the test class
 
@@ -190,3 +252,16 @@ Modify your tests to provoke both errors and failures.
 - Each test method should start with the word ''test''.
 - Use the ==TestCase== methods ==assert:==, ==deny:== and others to make assertions.
 - Run tests!
+
+
+
+
+
+!!!Chapter summary
+
+This chapter explained why tests are an important investment in the future of
+your code. We explained in a step-by-step fashion how to define a few tests for
+the class ==Set==. Then we gave an overview of the core of the SUnit framework
+by presenting the classes ==TestCase==, ==TestResult==, ==TestSuite== and
+==TestResources==. Finally we looked deep inside SUnit by following the
+execution of a test and a test suite.
