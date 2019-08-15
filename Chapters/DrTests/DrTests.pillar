@@ -75,15 +75,14 @@ the one of the test runner.
 !!! Architecture of DrTests
 
 It is made of 3 main components: a configuration, a plugin and a result.
-Figure *@fig:drtestsarc* provides a high-level illustration of this architecture and Figure *@fig:UML* shows related hierarchies.
+Figure *@fig:drtestsarch* provides a high-level illustration of this architecture and Figure *@fig:UML* shows related hierarchies.
 
 
 +High-level view of DrTests architecture.>file://figures/drtests.pdf|width=50|label=fig:drtestsarch+
 
 !!!!Configuration
 The configuration of a plugin contains the required information to run it.
-In DrTests, it is reified by a class which instances are built by the \emph{plugin}
-according to developer's preferences.
+In DrTests, it is reified by a class which instances are built by the ''plugin'' according to developer's preferences.
 For example, the cases that should be run.
 
 !!!!Plugin

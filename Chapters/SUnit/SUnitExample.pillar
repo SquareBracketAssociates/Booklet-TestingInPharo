@@ -19,7 +19,7 @@ TestCase subclass: #MyExampleSetTest
 	package: 'MySetTest'
 ]]]
 
-We will use the class ==MyExampleSetTest== to group all the tests related to the class ==Set==. 
+The class ==MyExampleSetTest== groups all the tests related to the class ==Set==. 
 As we will show latter, we will use it to define the context in which the tests will run. 
 
 The name of the class is not critical, but by convention it should end in
@@ -28,15 +28,24 @@ test class ==PatternTest==, the two classes will be alphabetized together in the
 browser (assuming that they are in the same package). It ''is'' critical that
 your class is a subclass of ==TestCase==.
 
-!!!Step 2: A single working test
+!!!Step 2: A  first test
 
 We start by defining a method named ==testIncludes==.
 Pay attention the =='test'== part is important.
+Each method represents one test. 
+The names of the methods should start with the string =='test'== so that SUnit will collect them into test suites.
+Test methods take no arguments.
+
 This method creates two sets one empty and one full.
 This is the context or fixture of the test.
 Second we perform some action on the test: here we execute the method ==includes:==,
 and third we validate the output using assertion via the == assert:== message. 
 The method ==assert:== checks that the argument is a boolean true. 
+
+
+Define the following test methods. The first test, named ==testIncludes==, tests
+the ==includes:== method of ==Set==. For example, the test says that sending the message
+==includes: 5== to a set containing 5 should return ==true==.
 
 [[[caption=Testing includes
 MyExampleSetTest >> testIncludes
@@ -49,8 +58,23 @@ MyExampleSetTest >> testIncludes
 ]]]
 
 
-!!!Step 3: Another single working test
-Followng the same pattern, here is a test verifying that the method ==occurrencesOf:== works as expected.  
+!!!Step 3: Run the tests
+
+The easiest way to run the tests is directly from the browser. Press on the icon on the side of the 
+ class name, or on an individual test method.
+ 
+The test methods will be flagged green or red, depending on whether they pass or not (as shown in *@fig:browsertests*).
+
+@@note To update to DrTests!
++Running SUnit tests from the System Browser.>file://figures/updatedbrowsertests.png|width=80|label=fig:browsertests+
+
+
+
+!!!Step 4: Another test
+Following the same pattern, here is a test verifying that the method ==occurrencesOf:== works as expected.  
+The second test, named ==testOccurrences==, verifies that the number of occurrences of 5 in ==full== set is equal to one, even if we
+add another element 5 to the set. 
+
 
 [[[caption=Testing occurrences
 MyExampleSetTest >> testOccurrences
@@ -63,10 +87,19 @@ MyExampleSetTest >> testOccurrences
 	self assert: (full occurrencesOf: 5) equals: 1
 ]]]
 
-!!!Step 4: Factoring out context
+Note that we use the message ==assert:equals:== and not ==assert:== as in the first test.
+We could have use ==assert:==.
+But the message ==assert:equals:== is better since it report error in a much better way. 
+When an assertion is failing, ==assert:equals:== shows the expected value and the value it got.
+While ==assert:== just mentions that something is not true. 
+
+Now make sure that your test is passing too. 
+
+!!!Step 5: Factoring out context
 
 As you see in the two previous steps, we started to repeat the same context. 
-This is now really nice, so we can factor the fixture out of the tests.
+This is not really nice, so we will factor the fixture out of the tests by defining instance variables in the class and 
+a method ==setUp== to initialize them.
 
 A ==TestCase== class defines the context in which the tests will run. 
 We will add the two instance variables ==full== and ==empty== that
@@ -81,7 +114,7 @@ TestCase subclass: #MyExampleSetTest
 
 The next step is to initialize such instance variables.
 
-!!!Step 2: Initialize the test context
+!!!Step 6: Initialize the test context
 The message ==TestCase >> setUp== defines the context in which the tests will
 run, a bit like an initialize method. ==setUp== is invoked before the execution
 of each test method defined in the test class.
@@ -98,44 +131,35 @@ MyExampleSetTest >> setUp
 
 In testing jargon, the context is called the ''fixture'' for the test and the ==setUp== method is responsible to initialize such fixture.
 
-!!!Step 3: Write some test methods
+!!!! Updating existing tests
+We change the two test methods to take advantage of the shared initialization. 
+We remove the fixture code and obtain the following methods:
 
-Let's create some tests by defining some methods in the class
-==MyExampleSetTest==. Each method represents one test. The names of the methods
-should start with the string =='test'== so that SUnit will collect them into
-test suites. Test methods take no arguments.
-
-Define the following test methods. The first test, named ==testIncludes==, tests
-the ==includes:== method of ==Set==. The test says that sending the message
-==includes: 5== to a set containing 5 should return ==true==. Clearly, this
-test relies on the fact that the ==setUp== method has already run.
-
-[[[caption=Testing set membership
+[[[caption=Testing includes
 MyExampleSetTest >> testIncludes
+	
 	self assert: (full includes: 5).
-	self assert: (full includes: 6)
+	self assert: (full includes: 6).
+	self assert: (empty includes: 5) not
 ]]]
 
-The second test, named ==testOccurrences==, verifies that the
-number of occurrences of 5 in ==full== set is equal to one, even if we
-add another element 5 to the set. 
 
 [[[caption=Testing occurrences
 MyExampleSetTest >> testOccurrences
+	
 	self assert: (empty occurrencesOf: 0) equals: 0.
 	self assert: (full occurrencesOf: 5) equals: 1.
 	full add: 5.
 	self assert: (full occurrencesOf: 5) equals: 1
 ]]]
 
-Note that we use the message ==assert:equals:== and not ==assert:== as in the first test.
-We could have use ==assert:==.
-But the message ==assert:equals:== is better since it report error in a much better way. 
-When an assertion is failing, ==assert:equals:== shows the expected value and the value it got.
-While ==assert:== just mentions that something is not true. 
 
-Finally, we test that the set no longer contains the element 5 after we have
-removed it.
+Clearly, these tests rely on the fact that the ==setUp== method has already run.
+
+
+!!!!Taking advantage of setUp 
+
+We test that the set no longer contains the element 5 after we have removed it.
 
 [[[caption=Testing removal
 MyExampleSetTest >> testRemove
@@ -144,27 +168,28 @@ MyExampleSetTest >> testRemove
 	self deny: (full includes: 5)
 ]]]
 
-Note the use of the method ==TestCase >> deny:== to assert something that should
-not be true. ==aTest deny: anExpression== is equivalent to
+Note the use of the method ==TestCase >> deny:== to assert something that should not be true. 
+==aTest deny: anExpression== is equivalent to
 ==aTest assert: anExpression not==, but is much more readable.
 
-!!!Step 4: Run the tests
+!!!Step 6: Run the tests
 
-The easiest way to run the tests is directly from the browser. Simply click on
-the icon of the class name, or on an individual test method, and select ''Run
-tests (t)'' or press the icon. The test methods will be flagged green or red,
-depending on whether they pass or not (as shown in *@fig:browsertests*).
+The easiest way to run the tests is directly from the browser. Press on the icon on the side of the 
+ class name, or on an individual test method.
+ 
+The test methods will be flagged green or red, depending on whether they pass or not (as shown in *@fig:browsertests*).
 
+@@note To update to DrTests!
 +Running SUnit tests from the System Browser.>file://figures/updatedbrowsertests.png|width=80|label=fig:browsertests+
 
 You can also select sets of test suites to run, and obtain a more detailed log
-of the results using the SUnit Test Runner, which you can open by selecting
-==World > Test Runner==.
+of the results using DrTests, which you can open by selecting ==World > Test Runner==.
 
-The ''Test Runner'', shown in Figure *@fig:test-runner*, is designed to make it
-easy to execute groups of tests.
+The ''Test Runner'', shown in Figure *@fig:test-runner*, is designed to make it easy to execute groups of tests.
 
-The left-most pane lists all of the packages that contain test classes (i.e.,
+@@note To update to DrTests!
+
+ The left-most pane lists all of the packages that contain test classes (i.e.,
 subclasses of ==TestCase==). When some of these packages are selected, the test
 classes that they contain appear in the pane to the right. Abstract classes are
 italicized, and the test class hierarchy is shown by indentation, so subclasses
@@ -174,8 +199,6 @@ coverage.
 
 +Running SUnit tests using the ''TestRunner''.>file://figures/updatedtestRunner.png|width=80|label=fig:test-runner+
 
-Open a Test Runner, select the package ''MySetTest'', and click the ==Run
-Selected== button.
 
 You can also run a single test (and print the usual pass/fail result summary) by
 executing a ''Print it'' on the following code: ==MyExampleSetTest run:
@@ -191,6 +214,8 @@ MyExampleSetTest >> testRemove
 	self assert: (full includes: 6).
 	self deny: (full includes: 5)
 ]]]
+
+!!!!
 
 Introduce a bug in ==MyExampleSetTest >> testRemove== and run the tests again.
 For example, change ==6== to ==7==, as in:
