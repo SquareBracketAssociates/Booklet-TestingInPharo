@@ -1,12 +1,105 @@
 !! DrTests
 
+To improve test quality, a plethora of analyses is proposed such as test smells,
+mutation testing, test coverage. The problem is that each analysis often needs a particular way to expose
+its results to the developer. There is a need for an architecture supporting test running and analysis in a modular and extensible way. In this article we present an extensible plugin-based architecture to run and report test results. 
+DrTests is the successor of the SUnit Test Runner. It supports the execution of tests, rotten tests, comments to tests and more.
+it implements such plugin-based architecture: it means that other tools are able to extend and propose new analyses to improve our tests.
+
 !!! Taking care of our lovely tests
 
+Tests can be analyzed under multiple aspects.
+For example, one can run a test and watch its result (passes, fails or raises an error) but it is also possible to analyze the coverage of this test.
+
+Each kind of analysis applied on a test has similar but not totally equal kind of input and can generate various kinds of output.
+However one would like to threat these analyses uniformly to make the tooling around them smooth.
+For example, provide a common user interface.
+
++Running one test.>file://figures/drtestsscreenshot.png|width=80|label=fig:drtests+
+
+Figure *@fig:drtests* shows the UI of DrTests. 
+It is the main UI written in Spec 2.0 and provides us an interface within we can choose between different plugins.
+
+One can select the plugin to use via the drop-list in the top menu.
+The UI displays potential inputs for analysis as defined by the currently selected plugin.
+Users can select a subset of proposed inputs and run the plugin on it.
+The plugin provides information about event happening during the execution.
+The logging label at bottom of the UI shows these updates.
+
+Results of the plugin are be displayed using a tree widget.
+Tree widgets provide a high flexibility when it comes to display various kind of
+structured data.
+In case of plugin results, they might be organized hierarchically.
+
+DrTests supports by default the execution of tests, the identificaion of rotten tests and the execution of executable comments. 
+
 !!!! Example: Rotten tests
+A rotten green test is a test that pass and contain assertions, but whose
+assertions are not executed \cite{Delp18a}. As stated by Deplanque et. al., such
+tests are worse than no tests at all because they give developers false
+confidence in the system under tests.
+
+RottenTestsFinder is a tool revealing rotten green tests in a test suite.
+The input provided to this plugin is a test suite.
+The plugin then combines static analysis of tests' source code with code
+instrumentation to spot call sites to assertion primitive that are not executed.
+As result, a list of rotten tests is returned to the developer who need to fix
+them.
+Additionally, for each rotten test the developer can access rotten call-sites.
 
 !!!! Example: Verified documentation
 
+Pharo offers executable examples in comment using the message \ct{$>>>$}.
+This message acts as an assertion: the left side has a piece of code to run and
+the right side has the expected result. See for example Listing~\ref{lst:exampleCommentToTest}.
+
+[[[caption=Example of runnable comment in the comment of a method.
+copyReplaceAll: oldSubstring with: newSubstring
+	"Answer a copy of the receiver in which all occurrences
+   of oldSubstring have been replaced by newSubstring.
+
+  'ab cd ab ef ab' copyReplaceAll: 'ab' with: 'zk'
+    $>>>$ 'zk cd zk ef zk'"
+  [...]
+]]]
+
+The objective of executable comments is to keep documentation synchronized with the implementation.
+Furthermore, it provides an easy way to understand the API of a method.
+
+Since executable comments are just assertion, they can be handled by test tools.
+To do that, they are converted to regular test suites and run by the test runner.
+Thus, while the input of this analysis is different, its results are similar to
+the one of the test runner.
+
+
 !!! Architecture of DrTests
+
+It is made of 3 main components: a configuration, a plugin and a result.
+Figure *@fig:drtestsarc* provides a high-level illustration of this architecture and Figure *@fig:UML* shows related hierarchies.
+
+
++High-level view of DrTests architecture.>file://figures/drtests.pdf|width=50|label=fig:drtestsarch+
+
+!!!!Configuration
+The configuration of a plugin contains the required information to run it.
+In DrTests, it is reified by a class which instances are built by the \emph{plugin}
+according to developer's preferences.
+For example, the cases that should be run.
+
+!!!!Plugin
+A plugin defines how to execute a specific analysis.
+For example, running the tests contained in a list of test cases.
+It is parameterized by the ''configuration'' it gets as input.
+During its run, it provides updates to potential observers using announcements.
+Once the plugin's task is finished, a ''result'' is returned.
+
+!!!!Result
+Finally, a plugin creates a ''result''.
+This object contains all artifacts resulting from the analysis.
+Each plugin is free to choose the kind of result returned.
+Because of that, there is no limitation in the kind of data an analysis can return.
+
++UML.>file://figures/drtestsuml.pdf|width=80|label=fig:UML+
 
 !!! Studying one extension
 
