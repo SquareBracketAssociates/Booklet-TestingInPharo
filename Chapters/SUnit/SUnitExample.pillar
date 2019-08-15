@@ -29,13 +29,14 @@ browser (assuming that they are in the same package). It ''is'' critical that
 your class is a subclass of ==TestCase==.
 
 !!!Step 2: A single working test
-We start by defining a method named ==testIncludes==. 
+
+We start by defining a method named ==testIncludes==.
 Pay attention the =='test'== part is important.
 This method creates two sets one empty and one full.
 This is the context or fixture of the test.
 Second we perform some action on the test: here we execute the method ==includes:==,
 and third we validate the output using assertion via the == assert:== message. 
-The method ==assert:==
+The method ==assert:== checks that the argument is a boolean true. 
 
 [[[caption=Testing includes
 MyExampleSetTest >> testIncludes
@@ -44,11 +45,12 @@ MyExampleSetTest >> testIncludes
 	empty := Set new.
 	self assert: (full includes: 5).
 	self assert: (full includes: 6).
-	self assert: (empty includes: 5) not.
+	self assert: (empty includes: 5) not
 ]]]
 
 
 !!!Step 3: Another single working test
+Followng the same pattern, here is a test verifying that the method ==occurrencesOf:== works as expected.  
 
 [[[caption=Testing occurrences
 MyExampleSetTest >> testOccurrences
@@ -63,9 +65,11 @@ MyExampleSetTest >> testOccurrences
 
 !!!Step 4: Factoring out context
 
-As you see we started to repeat the same context. 
-As we said a ==TestCase== class defines the context in which the tests will run. Here the
-context is described by the two instance variables ==full== and ==empty== that
+As you see in the two previous steps, we started to repeat the same context. 
+This is now really nice, so we can factor the fixture out of the tests.
+
+A ==TestCase== class defines the context in which the tests will run. 
+We will add the two instance variables ==full== and ==empty== that
 we will use to represent a full and an empty set.
 
 [[[label=scr:exSet|caption=An Example Set Test class|language=Smalltalk
@@ -75,10 +79,9 @@ TestCase subclass: #MyExampleSetTest
 	package: 'MySetTest'
 ]]]
 
-
+The next step is to initialize such instance variables.
 
 !!!Step 2: Initialize the test context
-
 The message ==TestCase >> setUp== defines the context in which the tests will
 run, a bit like an initialize method. ==setUp== is invoked before the execution
 of each test method defined in the test class.
@@ -93,7 +96,7 @@ MyExampleSetTest >> setUp
 	full := Set with: 5 with: 6
 ]]]
 
-In testing jargon the context is called the ''fixture'' for the test.
+In testing jargon, the context is called the ''fixture'' for the test and the ==setUp== method is responsible to initialize such fixture.
 
 !!!Step 3: Write some test methods
 
