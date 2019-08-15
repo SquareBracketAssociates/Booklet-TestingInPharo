@@ -4,6 +4,18 @@ Now that you see that writing a test is easy, we will take the time to put in pe
 SUnit is a framework in the sense that it proposes an architecture that can be adapted. We will not cover the techniques 
 to extend the framework but we will present the key classes and discuss some important points. 
 
+!!! Understanding the framework
+
+What we saw in the previous chapter is that a test method define a test.
+
+
+Now there is a catch: 
+- A method of a subclass of TestCase represents a test. 
+- A TestCase subclass groups together all the tests sharing a similar context.
+- The framework builds a testSuite (a composite of tests)
+
+
+
 !!! The framework in a nutshell
 
 SUnit consists of four main classes: ==TestCase==, ==TestSuite==,
