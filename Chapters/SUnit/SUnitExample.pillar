@@ -60,10 +60,8 @@ MyExampleSetTest >> testIncludes
 
 !!!Step 3: Run the tests
 
-The easiest way to run the tests is directly from the browser. Press on the icon on the side of the 
- class name, or on an individual test method.
- 
-The test methods will be flagged green or red, depending on whether they pass or not (as shown in *@fig:browsertests*).
+The easiest way to run the tests is directly from the browser. Press on the icon on the side of the class name, or on an individual test method.
+The test methods will be flagged depending on whether they pass or not (as shown in *@fig:browsertests*).
 
 @@note To update to DrTests!
 +Running SUnit tests from the System Browser.>file://figures/updatedbrowsertests.png|width=80|label=fig:browsertests+
@@ -71,7 +69,7 @@ The test methods will be flagged green or red, depending on whether they pass or
 
 
 !!!Step 4: Another test
-Following the same pattern, here is a test verifying that the method ==occurrencesOf:== works as expected.  
+Following the same pattern, here is a test verifying that the method ==occurrencesOf:== works as expected.
 The second test, named ==testOccurrences==, verifies that the number of occurrences of 5 in ==full== set is equal to one, even if we
 add another element 5 to the set. 
 
@@ -91,9 +89,9 @@ Note that we use the message ==assert:equals:== and not ==assert:== as in the fi
 We could have use ==assert:==.
 But the message ==assert:equals:== is better since it report error in a much better way. 
 When an assertion is failing, ==assert:equals:== shows the expected value and the value it got.
-While ==assert:== just mentions that something is not true. 
+While ==assert:== just mentions that something is not true.
 
-Now make sure that your test is passing too. 
+Now make sure that your test is passing too.
 
 !!!Step 5: Factoring out context
 
@@ -172,15 +170,10 @@ Note the use of the method ==TestCase >> deny:== to assert something that should
 ==aTest deny: anExpression== is equivalent to
 ==aTest assert: anExpression not==, but is much more readable.
 
-!!!Step 6: Run the tests
-
-The easiest way to run the tests is directly from the browser. Press on the icon on the side of the 
- class name, or on an individual test method.
- 
-The test methods will be flagged green or red, depending on whether they pass or not (as shown in *@fig:browsertests*).
+!!!Step 6: Other ways to run the tests
 
 @@note To update to DrTests!
-+Running SUnit tests from the System Browser.>file://figures/updatedbrowsertests.png|width=80|label=fig:browsertests+
++Should use DrTests.>file://figures/updatedbrowsertests.png|width=80|label=fig:browsertests+
 
 You can also select sets of test suites to run, and obtain a more detailed log
 of the results using DrTests, which you can open by selecting ==World > Test Runner==.
@@ -189,16 +182,7 @@ The ''Test Runner'', shown in Figure *@fig:test-runner*, is designed to make it 
 
 @@note To update to DrTests!
 
- The left-most pane lists all of the packages that contain test classes (i.e.,
-subclasses of ==TestCase==). When some of these packages are selected, the test
-classes that they contain appear in the pane to the right. Abstract classes are
-italicized, and the test class hierarchy is shown by indentation, so subclasses
-of ==ClassTestCase== are indented more than subclasses of ==TestCase==.
-==ClassTestCase== is a class offering utilities methods to compute test
-coverage.
-
-+Running SUnit tests using the ''TestRunner''.>file://figures/updatedtestRunner.png|width=80|label=fig:test-runner+
-
+SD: Explain a bit the ui
 
 You can also run a single test (and print the usual pass/fail result summary) by
 executing a ''Print it'' on the following code: ==MyExampleSetTest run:
@@ -215,7 +199,7 @@ MyExampleSetTest >> testRemove
 	self deny: (full includes: 5)
 ]]]
 
-!!!!
+!!! Step 7: Debugging a test
 
 Introduce a bug in ==MyExampleSetTest >> testRemove== and run the tests again.
 For example, change ==6== to ==7==, as in:
@@ -237,7 +221,7 @@ the name. Alternatively, you can execute one of the following expressions:
 MyExampleSetTest debug: #testRemove
 ]]]
 
-!!!Step 5: Interpret the results
+!!!Step 8: Interpret the results
 
 The method ==assert:== is defined in the class ==TestAsserter==. This is a
 superclass of ==TestCase== and therefore all other ==TestCase== subclasses and
