@@ -61,10 +61,9 @@ MyExampleSetTest >> testIncludes
 !!!Step 3: Run the tests
 
 The easiest way to run the tests is directly from the browser. Press on the icon on the side of the class name, or on an individual test method.
-The test methods will be flagged depending on whether they pass or not (as shown in *@fig:browsertests*).
+The test methods will be flagged depending on whether they pass or not (as shown in *@fig:browsertests2*).
 
-@@note To update to DrTests!
-+Running SUnit tests from the System Browser.>file://figures/updatedbrowsertests.png|width=80|label=fig:browsertests+
++Running SUnit tests from the System Browser.>file://figures/updatedbrowsertests.png|width=80|label=fig:browsertests2+
 
 
 

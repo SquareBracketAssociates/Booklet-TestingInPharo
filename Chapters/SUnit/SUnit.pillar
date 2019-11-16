@@ -7,42 +7,35 @@ to extend the framework but we will present the key classes and discuss some imp
 !!! Understanding the framework
 
 What we saw in the previous chapter is that a test method define a test.
-
-
 Now there is a catch: 
-- A method of a subclass of TestCase represents a test. 
-- A TestCase subclass groups together all the tests sharing a similar context.
-- The framework builds a testSuite (a composite of tests)
-
+- A method of a subclass of the class ==TestCase== represents a test.
+- A ==TestCase== subclass groups together all the tests sharing a similar context, called a ''fixture''.
+- The framework builds a ==TestSuite== (a composite of tests) to execute the tests.
 
 
 !!! The framework in a nutshell
 
 SUnit consists of four main classes: ==TestCase==, ==TestSuite==,
 ==TestResult==, and ==TestResource==, as shown in Figure *@fig:sunit-classes*.
+
 +The four classes representing the core of SUnit.>file://figures/sunit-classes.png|width=80|label=fig:sunit-classes+
 
-!!!TestCase
+!!!! TestCase
 
 ==TestCase== is an abstract class that is designed to be subclassed. Each of its
-subclasses represents a ""group"" of tests that share a common context: such a group is called a ""test suite"". 
+subclasses represents a ""group"" of tests that share a common context: such a group is called a ""test suite"".
 
-Each test is run by creating a new instance of a subclass of
-==TestCase==, running ==setUp==, running the test method itself, and then
-sending the ==tearDown==.
+Each test is run by creating a new instance of a subclass of ==TestCase==, running ==setUp== to initialize the test fixture, running the test method itself, and then sending the ==tearDown== to clean up the test fixture.
 
-The context is specified by instance variables of the subclass and by the
-specialization of the method ==setUp==, which initializes those instance
+The fixture is specified by instance variables of the subclass and by the specialization of the method ==setUp==, which initializes those instance
 variables. Subclasses of ==TestCase== can also override method ==tearDown==,
 which is invoked after the execution of each test, and can be used to release
 any objects allocated during ==setUp==.
 
 !!!TestSuite
-
 Instances of the class ==TestSuite== contain a collection of test cases. An
 instance of ==TestSuite== contains tests, and other test suites. That is, a test
 suite contains sub-instances of ==TestCase== and ==TestSuite==.
-
 Both individual test cases and test suites understand the same protocol, so
 they can be treated in the same way (for example, both can be ==run==). This is
 in fact an application of the Composite pattern in which ==TestSuite== is the
@@ -58,24 +51,15 @@ number of errors signalled.
 
 The notion of a ''test resource'' represents a resource that is expensive to
 set-up but which can be used by a whole series of tests. 
-A ==TestResource== specifies a ==setUp== method that is executed just once before a suite of tests;
-this is in distinction to the ==TestCase >> setUp== method, which is executed
-before each test.
+A ==TestResource== specifies a ==setUp== method that is executed just once before a full suite of tests;
+this is in distinction to the ==TestCase >> setUp== method, which is executed before each test.
 The class ==TestResource== represents resources that can be shared among a test suite:
 Subclasses of ==TestResource== are associated to test case classes and this means that all the suite of tests
 represented by the test case class (See Chapter *@cha:cookbook*).
 
-!!! Initialize vs. setUp
-
-SUnit uses the method ==setUp== to initialize test fixtures and not ==initialize== as plain default classes, because the framework 
-could create a test and invoke several time the ==setUp== method.
-
-!!! setUp and tearDown
-
-
 
 !!! Handling exceptions
-
+One important 
 !!! fails/Expected failures/skip
 
 	fails
