@@ -25,6 +25,8 @@ ${inputFile:path=Chapters/ExecutableDocumentation/ExecutableDocumentation.pillar
 
 ${inputFile:path=Chapters/UITesting/UITesting.pillar}$
 
+${inputFile:path=Chapters/Web/Web.pillar}$
+
 ${inputFile:path=Chapters/SUnit/Integration.pillar}$
 
 ${inputFile:path=Chapters/SUnit/Framework.pillar}$
