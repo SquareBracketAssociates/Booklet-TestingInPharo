@@ -1,11 +1,11 @@
-!!Parasol
+!!Testing Web Applications with Parasol
 ''Chapter Contributors:'' Evelyn Cussi, Daniel Aparicio, Juan P. Sandoval A.
 
 During the construction of a web application, it is exhausting to have to test the entire flow of the application each time you modify it, and much more as the application grows. This chapter introduce Parasol to allow developers to automate test with a collection of language specific bindings, giving us the facility to test complex interactions in matter of seconds.
 
-Parasol, or also called “Beach Parasol”, is a Smalltalk framework to write functional/acceptance tests using Selenium WebDriver. Through Parasol, you can access to all functionalities of Selenium WebDriver in an intuitive way. Parasol gives a convenient API to access to the WebDrivers of Selenium such as: Chrome, Firefox and others. Actually, Parasol supports Pharo 6.0 and 7.0, also supports GemStone version 3.1, 3.2 and 3.3.
+Parasol, or also called ''Beach Parasol'', is a Smalltalk framework to write functional/acceptance tests using Selenium WebDriver. Through Parasol, you can access to all functionalities of Selenium WebDriver in an intuitive way. Parasol gives a convenient API to access to the WebDrivers of Selenium such as: Chrome, Firefox and others. Actually, Parasol supports Pharo 6.0 and 7.0, also supports GemStone version 3.1, 3.2 and 3.3.
 
-!!!INSTALATION
+!!!Installation
 
 !!!!Installing Parasol
 To load Parasol into your Pharo image, you can execute the following script in Playground:
@@ -42,7 +42,7 @@ java -Dwebdriver.chrome.driver=chromedriver -jar selenium-server-standalone-3.14
 
 Note that for running the previous command you need to configure  java in the PATH (environmente variable).
 
-!!!!Browser driver
+!!!!Browser Driver
 Selenium requires a driver to interact with the web browser. For instance, Chrome requires Chromedriver, which must be installed before the following examples can be run. The table below shows browsers compatible with Parasol and their respective links to download.
 
 |!Browser Driver |!URL
@@ -52,11 +52,12 @@ Selenium requires a driver to interact with the web browser. For instance, Chrom
 
 We used Chromedriver version 80.0.3987.106 to run the chapter examples, but you can use other browser drivers or another version that you want.
 
-!!!USING SELENIUM TO PERFORM TESTS
-This section describes a simple test wrote using parasol. This section assumes that you have already installed Parasol and Selenium server is already running.
+!!!First Steps with Selenium
+This section describes a simple test wrote using parasol. 
+This section assumes that you have already installed Parasol and Selenium server is already running.
 
 !!!!My First Test
-Let’s start easy, assume we want to test if the title of the “pharo.org” website is correct. For this, first we need to create a class that extends from TestCase.
+Let's start easy, assume we want to test if the title of the *http://pharo.org* website is correct. For this, first we need to create a class that extends from ==TestCase==.
 [[[
 TestCase subclass: #PharoOrgTest
 	instanceVariableNames: ''
@@ -64,7 +65,7 @@ TestCase subclass: #PharoOrgTest
 	package: 'FT-Parasol'
 ]]]
 
-Then, we create a method called testTitleOfPharoPage as  follows:
+Then, we create a method called ==testTitleOfPharoPage== as  follows:
 [[[
 PharoOrgTest >> testTitleOfPharoPage
 	"Testing title of Pharo.org"
@@ -77,7 +78,7 @@ PharoOrgTest >> testTitleOfPharoPage
 
 !!!!Step by Step Explanation
 
-First, we create a subclass of TestCase, we do not need instance or class variables for now. We placed this subclass is in the FT-Parasol package.
+First, we create a subclass of ==TestCase==, we do not need instance or class variables for now. We placed this subclass is in the FT-Parasol package.
 
 [[[
 TestCase subclass: #PharoOrgTest
@@ -86,21 +87,23 @@ TestCase subclass: #PharoOrgTest
 	package: 'FT-Parasol'
 ]]]
 
-The ''testTitleOfPharoPage'' method contains a temporary variable that we use to save our instance of the Chrome WebDriver
+The ==testTitleOfPharoPage== method contains a temporary variable that we use to save our instance of the Chrome WebDriver.
 [[[
 | driver |
 driver := BPRemoteWebDriver withCapabilities: BPChromeOptions new.
 ]]]
 
-Note that if you want to use another driver, you must change the class BPChromeOptions to another browser driver compatible with Parasol.
+Note that if you want to use another driver, you must change the class ==BPChromeOptions== to another browser driver compatible with Parasol.
 
-The ''get'' method loads a given URL and allow you to navigate through the website. The WebDriver will wait that the page is fully loaded before returning the control to the test. It is worth noting that if your page uses a large amount of AJAX in loading, then WebDriver may not know when the page has been fully loaded.
+The ==get== method loads a given URL and allow you to navigate through the website.
+The WebDriver will wait that the page is fully loaded before returning the control to the test.
+ If your page loads a large amount of AJAX, then WebDriver may not know when the page has been fully loaded.
 
 [[[
 driver get: 'https://pharo.org/'.
 ]]]
 
-The next line of our method is an assertion to confirm that the title of the page is equal to: ‘Pharo - Welcome to Pharo!’.
+The next line of our method is an assertion to confirm that the title of the page is equal to: =='Pharo - Welcome to Pharo!'==.
 
 [[[
 self assert: 'Pharo - Welcome to Pharo!' equals: driver getTitle.
@@ -112,12 +115,12 @@ Finally, we close browser window.
 driver close.
 ]]]
 
-You may also use the method ''quit'' instead ''close''. The difference is that ''quit'' will come out of the browser, and ''close'' will close a tab.
-Note that the ''close'' method will close a tab only if there is an open tab, by defautl most browsers will close completely.
+You may also use the method ==quit== instead ==close==. The difference is that ==quit== will come out of the browser, and ==close== will close a tab.
+Note that the ==close== method will close a tab only if there is an open tab, by defautl most browsers will close completely.
 
 !!!! Improve the Structure of Your Test
 
-In our previous example, we execute wrote the entire test in one method, however, is a best practice add all the prerequisites of the tests on the ''setUp'' method and all the steps of cleaning on the ''tearDown'' method.
+In our previous example, we execute wrote the entire test in one method, however, is a best practice add all the prerequisites of the tests on the ==setUp== method and all the steps of cleaning on the == tearDown == method.
 
 Therefore, to improve the structure of these tests, we first will convert the temporary variable driver into an instance variable.
 
@@ -128,7 +131,7 @@ TestCase subclass: #PharoOrgTest
 	package: 'FT-Parasol'
 ]]]
 
-Next, we will place the statements that load the drive the ''setUp'' method:
+Next, we will place the statements that load the drive the ==setUp== method:
 
 [[[
 PharoOrgTest >> setUp
@@ -137,7 +140,7 @@ PharoOrgTest >> setUp
 	driver get: 'https://pharo.org/'
 ]]]
 
-In the same way, we move the cleaning statemetns in the ''tearDown'' method:
+In the same way, we move the cleaning statemetns in the == tearDown == method:
 [[[
 PharoOrgTest >> tearDown
 	super tearDown.
@@ -154,19 +157,18 @@ Now, if you run this test again, you should behave in the same way as the first 
 !!!Locating Elements with Parasol
 
 In our tests, we would like to verify also if some particular HTML elements display the information we want to. But before to perform this verification, we first need to find these elements.
-Parasol uses what are called Locators to find and match the elements of the web page. Parasol has eight locators (See table 1).
-
+Parasol uses what are called ''Locators'' to find and match the elements of the web page. 
+Parasol has eight locators as shown in the following table.
 
 |!Locator |!Example
-| ID  | findElementByID: ‘user’
-| Name | findElementByName: ‘username’
-| Link Text |  findElementByLinkText: ‘Login’
-| Partial Link Text  | findElementByPartialLinkText: ‘Next’
-| XPath | findElementsByXPath: ‘//div[@id="login"]/input’
-| Tag Name | findElementsByTagName: ‘body’
-| Class Name | findElementsByClassName: ‘table’
-| CSS  | findElementByCSSSelector: ‘#login > input[type="text"]’
-""Table 1"" Parasol Locator
+| ID  | findElementByID: 'user'
+| Name | findElementByName: 'username'
+| Link Text |  findElementByLinkText: 'Login'
+| Partial Link Text  | findElementByPartialLinkText: 'Next'
+| XPath | findElementsByXPath: '//div[@id="login"]/input'
+| Tag Name | findElementsByTagName: 'body'
+| Class Name | findElementsByClassName: 'table'
+| CSS  | findElementByCSSSelector: '#login > input[type="text"]'
 
 You can use any of them to find the element that you are looking for in your application. The foloowing paragraphs briefly describe how to use a number of these locators.
 
@@ -188,15 +190,15 @@ We may locate the input field by its ID, as follows:
 textField := driver findElementByID: 'fullName'.
 ]]]
 
-If no element has the ID attribute that match with the provided one, a BPNoSuchElementException exception will be raised.
+If no element has the ID attribute that match with the provided one, a ==BPNoSuchElementException== exception will be raised.
 
 
 !!!! Find Element by Name
-An HTML element may have an attribute called ''name'', they are normally used in the forms such as text fields and selection buttons. The values of the attributes of name are passed to the server when a form is sent. In terms of lower probability of change, the attribute name is probably the second in importance after ID.
+An HTML element may have an attribute called ==name==, they are normally used in the forms such as text fields and selection buttons. The values of the attributes of name are passed to the server when a form is sent. In terms of lower probability of change, the attribute name is probably the second in importance after ID.
 
 Considering the previous HTML code of example, you can locate the elements using the ''findElementByName'' method:
 [[[
-textField := driver findElementByName: ‘textInfo’.
+textField := driver findElementByName: 'textInfo'.
 ]]]
 
 
@@ -212,8 +214,8 @@ For instance, we may find the following anchor element:
 The HTML element can be located in the following ways:
 
 [[[
-linkPharo := driver findElementByLinkText: ‘Go to Pharo!’.
-linkPharo := driver findElementByPartialLinkText: ‘Go to’.
+linkPharo := driver findElementByLinkText: 'Go to Pharo!'.
+linkPharo := driver findElementByPartialLinkText: 'Go to'.
 ]]]
 
 Notice that with findElementByPartialLinkText we don't need to give the full text link, just part of it.
@@ -271,11 +273,11 @@ In the next example:
 <a class="testclass2">foobar</a>
 ]]]
 
-We can use any of the following line to locate the “testclass” elements.
+We can use any of the following line to locate the ''testclass'' elements.
 
 [[[
-testClassOne := driver findElementByClassName: ‘testclass1’.
-testClassTwo := driver findElementByClassName: ‘testclass2’.
+testClassOne := driver findElementByClassName: 'testclass1'.
+testClassTwo := driver findElementByClassName: 'testclass2'.
 ]]]
 
 Is common in web applications to use the same class attribute in several elements, so be careful if you try to get the elements by class name.
@@ -284,30 +286,30 @@ Is common in web applications to use the same class attribute in several element
 
 You can locate an element through the syntax of the CSS selector.
 
-By example, the element ''p'' of the next HTML code:
+By example, the element ==p== of the next HTML code:
 [[[
 <p class="content">Hello, how are you?</p>
 ]]]
 It could be located like this:
 [[[
-paragraphHello := driver findElementByCSSSelector: ‘p.content’
+paragraphHello := driver findElementByCSSSelector: 'p.content'
 ]]]
 
 !!!!Chain findElement to Find a Child Element
 There are some cases in which you can have more than one element with the same attributes, as in the following example:
 [[[
-<div id = “div1”>
-	<input type=”checkbox” name = “same” value=”on”>Same checkbox in Div1</input>
+<div id = "div1">
+	<input type="checkbox" name = "same" value="on">Same checkbox in Div1</input>
 </div>
-<div id = “div2”>
-	<input type=”checkbox” name = “same” value=”on”>Same checkbox in Div2</input>
+<div id = "div2">
+	<input type="checkbox" name = "same" value="on">Same checkbox in Div2</input>
 </div>
 ]]]
 
 In these cases, XPATH can be used, however, there is a simpler way, using nested selectors, which is nothing else, than locating elements in the result of a previous location, for example, to locate the div entry with id: "div2" The following can be done:
 
 [[[
-inputOfDiv2 := (driver findElementByID: ‘div2’) findElementByName: 'same'
+inputOfDiv2 := (driver findElementByID: 'div2') findElementByName: 'same'
 ]]]
 
 !!!!Find Multiple Elements
@@ -334,10 +336,10 @@ Using the following form as an example we will show how interact with it and its
 <form id="loginForm">
     <input name="username" type="text" />
     <input name="password" type="password" />
-    <button name="login" type="submit" class= “btn btn-primary”>Login</button>
+    <button name="login" type="submit" class= "btn btn-primary">Login</button>
     <a href="forgotPassworsd.html">Do you forgot your password?</a>
     <p class="content">
-        ”Are you new here?”
+        "Are you new here?"
         <a href="register.html">Create an account</a>
     </p>
 </form>
@@ -349,8 +351,8 @@ Using the following form as an example we will show how interact with it and its
 
 To fill the username and password fields in this form, we first have to select them, for this, we will use the following code:
 [[[
-name := driver findElementByName: ‘username’.
-password := driver findElementByName: ‘password’
+name := driver findElementByName: 'username'.
+password := driver findElementByName: 'password'
 ]]]
 
 Now it is possible to enter text in these field as follows:
@@ -360,9 +362,9 @@ name sendKeys: 'John'.
 password sendKeys: 'xxxxxxx'.
 ]]]
 
-Is possible call the method ''sendKeys'' in any element, which makes it possible to try keyboard shortcuts.
+Is possible call the method ==sendKeys== in any element, which makes it possible to try keyboard shortcuts.
 However, writing something in a text field not automatically delete it.
-Instead, what you write will be attached to what is already there. You can easily delete the content of a text field or text area with the method ''clear''.
+Instead, what you write will be attached to what is already there. You can easily delete the content of a text field or text area with the method ==clear==.
 
 
 !!!!Press Links and Buttons
@@ -371,7 +373,7 @@ Another action very useful in the navigation of web pages is to click on links a
 Below there is an example of how to use it with our form.
 
 [[[
-loginButton := driver findElementByName: ‘login’.
+loginButton := driver findElementByName: 'login'.
 loginButton click.
 ]]]
 
@@ -382,7 +384,7 @@ Previous sections introduced Parasol features though basic examples. This sectio
 ''Mercury Tours'' is an agency that offers trips. Maybe if you worked with automated web test before, you are familiar with it.
 
 !!!!Setting up tests
-First, we will create a subclass of test called EPTest:
+First, we will create a subclass of test called ==EPTest==:
 
 [[[
 TestCase subclass: #EPTest
@@ -392,7 +394,7 @@ TestCase subclass: #EPTest
 ]]]
 
 As we see in previous sections, the instance variable driver will represent our browser driver necessary to work with Parasol and its methods.
-Second, we need to initiallize the driver and load the page, since we need to do this step for all the test we will place this in the ''setUp'' method.
+Second, we need to initiallize the driver and load the page, since we need to do this step for all the test we will place this in the ==setUp== method.
 
 [[[
 EPTest >> setUp
@@ -414,7 +416,7 @@ EPTest >> tearDown
 ]]]
 
 Is important use quit method to close the browser when a test ends, as we mentioned in second section of this chapter.
-With the ''setUp'' and ''tearDown'' method, we are able to do any test on the page.
+With the ==setUp== and == tearDown == method, we are able to do any test on the page.
 
 
 !!!Testing the Page Title
@@ -422,18 +424,19 @@ With the ''setUp'' and ''tearDown'' method, we are able to do any test on the pa
 Our first test will verify if our URL is the principal URL of web page, which is defined as follows:
 
 [[[
-EPTest >>  testPageEntry
+EPTest >> testPageEntry
 	| title |
 	title := driver getTitle.
 	self assert: title equals: 'Welcome: Mercury Tours'
 ]]]
 
-Remember that if we run Parasol tests we must first run the Selenium server. With the Selenium server and the test running, we can see that our browser was opened and can see the home of our tested page:
+Remember that if we run Parasol tests we must first run the Selenium server. 
+With the Selenium server and the test running, we can see that our browser was opened and can see the home of our tested page:
 
 +Mercury Tours WebSite>file://figures/newtours|width=80|label=newtours+
 
 
-After the web browser was closed, we can see that the test passed because our page have the title “Welcome: Mercury Tours” in our tab. Maybe you think that was a very simple test, but it's time to do something more complex.
+After the web browser was closed, we can see that the test passed because our page have the title ''Welcome: Mercury Tours'' in our tab. Maybe you think that was a very simple test, but it's time to do something more complex.
 
 !!!Testing Displayed Information
 
@@ -461,14 +464,13 @@ Use the developer tools of Chrome browser and select the desired row. We get the
 ]]]
 
 We can see the following details:
-
 - The row is inside a table.
 - The table or the row not contains an ID or a Class that we use to find this element.
-- The CSS or the Tag Name can’t help us to find this row.
+- The CSS or the Tag Name can't help us to find this row.
 
 So, What can we do in these cases? Well, XPath is a useful locator in this particular case.
-First, we need to create a subclass of EPTest. In this case we are using EPTest as a base clase for future test clases.
-This decision give us a number of benefits, for instance, we may find easily all test clases by inspecting the subclases of EPTest, and we can reuse some method in the subclases, in particular, the ''setUp'' and ''tearDown'' methods.
+First, we need to create a subclass of ==EPTest==. In this case we are using ==EPTest== as a base clase for future test clases.
+This decision give us a number of benefits, for instance, we may find easily all test clases by inspecting the subclases of ==EPTest==, and we can reuse some method in the subclases, in particular, the ==setUp== and == tearDown == methods.
 
 Therefore, we define the following class:
 [[[
@@ -478,7 +480,7 @@ EPTest subclass: #EPHomePage
 	package: 'Example-Parasol-Tests'
 ]]]
 
-EPHomePage will be a class only dedicated to testing the home page and all elements that are part of this.
+==EPHomePage== will be a class only dedicated to testing the home page and all elements that are part of this.
 Taking our HTML code as a base, create a method to get the flight and and its price, then test if the value of these elements is the same as the expected result.
 The following method give us the expected result, but it contains some things that we can improve.
 
@@ -517,9 +519,10 @@ The tests above are a good example of how we get elements from a HTML page and t
 
 !!!Testing with Interactions
 
-How about if we wanna test some interactions? It’s an important step to test, so we will explain how you could you do it.
+How about if we wanna test some interactions?
+It's an important step to test, so we will explain how you could you do it.
 In this example, we will create a test that register a user in the website.
-First, we will create another subclass of EPTest called EPRegisterUser
+First, we will create another subclass of ==EPTest== called ==EPRegisterUser==.
 
 [[[
 EPTest subclass: #EPRegisterUser
@@ -536,7 +539,7 @@ EPRegisterUser >> clickInRegisterButton
 	(driver findElementByLinkText: 'REGISTER') click
 ]]]
 
-We will use the above method to do our setUp method in this class. Create the setUp method like this:
+We will use the above method to do our setUp method in this class. Create the ==setUp== method like this:
 [[[
 EPRegisterUser >> setUp
 	super setUp.
@@ -547,8 +550,9 @@ You may see the ''REGISTER'' form in the *@registerForm*
 
 +Registration From>file://figures/registerForm|width=80|label=registerForm+
 
-Now, we are prepared to create our tests in EPRegisterUser.
-As we mentioned, our first test will be verify if we are in the correct page when we click in register button. So, create the test.
+Now, we are prepared to create our tests in ==EPRegisterUser==.
+As we mentioned, our first test will be verify if we are in the correct page when we click in register button. 
+So, create the test.
 
 [[[
 EPRegisterUser >> testEntryToRegisterPage
@@ -557,13 +561,14 @@ EPRegisterUser >> testEntryToRegisterPage
 	self assert: title equals: 'Register: Mercury Tours'
 ]]]
 
-Thanks to our setUp method, we don’t need to find and click the button inside testEntryToRegisterPage so I have an advantage.
+Thanks to our setUp method, we don't need to find and click the button inside ==testEntryToRegisterPage== so I have an advantage.
 
 What we find in this section of the page? We have a register form with multiple fields.
 If we want to register on the page we must complete three sections in the form.
 Contact, mailing and user information, so we define three tests to complete these sections.
 
-As you remember, the first step is see how the page render the elements in the form. For this, we will inspect the HTML code using the browser tools.
+As you remember, the first step is see how the page render the elements in the form. 
+For this, we will inspect the HTML code using the browser tools.
 The following code shows the contact information HTML code:
 
 [[[
@@ -614,8 +619,8 @@ We can draw the following conclusions from the HTML code:
 - All form is in a table.
 With these conclusions we can start with the tests.
 Our first test will test whether the correct information is entered into the contact information section.
-Like our previous methods, we need to create multiple methods to get the fields elements in order to put some information into them.
-At following we show one method that return the field with the name ''firstName''.
+Like our previous methods, we need to create multiple methods to get the fields elements to put some information into them.
+At following we show one method that return the field with the name ==firstName==.
 
 
 [[[
@@ -638,12 +643,12 @@ Finally, we create the following test to verify if the introduced information is
 [[[
 EPRegisterUser >> testIntroduceInformationInContactSection
 	self fillInformationToContactSection.
-	self assert: (self firstNameField getAttribute: ‘value’) equals: 'Jhon'.
-	self assert: (self lastNameField getAttribute: ‘value’) equals: 'Stuart'.
-	self assert: (self phoneField getAttribute: ‘value’) equals: '10276123'.
-	self assert: (self emailField getAttribute: ‘value’) equals: 'example@mail.com'
+	self assert: (self firstNameField getAttribute: 'value') equals: 'Jhon'.
+	self assert: (self lastNameField getAttribute: 'value') equals: 'Stuart'.
+	self assert: (self phoneField getAttribute: 'value') equals: '10276123'.
+	self assert: (self emailField getAttribute: 'value') equals: 'example@mail.com'
 ]]]
-If we run the test we can see how Parasol introduce the information to the fields(see *@contactInfo*).
+If we run the test we can see how Parasol introduces the information to the fields (see *@contactInfo*).
 
 
 +Filling Field From using Parasol>file://figures/contactInfo|width=80|label=contactInfo+
@@ -651,7 +656,7 @@ If we run the test we can see how Parasol introduce the information to the field
 
 Now, we can create tests to fill information to other sections. An important observation is the select box in mailing information section.
 If we want to test it, we need to use another method to assert it.
-In this case, the option selected contains the attribute called “selected”. So, we create the next method to get this element:
+In this case, the option selected contains the attribute called ==selecte==. So, we create the next method to get this element:
 
 [[[
 EPRegisterUser >> getSelectedOfCountry
@@ -668,10 +673,10 @@ EPRegisterUser >> testIntroduceInformationInMailingSection
 	self assert: (self getSelectedOfCountry getText) equals: 'UNITED STATES '.
 ]]]
 
-It is also posible change the value of the combo box using the method ''sendkeys'' as we saw in previous examples.
+It is also posible change the value of the combo box using the method ==sendkeys== as we saw in previous examples.
 
 Now, with all fields tested, we will create a test to the user registration on the page.
-If you created the fillInformationToMailingSection and fillInformationToUserSection methods, we will use these methods.
+If you created the ==fillInformationToMailingSection== and ==fillInformationToUserSection== methods, we will use these methods.
 If you didn't, you need to create these methods.
 We need another method to find the submit button and click it, so we create it.
 [[[
@@ -684,7 +689,7 @@ In the page, when you register a user you obtain the following view:
 
 
 We have two options to assert if the user is registered:
-Get the text “sign-off” of sign-off option
+Get the text 'sign-off' of sign-off option
 Get the description text below the register title.
 You can use any of this options, as an example we will get the description text. So create the method to find the description text.
 [[[
@@ -707,7 +712,7 @@ EPRegisterUser >> testRegistrationOfUser
 
 Sometimes this test can fail because the page needs to save the new user and load the successfully message.
 Another problem that can cause the test failure is the time  it takes for our Selenium server to use the browser driver.
-So we use the timeout pragma to try to avoid this, but you can also use the Delay class. If you don’t have this problem, delete the line.
+So we use the timeout pragma to try to avoid this, but you can also use the ==Delay== class. If you don't have this problem, delete the line.
 
 Finally run the test and observe its result. If the test passed, you are now able to create multiple tests using Parasol. Why don't you continue testing other interactions on the page? We leave the tests as a homework.
 
