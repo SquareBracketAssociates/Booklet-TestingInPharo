@@ -15,9 +15,8 @@ make testing productive and fun, rather than a chore that programmers dislike.
 The Pharo community has a long tradition of testing because of the incremental
 style of development supported by its programming environment. 
 
-
 !!!! Favor TDD
-During increment development sessions in Pharo, the old fashioned programmer would write tests in a playground as soon as a
+During increment development sessions in Pharo, the old fashioned programmer would write code snippets in a playground as soon as a
 method was finished.
 Sometimes a test would be incorporated as a comment at the head of the method that it exercised, or tests that needed some set up would be included as example methods in the class. 
 The problem with these practices is that tests in a playground are not available to other programmers who modify the code. 
@@ -130,20 +129,6 @@ stands for:
 - P: Are performance characteristics within bounds?
 
 
-!!! Pharo testing rules
-
-Pharo core development has three basic rules about testing.
-Here are them: 
-
-@@important A test that is not automated is not a test.
-
-@@important Everything that is not tested does not exist.
-
-@@important Everything that is not tested will break.
-
-With this in mind, we urge ourselves to write tests. 
-Sometimes we are sloppy and lazy but most of the time we push ourselves to stay bold.
-We encourage you to do the same. 
 
 
 !!!A piece of advices on testing
@@ -208,3 +193,24 @@ First, they make it harder to infer the behaviour of the class by reading the
 tests. Second, because one bug in the code might then break many tests, they
 make it harder to estimate how many bugs remain in the code. So, have a property
 in mind when you write a test.
+
+
+
+!!! Pharo testing rules as a conclusion
+We can argue over and over why tests are important. 
+The only real way to understand for real their values is by experience.
+
+The Pharo core development has three basic rules about testing.
+Here are them: 
+
+@@important A test that is not automated is not a test.
+
+@@important Everything that is not tested does not exist.
+
+@@important Everything that is not tested will break.
+
+With this in mind, we urge ourselves to write tests. 
+Sometimes we are sloppy and lazy but most of the time we push ourselves to stay bold.
+We encourage you to do the same. 
+
+

@@ -1,17 +1,18 @@
 !!SUnit
 @cha:sunit
+
 Now that you see that writing a test is easy, we will take the time to put in perspective the different aspects of SUnit. 
 SUnit is a framework in the sense that it proposes an architecture that can be adapted. We will not cover the techniques 
 to extend the framework but we will present the key classes and discuss some important points. 
 
-!!! Understanding the framework
+!!!Understanding the framework
 
-What we saw in the previous chapter is that a test method define a test.
+What we saw in the previous chapter is that a test method defines a test.
 Now there is a catch: 
-- A method of a subclass of the class ==TestCase== represents a test.
+- A method (called a test method) of a subclass of the class ==TestCase== represents a test.
 - A ==TestCase== subclass groups together all the tests sharing a similar context, called a ''fixture''.
+- A ==setUp== method is run systematically before a test method is run and a ==tearDown== after.
 - The framework builds a ==TestSuite== (a composite of tests) to execute the tests.
-
 
 !!! The framework in a nutshell
 
@@ -58,13 +59,20 @@ Subclasses of ==TestResource== are associated to test case classes and this mean
 represented by the test case class (See Chapter *@cha:cookbook*).
 
 
-!!! Handling exceptions
-One important 
 !!! fails/Expected failures/skip
+As we mentioned earlier, the results of a test execution is mainly: passed (meaning that it succeeded), fails (that an assertion is not valid) or error (that an unexpected problem occurred).
+
+A test execution can be in a different state.
 
 	fails
 	expected failures
 	skip
+
+
+
+!!! Handling exceptions
+One important 
+
 
 
 

@@ -2,10 +2,12 @@
 @cha:sunitexample
 In this chapter we present a small example showing how simple it is to use SUnit. 
 Before going into the details of SUnit (see next Chapter), we will show a step by step example. 
-
 We use an example that tests the class ==Set==. Try entering the code as we go along.
 We will create a test i.e., create a context (also called a fixture), execute a stimulus and verify that some assertions 
 are working.
+
+If you already read the SUnit chapter on Pharo by Example book you can skip this chapter since 
+the contents in the same.
 
 !!!Step 1: Create the test class
 
@@ -169,34 +171,28 @@ Note the use of the method ==TestCase >> deny:== to assert something that should
 ==aTest deny: anExpression== is equivalent to
 ==aTest assert: anExpression not==, but is much more readable.
 
-!!!Step 6: Other ways to run the tests
+%!!!Step 6: Other ways to run the tests
+%+Should use DrTests.>file://figures/updatedbrowsertests.png|width=80|label=fig:browsertests+
 
-@@note To update to DrTests!
-+Should use DrTests.>file://figures/updatedbrowsertests.png|width=80|label=fig:browsertests+
+%You can also select sets of test suites to run, and obtain a more detailed log
+%of the results using DrTests, which you can open by selecting ==World > Test Runner==.
 
-You can also select sets of test suites to run, and obtain a more detailed log
-of the results using DrTests, which you can open by selecting ==World > Test Runner==.
+%The ''Test Runner'', is designed to make it easy to execute groups of tests.
 
-The ''Test Runner'', shown in Figure *@fig:test-runner*, is designed to make it easy to execute groups of tests.
+%You can also run a single test (and print the usual pass/fail result summary) by
+%executing a ''Print it'' on the following code: ==MyExampleSetTest run:
+%#testRemove==.
 
-@@note To update to DrTests!
+%Some people include an executable comment in their test methods that allows
+%running a test method with a ''Do it'' from the browser, as shown below.
 
-SD: Explain a bit the ui
-
-You can also run a single test (and print the usual pass/fail result summary) by
-executing a ''Print it'' on the following code: ==MyExampleSetTest run:
-#testRemove==.
-
-Some people include an executable comment in their test methods that allows
-running a test method with a ''Do it'' from the browser, as shown below.
-
-[[[caption=Executable comments in test methods
-MyExampleSetTest >> testRemove
-	"self run: #testRemove"
-	full remove: 5.
-	self assert: (full includes: 6).
-	self deny: (full includes: 5)
-]]]
+%[[[caption=Executable comments in test methods
+%MyExampleSetTest >> testRemove
+%	"self run: #testRemove"
+%	full remove: 5.
+%	self assert: (full includes: 6).
+%	self deny: (full includes: 5)
+%]]]
 
 !!! Step 7: Debugging a test
 
