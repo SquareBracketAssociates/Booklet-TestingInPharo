@@ -39,8 +39,8 @@ ${inputFile:path=Chapters/Benchs/Smark.pillar}$
 
 ${inputFile:path=Chapters/SUnit/Integration.pillar}$
 
-${inputFile:path=Chapters/SUnit/Framework.pillar}$
+%${inputFile:path=Chapters/SUnit/Framework.pillar}$
 
-${inputFile:path=Chapters/SUnit/Implementation.pillar}$
+%${inputFile:path=Chapters/SUnit/Implementation.pillar}$
 
 
