@@ -1,5 +1,5 @@
-In Pharo by Example revision for Pharo 8.0, we decided to go to the essential of SUnit and removed some material that was too detailed and long.
-This gave us the idea that a "Testing in Pharo" book was missing. And instead of losing the parts that we removed, they grew in a new book.
+In Pharo by Example current revision, we decided to go to the essential of SUnit and removed some material that was too detailed and long.
+This gave us the idea that a "Testing in Pharo" book was missing. Therefore instead of losing the parts that we removed, they grew in a new book.
 Therefore a part of the text of this book was written originally in Pharo by Example by Andrew P. Black, Stéphane Ducasse, Oscar Nierstrasz, Damien Pollet, Damien Cassou and Marcus Denker, it is mainly the motivation, description of SUnit and SUnit implementation. 
 We thanks the authors for this material that we revised. 
 Our ultimate goal is to revisit the implementation of SUnit and to keep this documentation up to date. 
@@ -8,7 +8,7 @@ In this book we will present how you to test and develop testing strategies in P
 We will present the SUnit framework, but also DrTests a plugin architecture to propose extensions and analyses
 to improve your tests.
 We show that contrary to what is commonly believed, testing UI is possible and that you can take advantage of it.
-We present how to connect your github repository to take advantage of integration services such as Travis or Appveyor.
+We present how to connect your github repository to take advantage of integration services.
 Finally we finish by describing the framework and its implementation.
 
 SUnit is a minimal yet powerful framework that supports the creation and deployment of tests. 
@@ -16,28 +16,27 @@ As might be guessed from its name, the design of SUnit focuses on ''Unit Tests''
 SUnit was originally developed by Kent Beck and subsequently extended by Joseph Pelrine and others to incorporate the notion of a resource. 
 Note that the version documented in this chapter and used in Pharo is a modified version of SUnit3.3.
 
-
 ${inputFile:path=Chapters/SUnit/Testing.pillar}$ 
 %Validated
 
-${inputFile:path=Chapters/SUnit/SUnitExample.pillar}$
+%${inputFile:path=Chapters/SUnit/SUnitExample.pillar}$
 
-${inputFile:path=Chapters/SUnit/SUnit.pillar}$
+%${inputFile:path=Chapters/SUnit/SUnit.pillar}$
 
-${inputFile:path=Chapters/SUnit/Cookbook.pillar}$
+%${inputFile:path=Chapters/SUnit/Cookbook.pillar}$
 
-${inputFile:path=Chapters/DrTests/DrTests.pillar}$
+%${inputFile:path=Chapters/DrTests/DrTests.pillar}$
 
-${inputFile:path=Chapters/ExecutableDocumentation/ExecutableDocumentation.pillar}$
+%${inputFile:path=Chapters/ExecutableDocumentation/ExecutableDocumentation.pillar}$
 
 
-${inputFile:path=Chapters/UITesting/UITesting.pillar}$
+%${inputFile:path=Chapters/UITesting/UITesting.pillar}$
 
-${inputFile:path=Chapters/Web/Web.pillar}$
+%${inputFile:path=Chapters/Web/Web.pillar}$
 
-${inputFile:path=Chapters/Benchs/Smark.pillar}$
+%${inputFile:path=Chapters/Benchs/Smark.pillar}$
 
-${inputFile:path=Chapters/SUnit/Integration.pillar}$
+%${inputFile:path=Chapters/SUnit/Integration.pillar}$
 
 %${inputFile:path=Chapters/SUnit/Framework.pillar}$
 
