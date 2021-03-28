@@ -7,6 +7,13 @@ software quality would do well to adopt it.
 Indeed, developers in many languages have come to appreciate the power of unit testing, and versions of ''xUnit'' now
 exist for every programming language.
 
+What you will discover while programming in Pharo is that Pharo support Xtreme TDD: you define your tests first as in TDD
+but you execute your program which breaks and you code in the debugger. 
+This is simply such productivity boost that we urge you to try. 
+
+Now lets us go for two minutes theory around Unit tests, TDD and other.
+
+
 !!! Automated tests
 Neither testing, nor the building of test suites, is new. 
 By now, everybody knows that tests are a good way to catch errors. eXtreme Programming, by making
@@ -15,7 +22,7 @@ make testing productive and fun, rather than a chore that programmers dislike.
 The Pharo community has a long tradition of testing because of the incremental
 style of development supported by its programming environment. 
 
-!!!! Favor TDD
+!!!! Favor executable tests
 During increment development sessions in Pharo, the old fashioned programmer would write code snippets in a playground as soon as a
 method was finished.
 Sometimes a test would be incorporated as a comment at the head of the method that it exercised, or tests that needed some set up would be included as example methods in the class. 
@@ -25,7 +32,7 @@ Tests that are not ""systematically"" run do not help you to find bugs!
 Moreover, an example method does not inform the reader of the expected result: you can run the example and see
 the (perhaps surprising) result, but you will not know if the observed behaviour is correct.
 
-!!!! With TDD
+!!!! Favor TDD and XtremeTDD
 
 With Test driven development, you write a little automated tests, execute it to make sure that it fails. 
 Then in Pharo, you use the test execution and failure to create methods inside the debugger.
