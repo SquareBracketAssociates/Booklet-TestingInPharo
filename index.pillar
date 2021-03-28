@@ -16,10 +16,10 @@ As might be guessed from its name, the design of SUnit focuses on ''Unit Tests''
 SUnit was originally developed by Kent Beck and subsequently extended by Joseph Pelrine and others to incorporate the notion of a resource. 
 Note that the version documented in this chapter and used in Pharo is a modified version of SUnit3.3.
 
-${inputFile:path=Chapters/SUnit/Testing.pillar}$ 
+%${inputFile:path=Chapters/SUnit/Testing.pillar}$ 
 %Validated
 
-%${inputFile:path=Chapters/SUnit/SUnitExample.pillar}$
+${inputFile:path=Chapters/SUnit/SUnitExample.pillar}$
 
 %${inputFile:path=Chapters/SUnit/SUnit.pillar}$
 

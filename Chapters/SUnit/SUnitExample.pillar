@@ -27,7 +27,7 @@ As we will show latter, we will use it to define the context in which the tests 
 The name of the class is not critical, but by convention it should end in
 ==Test==. If you define a class called ==Pattern== and call the corresponding
 test class ==PatternTest==, the two classes will be alphabetized together in the
-browser (assuming that they are in the same package). It ''is'' critical that
+browser (assuming that they are in the same package). It ''is critical'' that
 your class is a subclass of ==TestCase==.
 
 !!!Step 2: A  first test
@@ -124,6 +124,7 @@ elements.
 
 [[[caption=Setting up a fixture
 MyExampleSetTest >> setUp
+	super setUp.
 	empty := Set new.
 	full := Set with: 5 with: 6
 ]]]
