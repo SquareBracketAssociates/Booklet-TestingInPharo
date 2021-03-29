@@ -30,6 +30,13 @@ test class ==PatternTest==, the two classes will be alphabetized together in the
 browser (assuming that they are in the same package). It ''is critical'' that
 your class is a subclass of ==TestCase==.
 
+
+!!!! Must I subclass TestCase?
+In JUnit you can build a TestSuite from an arbitrary class containing ==test*== methods. In SUnit you can do the same but you will then have to create a suite
+by hand and your class will have to implement all the essential ==TestCase== methods like ==assert:==. We recommend, however, that you not try to do this.
+The framework is there: use it.
+
+
 !!!Step 2: A  first test
 
 We start by defining a method named ==testIncludes==.
