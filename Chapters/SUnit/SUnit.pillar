@@ -138,9 +138,9 @@ MyExampleSetTest >> testToBeRevisitedLater
 ]]]
 
 
-You can also tag your test with the ==#expectedFailure== pragma to indicate to the framework that you expect 
-your test to fail.
-
+You can also tag your test with the ==<expectedFailure>== pragma to indicate to the framework that you expect 
+your test to fail. This is be taken into account by the framework when running and reporting all your tests. Hence you will be 
+aware that some of your tests did not run correctly.
 Here is an example from Pharo.
 
 [[[
@@ -158,25 +158,11 @@ testFromClassWhichTraitIsExtendedButNotItself
 !!!Glossary
 
 
-!!!! A test case
-A test case is a single test. It defined a context, a stimulus and at the minimum one assertion. It is described as a method of a TestCase subclass starting with ""test""
-
-!!!! A test suite
-A test suite (Composite design pattern) is a group of tests. The tests belonging to a test suite do not have to be from the same class.
-In practice the test runner builds a test suite for all the test cases defined in a class and executes them one by one. 
-Instances of the class ==TestSuite== contain a collection of test cases. 
-An instance of ==TestSuite== contains tests, and other test suites. That is, a test
-suite contains sub-instances of ==TestCase== and ==TestSuite==.
-
-!!!! Fixture
-A fixture is a context in which a stimulus will be executed and assertions verified. 
-To share a fixture amongst multiple tests you can define the ==setUp== method. It is automatically invoked before any test method execution.
-
-!!!! Failures
-A failure is the situation where you planned something and checked it and it is not correct.
-
-!!!! Error
-An error is the situation where your test is not working but it is not covered by an assertion. For example, a message not understood is sent and it was unexpected.
+- ""Test case."" A test case is a single test. It defined a context, a stimulus and at the minimum one assertion. It is described as a method of a TestCase subclass starting with ""test"".
+-  ""Test suite."" A test suite (Composite design pattern) is a group of tests. The tests belonging to a test suite do not have to be from the same class. In practice the test runner builds a test suite for all the test cases defined in a class and executes them one by one.  Instances of the class ==TestSuite== contain a collection of test cases.  An instance of ==TestSuite== contains tests, and other test suites. That is, a test suite contains sub-instances of ==TestCase== and ==TestSuite==.
+- ""Fixture."" A fixture is a context in which a stimulus will be executed and assertions verified. To share a fixture amongst multiple tests you can define the ==setUp== method. It is automatically invoked before any test method execution.
+- ""Failure."" A failure is the situation where you planned something and checked it and it is not correct.
+- ""Error."" An error is the situation where your test is not working but it is not covered by an assertion. For example, a message not understood is sent and it was unexpected.
 
 !!!Chapter summary
 
