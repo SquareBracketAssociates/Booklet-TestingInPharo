@@ -397,8 +397,37 @@ HiExamplesTest >> performTest
 ]]]
 
 
-!!! Missing point on Inheritance 
-should inherit and the rest
+!!! Inheriting TestCase
+
+A new ==TestCase== can inherit tests from a superclass.
+The logic is a bit cumbersome. 
+By default a new test case class inherits from a subclass of ==TestCase== that is abstract. 
+If your new subclass as no test methods it will inherit from its superclass.
+
+Otherwise if you new class has selectors and inherits from a concrete superclass, you should redefine ==shouldInheritSelectors==
+to return ==true==.
+
+What developers uses in practice is the last part. 
+For example this is what the ==CoCompletionEngineTest== class is doing to inherit the tests of ==CompletionEngineTest==
+
+[[[
+CoCompletionEngineTest >> shouldInheritSelectors
+
+		^ true
+]]]
+
+
+ Here is the definition of the method ==shouldInheritSelectors==. 
+[[[
+TestCase class >> shouldInheritSelectors
+	"I should inherit from an Abstract superclass but not from a concrete one by default, 
+	unless I have no testSelectors in which case I must be expecting to inherit them from my superclass.  
+	If a test case with selectors wants to inherit selectors from a concrete superclass, override this to true in that subclass."
+	
+	^self ~~ self lookupHierarchyRoot
+		and: [self superclass isAbstract or: [self testSelectors isEmpty]]
+]]]
+
 
 
 !!! Conclusion
