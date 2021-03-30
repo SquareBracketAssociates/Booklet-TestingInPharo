@@ -407,8 +407,8 @@ If your new subclass as no test methods it will inherit from its superclass.
 Otherwise if you new class has selectors and inherits from a concrete superclass, you should redefine ==shouldInheritSelectors==
 to return ==true==.
 
-What developers uses in practice is the last part. 
-For example this is what the ==CoCompletionEngineTest== class is doing to inherit the tests of ==CompletionEngineTest==
+What developers uses in practice is the last part: the redefine the method ==shouldInheritSelectors==.
+For example, this is what the ==CoCompletionEngineTest== class is doing to inherit the tests of ==CompletionEngineTest==
 
 [[[
 CoCompletionEngineTest >> shouldInheritSelectors
