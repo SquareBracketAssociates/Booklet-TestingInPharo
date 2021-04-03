@@ -1,10 +1,13 @@
 !! DrTests
 
 To improve test quality, a plethora of analyses is proposed such as test smells,
-mutation testing, test coverage. The problem is that each analysis often needs a particular way to expose
-its results to the developer. There is a need for an architecture supporting test running and analysis in a modular and extensible way. In this article we present an extensible plugin-based architecture to run and report test results. 
-DrTests is the successor of the SUnit Test Runner. It supports the execution of tests, rotten tests, comments to tests and more.
+mutation testing, or test coverage. The problem is that each analysis often needs a particular way to expose
+its results to the developer. There is a need for an architecture supporting test running and analysis in a modular and extensible way. 
+In this chapter we present an extensible plugin-based architecture to run and report test results. 
+DrTests is the successor of the SUnit Test Runner. 
+It supports the execution of tests, rotten tests, comments to tests and more.
 it implements such plugin-based architecture: it means that other tools are able to extend and propose new analyses to improve our tests.
+DrTests was initially developed by Dayne  Guerra Calle and Julien Delplanque.
 
 !!! Taking care of our lovely tests
 
@@ -12,13 +15,12 @@ Tests can be analyzed under multiple aspects.
 For example, one can run a test and watch its result (passes, fails or raises an error) but it is also possible to analyze the coverage of this test.
 
 Each kind of analysis applied on a test has similar but not totally equal kind of input and can generate various kinds of output.
-However one would like to threat these analyses uniformly to make the tooling around them smooth.
-For example, provide a common user interface.
+Figure *@fig:drtests* shows the UI of DrTests.  It is the main UI written in Spec 2.0 and provides us an interface within we can 
+choose between different plugins.
+
 
 +Running one test.>file://figures/drtestsscreenshot.png|width=80|label=fig:drtests+
 
-Figure *@fig:drtests* shows the UI of DrTests. 
-It is the main UI written in Spec 2.0 and provides us an interface within we can choose between different plugins.
 
 One can select the plugin to use via the drop-list in the top menu.
 The UI displays potential inputs for analysis as defined by the currently selected plugin.
@@ -35,7 +37,7 @@ DrTests supports by default the execution of tests, the identificaion of rotten 
 
 !!!! Example: Rotten tests
 A rotten green test is a test that pass and contain assertions, but whose
-assertions are not executed \cite{Delp18a}. As stated by Deplanque et. al., such
+assertions are not executed. As stated by Deplanque et. al., such
 tests are worse than no tests at all because they give developers false
 confidence in the system under tests.
 
@@ -98,7 +100,7 @@ This object contains all artifacts resulting from the analysis.
 Each plugin is free to choose the kind of result returned.
 Because of that, there is no limitation in the kind of data an analysis can return.
 
-+UML.>file://figures/drtestsuml.pdf|width=80|label=fig:UML+
++Hierarchies of DrTests.>file://figures/drtestsuml.pdf|width=100|label=fig:UML+
 
 !!! Studying one extension
 
