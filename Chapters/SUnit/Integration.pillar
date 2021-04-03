@@ -1,22 +1,38 @@
 !! Getting more with continuous integration
 
 Once you have tests you want to run them as many times as possible. 
-In this chapter we should the basic setup to execute your tests on Github actions, and Travis integration. 
+In this chapter we show the basic setup to execute your tests automatically on each commit. 
+We present Github actions, and Travis integration both using SmalltalkCI to execute your tests on the server.
 
 !!! Github Actions
 
-if you use github to store your Pharo code, then you can use a nice continuous integration: GitHub actions.
-You can edit your script by pressing the Actions button of your github project.
-
+If you use github to store your Pharo code, then you can use a nice continuous integration: GitHub actions.
+You can edit your script by pressing the Actions button of your github project. You can follow the template. 
 It will create a ==.github/workflows== folder on your project, and store your scripts. You can have multiple 
 scripts. 
 
-Let us ctake for example the project Containers-Array2d from ==http://github.com/pharo-containers==
+In addition you should add a file to configure SmalltalkCI. This file is in STON format (a.k.a JSON for Smalltalk). 
 
-You should fix define a file named  ==.smalltalk.ston== to indicate the application (SmallttalkCI) that will run your tests
-how to identify them. There is a good documentation of SmalltalkCI at *https://github.com/hpi-swa/smalltalkCI*.
+SmalltalkCI configuration lets you specify:
+- how to load your project (==loading:==)
+- which entities (classes, packages, projects...) to include in the tests (==testing:== and ==#include:==)
+- which entities (classes, packages, projects...) to exclude from the tests (==testing:== and ==#exclude:==).
+- several options such as time out, 
+- but also test coverage (==testing:== and ==#coverage:==)
+There is a good documentation of SmalltalkCI at *https://github.com/hpi-swa/smalltalkCI*.
 
-Here we indicate how SmalltalkCI should find the source code and which packages should be covered by the tests.
+
+!!!! Example
+But let us look at an example. 
+Let us take for example the project Containers-Array2d from *http://github.com/pharo-containers*.
+
+You should first define a file named  ==.smalltalk.ston== to indicate SmallttalkCI (the application  that will run your tests)
+how to identify them. 
+
+Here we indicate how SmalltalkCI should find the source code and which packages should be executed by the tests in the context
+of also computing the test coverage of that package. 
+
+
 
 [[[
 SmalltalkCISpec {
@@ -103,7 +119,7 @@ jobs:
         timeout-minutes: 15
 ]]]
 
-!!! Setup	
+!!! Travis	
 
 First you should enable the travis services on your github account. We sketch here the process. 
 Better refer to the documentation since the process was changed in the past.
@@ -137,15 +153,6 @@ smalltalk:
 
   - Pharo64-8.0
   - Pharo64-7.0
-
-#  - GemStone-3.3.0
-#  - GemStone-3.2.12
-#  - GemStone-3.1.0.6
-
-# Uncomment to enable caching (only useful for GemStone builds (3x faster))
-#cache:
-#  directories:
-#    - $SMALLTALK_CI_CACHE
 ]]]
 
 !!! With Appveyor 
@@ -177,27 +184,17 @@ test_script:
   - '%CYG_BASH% -lc "cd $APPVEYOR_BUILD_FOLDER; exec 0</dev/null; $SCI_RUN"'
 ]]]
 
-!!! Assessing test coverage 
-Finally one you have automated servers up and running you can take advantage of other services such as coverage. 
-You should create an account to coverall and enable the communication between coverall and the project you want to cover.
+!!! Assessing test coverage
+Finally once you have automated servers up and running, you can take advantage of other services such as computing the code coverage of your tests.
+SmalltalkCI is ready for this and you can simply use *http://coveralls.io*. 
+First create an account to *http://www.coveralls.io* and enable the communication between coverall and the project you want to cover.
  
-To specify which package should be validated and measured you should add another configuration file named ==\.smalltalk.ston==. Here is an example for the project ==Containers-Stack==. We indicate the baseline as well as the package to measure (here =='Containers-Stack'==).
+The previous smalltalkCI configuration you showed at the beginning of this chapter is already ready to be used with Coverall.
 
-[[[
-SmalltalkCISpec {
-  #loading : [
-    SCIMetacelloLoadSpec {
-      #baseline : 'ContainersStack',
-      #directory : 'src',
-      #platforms : [ #pharo ]
-    }
-  ],
-  #testing : {
-    #coverage : {
-      #packages : [ 'Containers-Stack' ]
-    }
-  }
-}
-]]]
+!!! Conclusion
 
+Running automatically your tests is a super great feeling. 
+Do not miss this opportunity. 
+This chapter shows you how easy it is to do it with github or travis.
+Have a look at the documentation of SmalltalkCI *https://github.com/hpi-swa/smalltalkCI* to see what you do automatically. 
 
