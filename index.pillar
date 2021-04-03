@@ -25,27 +25,25 @@ Note that the version documented in this chapter and used in Pharo is a modified
 %${inputFile:path=Chapters/SUnit/SUnit.pillar}$
 %Validated
 
-
-
 %${inputFile:path=Chapters/SUnit/Cookbook.pillar}$
-
-
-
+%Validated
 
 
 %${inputFile:path=Chapters/UITesting/UITesting.pillar}$
 
 %${inputFile:path=Chapters/Web/Web.pillar}$
 
-${inputFile:path=Chapters/Benchs/Smark.pillar}$
-
-%${inputFile:path=Chapters/SUnit/Integration.pillar}$
+${inputFile:path=Chapters/SUnit/Integration.pillar}$
 
 %${inputFile:path=Chapters/SUnit/Implementation.pillar}$
 
 
-${inputFile:path=Chapters/Misc/Misc.pillar}$
 
+%${inputFile:path=Chapters/Benchs/Smark.pillar}$
+%Validated
+%${inputFile:path=Chapters/Misc/Misc.pillar}$
+%Validated
 
+%Will not be added to the booklet
 % Building a plugin is too complex so better remove this chapter.
 %${inputFile:path=Chapters/DrTests/DrTests.pillar}$
