@@ -1,7 +1,107 @@
 !! Getting more with continuous integration
 
 Once you have tests you want to run them as many times as possible. 
-In this chapter we should the basic setup to execute your tests on Travis integration. 
+In this chapter we should the basic setup to execute your tests on Github actions, and Travis integration. 
+
+!!! Github Actions
+
+if you use github to store your Pharo code, then you can use a nice continuous integration: GitHub actions.
+You can edit your script by pressing the Actions button of your github project.
+
+It will create a ==.github/workflows== folder on your project, and store your scripts. You can have multiple 
+scripts. 
+
+Let us ctake for example the project Containers-Array2d from ==http://github.com/pharo-containers==
+
+You should fix define a file named  ==.smalltalk.ston== to indicate the application (SmallttalkCI) that will run your tests
+how to identify them. There is a good documentation of SmalltalkCI at *https://github.com/hpi-swa/smalltalkCI*.
+
+Here we indicate how SmalltalkCI should find the source code and which packages should be covered by the tests.
+
+[[[
+SmalltalkCISpec {
+  #loading : [
+    SCIMetacelloLoadSpec {
+      #baseline : 'ContainersArray2D',
+      #directory : 'src',
+      #platforms : [ #pharo ]
+    }
+  ],
+  #testing : {
+    #coverage : {
+      #packages : [ 'Containers-Array2D' ]
+    }
+  }
+}
+]]]
+
+Here is the currentStablePharo file.
+
+[[[
+name: currentStablePharo
+
+env:
+  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+on:
+  push:
+    branches:
+      - master
+  workflow_dispatch:
+  
+jobs:
+  build:
+    strategy:
+      matrix:
+        platform: [ubuntu-latest, macos-latest, windows-latest ]
+    runs-on: ${{ matrix.platform }}
+    steps:
+      - uses: actions/checkout@v2
+      - uses: hpi-swa/setup-smalltalkCI@v1
+        id: smalltalkci
+        with:
+          smalltalk-version: Pharo64-8.0
+      - run: smalltalkci -s ${{ steps.smalltalkci.outputs.smalltalk-version }}
+        shell: bash
+        timeout-minutes: 15
+]]]
+
+
+You can also use matrix setup to run multiple configuration of platforms: here we run on Pharo 8 and Pharo 7 for mac and windows.
+
+[[[
+name: matrix
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  build:
+    strategy:
+      matrix:
+        os: [ macos-latest, windows-latest ]
+        smalltalk: [ Pharo64-8.0, Pharo64-7.0 ]
+    runs-on: ${{ matrix.os }}
+    name: ${{ matrix.smalltalk }} on ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v2
+      - name: Setup smalltalkCI
+        uses: hpi-swa/setup-smalltalkCI@v1
+        with:
+          smalltalk-version: ${{ matrix.smalltalk }}
+      - name: Load Image and Run Tests
+        run: smalltalkci -s ${{ matrix.smalltalk }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        timeout-minutes: 15
+]]]
 
 !!! Setup	
 
