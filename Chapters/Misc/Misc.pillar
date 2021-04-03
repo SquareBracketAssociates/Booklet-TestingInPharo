@@ -1,14 +1,22 @@
-!! Executable comments
+!! Miscellaneous
 
-An important problem that developers are facing is how to document their code. Often they would like to provide a little example to help their users.Unit Tests are already a good foundation for this 
+In this little chapter we present some little points around tests.
+
+
+!!!  Executable comments
+
+An important problem that developers are facing is how to document their code. 
+Often they would like to provide a little example to help their users.
+Unit Tests are already a good foundation for this.
 
 Since Pharo 7.0 you can add to your method comment, executable expressions. This way a user can execute an expression and see its results. Since Pharo 8.0 and the introduction of DrTests executable comments are crawled by the DrTests plugin and report the executable comments that are not working. 
+
 This way you gain on multiple levels:
 - you get more user friendly and self explainable comments,
 - you get the insurance that your comments are correct,
 - you get tests that your code is doing what you specified.
 
-!!! Example
+!!! Executable comment example 
 To define an executable comment you should use the message ==>>>== to separate an expression from its results. 
 Here is an example == 'a' asByteArray >>> #[97]==
 
@@ -47,8 +55,8 @@ String >> contractTo: smallSize
 		with: '...'
 ]]]
 
-!!! DrTests plugin
-
+!!!!! DrTests plugin
 Once you defined an executable comment, you can check that it is valid by comparing the results with the expected one. You can also use the DrTests plugin for executable comments.
 
-%(more in the future)
+
+

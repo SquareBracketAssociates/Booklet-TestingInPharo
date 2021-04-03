@@ -1,33 +1,41 @@
 !!Performance Testing with SMark
 
-Measuring performance is not an easy activity as it seems. It involves many considerations that you need to take into account. Because, an execution may be affected by different factors, for instance, the hardware you have, the VM you are using, the run-time optimizations that the VM perform while your program is running, the unpredictable garbage collection, among many others. All these factors combined make it difficult to have a good estimation of the performance of an execution.
+Measuring performance is not an easy activity. 
+It involves many considerations that you need to take into account such as the pertinence of what you want to measure, how you can isolate it from other computations, ... 
+Indeed an execution may be affected by different factors, for instance, the hardware you have, the VM you are using, the run-time optimizations that the VM perform while your program is running, the unpredictable garbage collection, among many others. 
+All these factors combined make it difficult to have a good estimation of the performance of an execution.
 
-This chapter introduces SMark, a  testing framework for benchmarking Pharo applications. SMark is developed and maitain by Stephan Marr.
-SMark encapsulates a number of benchmarking best practices which are useful to take into account these factors  and help us to have a decent execution time estimation.
+This chapter introduces SMark, a  testing framework for benchmarking Pharo applications.
+SMark is developed and maintained by Stephan Marr.
+SMark encapsulates a number of benchmarking best practices which are useful to take into account these factors and help us to have a decent execution time estimation.
 
 
 !!!Installing SMark
 You can install SMark with the following incantation:
+
 [[[
 Metacello new
     baseline: 'SMark';
     repository: 'github://smarr/SMark';
     load.
 ]]]
+
 The examples in this chapter were performed in Pharo 8, but SMark is supported since Pharo 7.
 
 !!! Measuring Execution Time
 
 Measuring execution time needs to be done carefully, otherwise we can get a very far estimation of it.
- To illustrate the extent of this situation, we will use the recursive fibonacci function as a subject under analysis.
+To illustrate the extent of this situation, we will use the recursive fibonacci function as a subject under analysis.
+Define a new class named ==Math== and the following method: 
  
 [[[
 Math >> fib: n
-  ^n <= 1 ifTrue: [ n ] ifFalse: [ (self fib: (n - 1)) + (self fib: (n - 2)) ]
+  ^n <= 1 
+  	ifTrue: [ n ] 
+	ifFalse: [ (self fib: (n - 1)) + (self fib: (n - 2)) ]
 ]]]
 
-
-We now will measure how many seconds take to compute the 100th fibonacci, using the message ==timeToRun== method of the BlockClosure class as follows:
+We now will measure how many seconds take to compute the 40th fibonacci, using the message ==timeToRun== method of the BlockClosure class as follows:
 
 [[[
 [ Math new fib: 40 ] timeToRun
@@ -44,15 +52,23 @@ We execute this script 5 times, you may found results of each execution in the f
 5 execution: 1085 milliseconds
 ]]]
 
-As you can see, even in this small example, there is a variation between the results in the five iterations. Even though the measurements were done on the same computer, in the same Pharo Image. What happened? As we mention in the introduction the VM and the Hardware perform plenty of activities at the moment to execute a piece of code, and some of these activities are not deterministic, for instance, without going to far, some collections like the class Set that save objects without a defined (or let say, deterministic) order.
+As you can see, even in this small example, there is a variation between the results in the five iterations.
+Even though the measurements were done on the same computer, in the same Pharo Image. 
+What happened? As we mentioned in the introduction the VM and the Hardware perform plenty of activities at the moment to execute a piece of code, and some of these activities are not deterministic, for instance, without going to far, some collections like the class Set that save objects without a defined (or let say, deterministic) order.
 
-For this reason, it is necessary to consider a number of good practices to measure execution time, and minimize the measurement bias and uncertainty. For instance, execute the benchmarks a number of times before starting our measurements to let the VM to perform the dynamic optimizations. Another recommendation is to execute multiple times the benchmark, use the media as a point of reference, and consider the error margin. These recommendations may vary depending on the VM you are using, and the characteristics of your  benchmark. For instance, it is well known that time measurements have more variations in micro-benchmarks than macro-benchmarks.
+For this reason, it is necessary to consider a number of good practices to measure execution time, and minimize the measurement bias and uncertainty.
+For instance, execute the benchmarks a number of times before starting our measurements to let the VM to perform the dynamic optimizations.
+Another recommendation is to execute multiple times the benchmark, use the media as a point of reference, and consider the error margin.
+These recommendations may vary depending on the VM you are using, and the characteristics of your  benchmark.
+For instance, it is well known that time measurements have more variations in micro-benchmarks than macro-benchmarks.
 
 But, don’t worry, SMark takes many of these recommendations into account to help you in executing your benchmarks and get a decent execution time estimation.
 
 !!!My First Benchmark in SMark
 
-SMark has been designed to run benchmarks in a similar fashion than we run tests. Therefore, their creation is quite similar too. First, we need to create a subclass of the class ==SMarkSuite==.
+SMark has been designed to run benchmarks in a similar fashion than we run tests. 
+Therefore, their creation is quite similar too. 
+First, we need to create a subclass of the class ==SMarkSuite==.
 
 [[[
 SMarkSuite subclass: #MyBenchSuite
@@ -61,16 +77,13 @@ SMarkSuite subclass: #MyBenchSuite
 	package: 'SMark-Demo'
 ]]]
 
-Then, we have to give a create method with the name of the benchmark.
-[[[
-MyBenchSuite >> benchFib40
-]]]
-We need to write the piece of code on which we are interested to measure the execution time (the benchmark), in our case, we will use our fibonacci benchmark that we introduced in the previous section.
+Then, we need to write the piece of code on which we are interested to measure the execution time (the benchmark), in our case, we will use our fibonacci benchmark that we introduced in the previous section.
 
 [[[
 MyBenchSuite >> benchFib40
 	self fib: 40.
 ]]]
+
 To execute our benchmark, we only need to execute the following script in a playground.
 
 [[[
@@ -97,10 +110,11 @@ Benchmark Fib40
 Fib40 total: iterations=25 runtime: 1022.7ms +/-1.5
 ]]]
 
-There you go, now we have the average execution time and error margin, the error margin measure with a 90% of confidence degree assuming that the variable distribution is normal.
+There you go, now we have the average execution time and error margin, the error margin measure with a 90\% of confidence degree assuming that the variable distribution is normal.
 
 !!!SMark Benchmark Runners
-The way that SMark will run benchmarks depends on the smark runner you use. 
+
+The way that SMark will run benchmarks depends on the Smark runner you use. 
 There are five different runners: 
 - ==SMarkRunner==
 - ==SMarkAutosizeRunner==, 
@@ -108,7 +122,8 @@ There are five different runners:
 - ==SMarkProfileRunner==, and 
 - ==SMarkWeakScalingRunner==.
 
-Each runner provides a particular way to perform the benchmarks. You may specify which runner you waant to use by overloading the following method.
+Each runner provides a particular way to perform the benchmarks. 
+You may specify which runner you want to use by overriding  the following method.
 
 [[[
 SMarkSuite class >> defaultRunner
@@ -129,12 +144,12 @@ The message ==defaultRunner== returns a CogRunner or a normal Runner depending o
 
 
 !!! Benchmark Suites
-
-SMark provides a four benchmarks suites:
+Having good benchmark already packaged and identified is important to be able to compare changes for example in the compiler or other aspects of execution.
+SMark provides  four benchmarks suites:
 
 - ''SMarkCompiler'', a  benchmark that measures the time needed to compile a regular size method.
 - ''SMarkLoops'', a set of microbenchmarks measuring a number of basic aspects such as message send, instance field access, and array access cost.
-- ''SMarkSlopstone'', a Smalltalk Low level OPeration Stones Portable Low Level Benchmarks for ST80 and ST/V (using 16-bit SmallIntegers) Placed in public domain January 1993 (c) Bruce Samuelson Permission is given to place this in public Smalltalk archives.
+- ''SMarkSlopstone'', a Smalltalk Low level OPeration Stones Portable Low Level Benchmarks for ST80 and ST/V (using 16-bit SmallIntegers) - Placed in public domain January 1993 (c) Bruce Samuelson Permission is given to place this in public Smalltalk archives.
 - ''SMarkSmopstone'', a Smalltalk Medium level OPeration Stones Portable Medium level Benchmarks for ST80 and ST/V (using 16-bit SmallInts) Placed in public domain January 1993  (c) Bruce Samuelson Permission is given to place this in public Smalltalk archives.
 
 You may run any of these benchmark suites by performing the class method run of any of the previous clases. For instance:
@@ -157,5 +172,8 @@ testReport := stream contents.
 It runs the benchmark suite SMarkLoops  and uses the class ==SMarkSimpleStatisticsReporter== to export the results in a stream, in this particular case on a TextStream. 
 This report is particularly useful to integrate SMark in a continuous integration environment.
 
-!!!Conclusions
-This chapter introduces SMark, a framework to help you define, execute and report your benchmarks. It provides different ways to run your benchmarks, collect the results and perform a simple statistical analysis to measure the error margin. In addition, SMark provides four benchmark suites that are useful to test the performance of a number of core functionalities in Pharo.
+!!!Conclusion
+
+This chapter introduces SMark, a framework to help you define, execute and report your benchmarks.
+ It provides different ways to run your benchmarks, collect the results and perform a simple statistical analysis to measure the error margin. 
+ In addition, SMark provides four benchmark suites that are useful to test the performance of a number of core functionalities in Pharo.
