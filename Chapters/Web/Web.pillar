@@ -223,31 +223,6 @@ linkPharo := driver findElementByPartialLinkText: 'Go to'.
 
 Notice that with ==findElementByPartialLinkText== we don't need to give the full text link, just part of it.
 
-!!!Finding Elements using XPath
-
-XPath, the XML Path Language, is a query language for selecting nodes from an XML document. 
-When a browser renders a web page, the HTML contents may be parsed into a DOM tree or similar. Therefore, it is possible to find a specific node in the tree using XPath.  To illustrate how to find a element with XPath we will use the next HTML code as example:
-
-[[[
-    <div id="testDiv1">
- 	<p id="testDiv1p" class="c1"></p>
-    </div>
-    <div id="testDiv2">
- 	<p id="testDiv2p1" class="c2"></p>
- 	<p id="testDiv2p2" class="c1"></p>
- 	<p id="testDiv2p3" class="c1"></p>
-    </div>
-]]]
-
-Imagine that we need to get the div with ID equal to testDiv2, so we use the next code snippet to get it:
-[[[
-testDiv := driver findElementByXPath: '//div[@id=''testDiv2'']'
-]]]
-
-For locating elements with XPath, we first need to understand their syntax. Therefore, to use this option, you will first need to learn XPath syntax.
-
-Note that XPath is a very powerful way to locate web elements when by id, by name or by link text are not applicable. 
-However, XPath expression are vulnerable to structure changes around the web element, because the path from the root to the target element may change.
 
 !!!!Find Element by Tag Name
 
@@ -285,7 +260,7 @@ testClassOne := driver findElementByClassName: 'testclass1'.
 testClassTwo := driver findElementByClassName: 'testclass2'.
 ]]]
 
-Is common in web applications to use the same class attribute in several elements, so be careful if you try to get the elements by class name.
+It is common in web applications to use the same class attribute in several elements, so be careful if you try to get the elements by class name.
 
 !!!!Find Element by CSS Selector
 
@@ -300,8 +275,40 @@ It could be located like this:
 paragraphHello := driver findElementByCSSSelector: 'p.content'
 ]]]
 
+!!!Finding Elements using XPath
+
+XPath, the XML Path Language, is a query language for selecting nodes from an XML document. 
+When a browser renders a web page, the HTML contents may be parsed into a DOM tree or similar. Therefore, it is possible to find a specific node in the tree using XPath.  To illustrate how to find a element with XPath we will use the next HTML code as example:
+
+[[[
+    <div id="testDiv1">
+ 	<p id="testDiv1p" class="c1"></p>
+    </div>
+    <div id="testDiv2">
+ 	<p id="testDiv2p1" class="c2"></p>
+ 	<p id="testDiv2p2" class="c1"></p>
+ 	<p id="testDiv2p3" class="c1"></p>
+    </div>
+]]]
+
+Imagine that we need to get the div with ID equal to testDiv2, so we use the next code snippet to get it:
+[[[
+testDiv := driver findElementByXPath: '//div[@id=''testDiv2'']'
+]]]
+
+For locating elements with XPath, we first need to understand their syntax. Therefore, to use this option, you will first need to learn XPath syntax.
+
+Note that XPath is a very powerful way to locate web elements when by id, by name or by link text are not applicable. 
+However, XPath expression are vulnerable to structure changes around the web element, because the path from the root to the target element may change.
+
+
+!!! Finding Multiple Elements
+There are some cases in which you can have more than one element with the same attributes.
+
 !!!!Chain findElement to Find a Child Element
-There are some cases in which you can have more than one element with the same attributes, as in the following example:
+
+The following example 
+
 [[[
 <div id = "div1">
 	<input type="checkbox" name = "same" value="on">Same checkbox in Div1</input>
@@ -311,7 +318,8 @@ There are some cases in which you can have more than one element with the same a
 </div>
 ]]]
 
-In these cases, XPATH can be used, however, there is a simpler way, using nested selectors, which is nothing else, than locating elements in the result of a previous location, for example, to locate the div entry with id: "div2" The following can be done:
+In these cases, XPATH can be used, however, there is a simpler way, using nested selectors which is nothing else than locating elements in the result of a previous location.
+For example the following locates the div entry with id "div2" :
 
 [[[
 inputOfDiv2 := (driver findElementByID: 'div2') findElementByName: 'same'
@@ -319,7 +327,8 @@ inputOfDiv2 := (driver findElementByID: 'div2') findElementByName: 'same'
 
 !!!!Find Multiple Elements
 
-As the name suggests, returns a list of matching elements. Its syntax is exactly the same as ''findElement'', but in plural ''findElements''.
+As the name suggests, ==findElementsByTagName== returns a list of matching elements. Its syntax is exactly the same as ==findElement==, but in plural ==findElements==.
+
 For example, to get all div of our previous example:
 [[[
 divElements := driver findElementsByTagName: 'div'.
@@ -329,8 +338,8 @@ Sometimes, findElement fails due to multiple matching elements on a page, of whi
 
 
 !!!Interacting with the elements 
-
-Until now we saw how to navigate through a URL and how to select elements. Now, our next step is interact with these elements.
+Until now we saw how to navigate through a URL and how to select elements.
+Now, our next step is interact with these elements.
 You can do different things with these elements depending on their type.
 Using the following form as an example we will show how interact with it and its elements.
 
@@ -352,7 +361,7 @@ Using the following form as an example we will show how interact with it and its
 <html>
 ]]]
 
-!!!!Introduce text in a text field
+!!!!Filling text in a text field
 
 To fill the username and password fields in this form, we first have to select them, for this, we will use the following code:
 [[[
@@ -360,22 +369,23 @@ name := driver findElementByName: 'username'.
 password := driver findElementByName: 'password'
 ]]]
 
-Now it is possible to enter text in these field as follows:
+Now it is possible to fill text in these fields as follows:
 
 [[[
 name sendKeys: 'John'.
 password sendKeys: 'xxxxxxx'.
 ]]]
 
-Is possible call the method ==sendKeys== in any element, which makes it possible to try keyboard shortcuts.
-However, writing something in a text field not automatically delete it.
-Instead, what you write will be attached to what is already there. You can easily delete the content of a text field or text area with the method ==clear==.
+It is possible  to  send the message ==sendKeys:== in any element: This makes it possible to validate keyboard shortcuts.
+However, writing something in a text field does not automatically delete it.
+Instead, what you write will be attached to what is already there. 
+You can easily delete the content of a text field or text area with the message ==clear==.
 
 
-!!!!Press Links and Buttons
+!!!!Activating Links and Buttons
 
-Another action very useful in the navigation of web pages is to click on links and buttons, this action can be performed with the call of the method click on element selected.
-Below there is an example of how to use it with our form.
+Another very useful action in the navigation of web pages is to click on links and buttons, such action is activated using the message ==click== on the selected element.
+Below is an example of how to use it with our form.
 
 [[[
 loginButton := driver findElementByName: 'login'.
