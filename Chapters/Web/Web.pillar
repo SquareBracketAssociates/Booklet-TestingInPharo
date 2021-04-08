@@ -1,13 +1,13 @@
 !!Testing Web Applications with Parasol
-''Chapter Contributors:'' Evelyn Cusi, Daniel Aparicio, Juan P. Sandoval A.
+''Chapter Contributors:'' Evelyn Cusi, Daniel Aparicio, and Juan P. Sandoval A.
 
-During the construction of a web application, it is exhausting to have to test the entire flow of the application each time you modify it, and much more as the application grows. This chapter introduce Parasol to allow developers to automate test with a collection of language specific bindings, giving us the facility to test complex interactions in matter of seconds.
+During the construction of a web application, it is exhausting to have to test the entire flow of the application each time you modify it, and much more as the application grows. This chapter introduce Parasol to allow developers to automate tests with a collection of language specific bindings, giving us the facility to test complex interactions in matter of seconds.
 
 Parasol, or also called ''Beach Parasol'', is a Smalltalk framework to write functional/acceptance tests using Selenium WebDriver. Through Parasol, you can access to all functionalities of Selenium WebDriver in an intuitive way. Parasol gives a convenient API to access to the WebDrivers of Selenium such as: Chrome, Firefox and others. Actually, Parasol supports Pharo 6.0 and 7.0, also supports GemStone version 3.1, 3.2 and 3.3.
+Parasol was developed by Johan Brichau and Andy Kellens from Two Rivers.
 
-!!!Installation
+!!!Getting started
 
-!!!!Installing Parasol
 To load Parasol into your Pharo image, you can execute the following script in Playground:
 [[[
 Metacello new
@@ -50,14 +50,16 @@ Selenium requires a driver to interact with the web browser. For instance, Chrom
 | Firefox | https://github.com/mozilla/geckodriver/releases
 | Safari | https://webkit.org/blog/6900/webdriver-support-in-safari-10/
 
-We used Chromedriver version 80.0.3987.106 to run the chapter examples, but you can use other browser drivers or another version that you want.
+We use Chromedriver version 80.0.3987.106 to run the chapter examples, but you can use other browser drivers or another version that you want.
 
 !!!First Steps with Selenium
 This section describes a simple test wrote using parasol. 
 This section assumes that you have already installed Parasol and Selenium server is already running.
 
-!!!!My First Test
-Let's start easy, assume we want to test if the title of the *http://pharo.org* website is correct. For this, first we need to create a class that extends from ==TestCase==.
+!!!!A First Test
+Let's start easy and assume we want to test if the title of the *http://pharo.org* website is correct. 
+For this, first we need to create a class that inherits from ==TestCase==.
+
 [[[
 TestCase subclass: #PharoOrgTest
 	instanceVariableNames: ''
@@ -68,8 +70,8 @@ TestCase subclass: #PharoOrgTest
 Then, we create a method called ==testTitleOfPharoPage== as  follows:
 [[[
 PharoOrgTest >> testTitleOfPharoPage
-	"Testing title of Pharo.org"
-	|driver|
+
+	| driver |
 	driver := BPRemoteWebDriver withCapabilities: BPChromeOptions new.
 	driver get: 'https://pharo.org/'.
 	self assert: 'Pharo - Welcome to Pharo!' equals: driver getTitle.
@@ -78,7 +80,8 @@ PharoOrgTest >> testTitleOfPharoPage
 
 !!!!Step by Step Explanation
 
-First, we create a subclass of ==TestCase==, we do not need instance or class variables for now. We placed this subclass is in the FT-Parasol package.
+First, we create a subclass of ==TestCase==, we do not need instance or class variables for now. 
+We placed this subclass is in the FT-Parasol package.
 
 [[[
 TestCase subclass: #PharoOrgTest
@@ -116,11 +119,11 @@ driver close.
 ]]]
 
 You may also use the method ==quit== instead ==close==. The difference is that ==quit== will come out of the browser, and ==close== will close a tab.
-Note that the ==close== method will close a tab only if there is an open tab, by defautl most browsers will close completely.
+Note that the ==close== method will close a tab only if there is an open tab, by default most browsers will close completely.
 
 !!!! Improve the Structure of Your Test
 
-In our previous example, we execute wrote the entire test in one method, however, is a best practice add all the prerequisites of the tests on the ==setUp== method and all the steps of cleaning on the == tearDown == method.
+In our previous example, we wrote the entire test in one method, however, is a best practice add all the prerequisites of the tests on the ==setUp== method and all the steps of cleaning on the == tearDown == method.
 
 Therefore, to improve the structure of these tests, we first will convert the temporary variable driver into an instance variable.
 
@@ -154,7 +157,7 @@ PharoOrgTest >> testTitleOfPharoPage
 
 Now, if you run this test again, you should behave in the same way as the first version of our test we saw.
 
-!!!Locating Elements with Parasol
+!!! Locating Elements with Parasol: The basics
 
 In our tests, we would like to verify also if some particular HTML elements display the information we want to. But before to perform this verification, we first need to find these elements.
 Parasol uses what are called ''Locators'' to find and match the elements of the web page. 
@@ -170,11 +173,11 @@ Parasol has eight locators as shown in the following table.
 | Class Name | findElementsByClassName: 'table'
 | CSS  | findElementByCSSSelector: '#login > input[type="text"]'
 
-You can use any of them to find the element that you are looking for in your application. The foloowing paragraphs briefly describe how to use a number of these locators.
+You can use any of them to find the element that you are looking for in your application. The following paragraphs briefly describe how to use a number of these locators.
 
 
 !!!!Find Element by ID
-The use of ID is the easiest and probably the safest way to locate an element on HTML. Tests scripts that use IDs are less prone to changes in the application.
+The use of ID is the easiest and probably the safest way to locate an element on HTML. Test scripts that use IDs are less prone to changes in the application.
 For example, consider the following HTML form:
 
 [[[
@@ -196,7 +199,7 @@ If no element has the ID attribute that match with the provided one, a ==BPNoSuc
 !!!! Find Element by Name
 An HTML element may have an attribute called ==name==, they are normally used in the forms such as text fields and selection buttons. The values of the attributes of name are passed to the server when a form is sent. In terms of lower probability of change, the attribute name is probably the second in importance after ID.
 
-Considering the previous HTML code of example, you can locate the elements using the ''findElementByName'' method:
+Considering the previous HTML code of example, you can locate the elements using the ==findElementByName== method:
 [[[
 textField := driver findElementByName: 'textInfo'.
 ]]]
@@ -218,11 +221,12 @@ linkPharo := driver findElementByLinkText: 'Go to Pharo!'.
 linkPharo := driver findElementByPartialLinkText: 'Go to'.
 ]]]
 
-Notice that with findElementByPartialLinkText we don't need to give the full text link, just part of it.
+Notice that with ==findElementByPartialLinkText== we don't need to give the full text link, just part of it.
 
-!!!!Find Element by XPath
+!!!Finding Elements using XPath
 
-XPath, the XML Path Language, is a query language for selecting nodes from an XML document. When a browser renders a web page, The HTML content may be parsed into a DOM tree or similar. Therefore, it is possible to find a specific node in the tree using XPath.  To illustrate how to find a element with XPath we will use the next HTML code as example:
+XPath, the XML Path Language, is a query language for selecting nodes from an XML document. 
+When a browser renders a web page, the HTML contents may be parsed into a DOM tree or similar. Therefore, it is possible to find a specific node in the tree using XPath.  To illustrate how to find a element with XPath we will use the next HTML code as example:
 
 [[[
     <div id="testDiv1">
@@ -240,13 +244,14 @@ Imagine that we need to get the div with ID equal to testDiv2, so we use the nex
 testDiv := driver findElementByXPath: '//div[@id=''testDiv2'']'
 ]]]
 
-For locating elements with XPath, we first need to understand their syntax. Therefore, in order to use this option, you will first need to learn XPath syntax.
+For locating elements with XPath, we first need to understand their syntax. Therefore, to use this option, you will first need to learn XPath syntax.
 
-Note that XPath is a very powerful way to locate web elements when by_id, by_name or by_link_text are not applicable. However, XPath expression are vulnerable to structure hanges around the web element, because the path from the root to the target element may change.
+Note that XPath is a very powerful way to locate web elements when by id, by name or by link text are not applicable. 
+However, XPath expression are vulnerable to structure changes around the web element, because the path from the root to the target element may change.
 
 !!!!Find Element by Tag Name
 
-Is used when you want to locate an element by the name of its label. However, because there is a limited set of tag names, it is very possible that more than one element with the same name of tag exists, so this locator is not normally used to identify an element, instead, it is more common to use it in chained locations.
+Finding elements by a tag name is used when you want to locate an element by the name of its label. However, because there is a limited set of tag names, it is very possible that more than one element with the same name of tag exists, so this locator is not normally used to identify an element, instead, it is more common to use it in chained locations.
 
 Consider our previous example form:
 [[[

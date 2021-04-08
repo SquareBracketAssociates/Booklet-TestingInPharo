@@ -33,7 +33,7 @@ Note that the version documented in this chapter and used in Pharo is a modified
 
 %${inputFile:path=Chapters/UITesting/UITesting.pillar}$
 
-${inputFile:path=Chapters/Web/Web.pillar}$
+  ${inputFile:path=Chapters/Web/Web.pillar}$
 
 %${inputFile:path=Chapters/SUnit/Implementation.pillar}$
 

@@ -1,4 +1,5 @@
 !!Performance Testing with SMark
+''Chapter Contributors:''  Juan P. Sandoval A.
 
 Measuring performance is not an easy activity. 
 It involves many considerations that you need to take into account such as the pertinence of what you want to measure, how you can isolate it from other computations, ... 
