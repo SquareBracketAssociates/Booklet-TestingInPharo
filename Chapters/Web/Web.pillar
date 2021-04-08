@@ -395,8 +395,10 @@ loginButton click.
 
 !!!Parasol in Action
 
-Previous sections introduced Parasol features though basic examples. This section apply eveything learned durign the chapter to create a number of tests for a small but real website called ''Mercury Tours''.
-''Mercury Tours'' is an agency that offers trips. Maybe if you worked with automated web test before, you are familiar with it.
+Previous sections introduced Parasol features though basic examples. 
+This section applies eveything learned durign the chapter to create a number of tests for a small but real website called ''Mercury Tours''.
+''Mercury Tours'' is an agency that offers trips. 
+Maybe if you worked with automated web test before, you are familiar with it.
 
 !!!!Setting up tests
 First, we will create a subclass of test called ==EPTest==:
@@ -408,8 +410,8 @@ TestCase subclass: #EPTest
 	package: 'Example-Parasol-Tests'
 ]]]
 
-As we see in previous sections, the instance variable driver will represent our browser driver necessary to work with Parasol and its methods.
-Second, we need to initiallize the driver and load the page, since we need to do this step for all the test we will place this in the ==setUp== method.
+As we see in previous sections, the instance variable driver represents our browser driver necessary to work with Parasol and its methods.
+Second, we need to initiallize the driver and load the page, since we need to do this step for all the tests we will place this in the ==setUp== method.
 
 [[[
 EPTest >> setUp
@@ -421,18 +423,18 @@ EPTest >> baseURL
 	^ 'http://newtours.demoaut.com/'
 ]]]
 
-As you notice, we use self baseURL to get the URL. It is not necessary to separate the URL in a method.
+As you notice, we use ==self baseURL== to get the URL. 
+It is not necessary to separate the URL in a method.
 
-Finally, we will create tearDown method:
+Finally, we define the ==tearDown== method:
 [[[
 EPTest >> tearDown
 	driver quit.
 	super tearDown
 ]]]
 
-Is important use quit method to close the browser when a test ends, as we mentioned in second section of this chapter.
+It is important to use the ==quit== message to close the browser when a test ends, as we mentioned in second section of this chapter.
 With the ==setUp== and == tearDown == method, we are able to do any test on the page.
-
 
 !!!Testing the Page Title
 
@@ -451,15 +453,19 @@ With the Selenium server and the test running, we can see that our browser was o
 +Mercury Tours WebSite>file://figures/newtours|width=80|label=newtours+
 
 
-After the web browser was closed, we can see that the test passed because our page have the title ''Welcome: Mercury Tours'' in our tab. Maybe you think that was a very simple test, but it's time to do something more complex.
+After the web browser is closed, we can see that the test passed because our page have the title ''Welcome: Mercury Tours'' in our tab. 
+So it's time to do something more complex.
 
 !!!Testing Displayed Information
 
-The Mercury Tours page has a lot of information on its home page. So, why do not try to test this information?.
+The Mercury Tours page has a lot of information on its home page. 
+So, why do not try to test this information?
 As an example, we will write a test to verify the information in the table called ''specials''.
-Assume that you want to test that the first row is the flight from Atlanta to Las Vegas and the price is $398. How do we do that? First step is know how our page contain this information.
+Assume that you want to test that the first row is the flight from Atlanta to Las Vegas and the price is $398. 
+How do we do that? First step is to know how our page represent this information.
 
-Use the developer tools of Chrome browser and select the desired row. We get the next HTML code:
+Use the developer tools of Chrome browser and select the desired row. 
+We get the following HTML code:
 
 [[[
 <tr bgcolor="#CCCCC">
@@ -483,24 +489,25 @@ We can see the following details:
 - The table or the row not contains an ID or a Class that we use to find this element.
 - The CSS or the Tag Name can't help us to find this row.
 
-So, What can we do in these cases? Well, XPath is a useful locator in this particular case.
-First, we need to create a subclass of ==EPTest==. In this case we are using ==EPTest== as a base clase for future test clases.
-This decision give us a number of benefits, for instance, we may find easily all test clases by inspecting the subclases of ==EPTest==, and we can reuse some method in the subclases, in particular, the ==setUp== and == tearDown == methods.
+In this special  cases, XPath is a useful locator in this particular case.
+First, we need to create a subclass of ==EPTest==. 
+We are using ==EPTest== as a base clase for future test clases.
+This decision give us a number of benefits, for instance, we may find easily all test clases by inspecting the subclases of ==EPTest==, and we can reuse some methods in the subclases, in particular, the ==setUp== and == tearDown == methods.
 
 Therefore, we define the following class:
 [[[
-EPTest subclass: #EPHomePage
+EPTest subclass: #EPHomePageTest
 	instanceVariableNames: ''
 	classVariableNames: ''
 	package: 'Example-Parasol-Tests'
 ]]]
 
-==EPHomePage== will be a class only dedicated to testing the home page and all elements that are part of this.
+==EPHomePageTest== is a class only dedicated to testing the home page and all elements that are part of this.
 Taking our HTML code as a base, create a method to get the flight and and its price, then test if the value of these elements is the same as the expected result.
 The following method give us the expected result, but it contains some things that we can improve.
 
 [[[
-EPHomePage >> testPriceAndInfoForFlightFromAtlantaToLasVegas
+EPHomePageTest >> testPriceAndInfoForFlightFromAtlantaToLasVegas
 
 self assert: ((driver findElementByXPath: '/html/body/div/table/tbody/tr/td[2]/table/tbody/tr[4]/td/table/tbody/tr/td[2]/table/tbody/tr[2]/td[1]/table[1]/tbody/tr[3]/td/table/tbody/tr[1]/td[1]/font') getText)
      equals: 'Atlanta to Las Vegas'.
@@ -511,10 +518,10 @@ self assert: ((driver findElementByXPath: '/html/body/div/table/tbody/tr/td[2]/t
 We will refactor this method to make it more understandable. We will add a method to get the controller element, remember to add the method to a protocol according to the method functionality.
 
 [[[
-EPHomePage >> descriptionFlightFromAtlantaToLasVegas
+EPHomePageTest >> descriptionFlightFromAtlantaToLasVegas
 	^ driver findElementByXPath: '/html/body/div/table/tbody/tr/td[2]/table/tbody/tr[4]/td/table/tbody/tr/td[2]/table/tbody/tr[2]/td[1]/table[1]/tbody/tr[3]/td/table/tbody/tr[1]/td[1]/font'
 
-EPHomePage >> priceFlightFromAtlantaToLasVegas
+EPHomePageTest >> priceFlightFromAtlantaToLasVegas
 	^ driver findElementByXPath: '/html/body/div/table/tbody/tr/td[2]/table/tbody/tr[4]/td/table/tbody/tr/td[2]/table/tbody/tr[2]/td[1]/table[1]/tbody/tr[3]/td/table/tbody/tr[1]/td[2]/div/font/b'
 
 ]]]
@@ -522,7 +529,7 @@ EPHomePage >> priceFlightFromAtlantaToLasVegas
 Then, we may now refactor the test method as follows:
 
 [[[
-EPHomePage >> testFlightFromAtlantaToLasVegas
+EPHomePageTest >> testFlightFromAtlantaToLasVegas
 	self assert: self descriptionFlightFromAtlantaToLasVegas getText
                 equals: 'Atlanta to Las Vegas'.
 	self assert: self priceFlightFromAtlantaToLasVegas getText
@@ -537,10 +544,10 @@ The tests above are a good example of how we get elements from a HTML page and t
 How about if we wanna test some interactions?
 It's an important step to test, so we will explain how you could you do it.
 In this example, we will create a test that register a user in the website.
-First, we will create another subclass of ==EPTest== called ==EPRegisterUser==.
+First, we will create another subclass of ==EPTest== called ==EPRegisterUserTest==.
 
 [[[
-EPTest subclass: #EPRegisterUser
+EPTest subclass: #EPRegisterUserTest
 	instanceVariableNames: ''
 	classVariableNames: ''
 	package: 'Example-Parasol-Tests'
@@ -550,13 +557,13 @@ In this website for register a user we need first click the ''REGISTER'' button 
 Therefore, We will create a method that will help us to emulate aa click in the ''REGISTER'' button.
 
 [[[
-EPRegisterUser >> clickInRegisterButton
+EPRegisterUserTest >> clickInRegisterButton
 	(driver findElementByLinkText: 'REGISTER') click
 ]]]
 
 We will use the above method to do our setUp method in this class. Create the ==setUp== method like this:
 [[[
-EPRegisterUser >> setUp
+EPRegisterUserTest >> setUp
 	super setUp.
 	self clickInRegisterButton
 ]]]
@@ -565,12 +572,12 @@ You may see the ''REGISTER'' form in the *@registerForm*
 
 +Registration From>file://figures/registerForm|width=80|label=registerForm+
 
-Now, we are prepared to create our tests in ==EPRegisterUser==.
+Now, we are prepared to create our tests in ==EPRegisterUserTest==.
 As we mentioned, our first test will be verify if we are in the correct page when we click in register button. 
 So, create the test.
 
 [[[
-EPRegisterUser >> testEntryToRegisterPage
+EPRegisterUserTest >> testEntryToRegisterPage
 	| title |
 	title := driver getTitle.
 	self assert: title equals: 'Register: Mercury Tours'
@@ -639,7 +646,7 @@ At following we show one method that return the field with the name ==firstName=
 
 
 [[[
-EPRegisterUser >> firstNameField
+EPRegisterUserTest >> firstNameField
 	^ driver findElementByName: 'firstName'
 ]]]
 You need to create as many of these you need to get all the form fields you need for your test.
@@ -647,7 +654,7 @@ The next step is create a method to set information to fields.
 We use the method sendKeys to send the information that we want.
 
 [[[
-EPRegisterUser >> fillInformationToContactSection
+EPRegisterUserTest >> fillInformationToContactSection
 	self firstNameField sendKeys: 'Jhon'.
 	self lastNameField sendKeys: 'Stuart'.
 	self phoneField sendKeys: '10276123'.
@@ -656,7 +663,7 @@ EPRegisterUser >> fillInformationToContactSection
 
 Finally, we create the following test to verify if the introduced information is the same as the fields.
 [[[
-EPRegisterUser >> testIntroduceInformationInContactSection
+EPRegisterUserTest >> testIntroduceInformationInContactSection
 	self fillInformationToContactSection.
 	self assert: (self firstNameField getAttribute: 'value') equals: 'Jhon'.
 	self assert: (self lastNameField getAttribute: 'value') equals: 'Stuart'.
@@ -674,7 +681,7 @@ If we want to test it, we need to use another method to assert it.
 In this case, the option selected contains the attribute called ==selecte==. So, we create the next method to get this element:
 
 [[[
-EPRegisterUser >> getSelectedOfCountry
+EPRegisterUserTest >> getSelectedOfCountry
 	(self countryField findElementsByTagName: 'option') do: [ :each |
 		(each getAttribute: 'selected')
 			ifNotNil: [ ^ each ] ]
@@ -684,7 +691,7 @@ When you create the test, with this method you get only the element that contain
 So we use the getText method and assert if the fields contain the correct information.
 
 [[[
-EPRegisterUser >> testIntroduceInformationInMailingSection
+EPRegisterUserTest >> testIntroduceInformationInMailingSection
 	self assert: (self getSelectedOfCountry getText) equals: 'UNITED STATES '.
 ]]]
 
@@ -695,7 +702,7 @@ If you created the ==fillInformationToMailingSection== and ==fillInformationToUs
 If you didn't, you need to create these methods.
 We need another method to find the submit button and click it, so we create it.
 [[[
-EPRegisterUser >> clickInSubmitButton
+EPRegisterUserTest >> clickInSubmitButton
 	(driver findElementByName: 'register') click
 ]]]
 In the page, when you register a user you obtain the following view:
@@ -708,12 +715,12 @@ Get the text 'sign-off' of sign-off option
 Get the description text below the register title.
 You can use any of this options, as an example we will get the description text. So create the method to find the description text.
 [[[
-EPRegisterUser >> descriptionText
+EPRegisterUserTest >> descriptionText
 	^ driver findElementByXPath: '/html/body/div/table/tbody/tr/td[2]/table/tbody/tr[4]/td/table/tbody/tr/td[2]/table/tbody/tr[3]/td/p[2]/font'
 ]]]
 And finally create the test to verify if the user is registered successfully.
 [[[
-EPRegisterUser >> testRegistrationOfUser
+EPRegisterUserTest >> testRegistrationOfUser
 	<timeout: 10>
 	self sendInformationToContactSection.
 	self sendInformationToMailingSection.
