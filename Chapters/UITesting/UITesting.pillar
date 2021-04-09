@@ -1,9 +1,9 @@
 !! UI testing
 @cha:uitesting
 
-Developers often think that testing UI is difficult. This is true that fully testing the placement and layout of widgets can be tedious. Testing testing the logic of an application and in particular the interaction logic
-is possible and this is what we will show in this chapter. We show that testing Spec application is simple 
-and effective.
+Developers often think that testing UI is difficult. This is true that fully testing the placement and layout of widgets can be tedious. 
+However, testing the logic of an application and in particular the interaction logic is possible and this is what we will show in this chapter. 
+We show that testing Spec application is simple and effective.
 
 
 !!! Testing Spec
@@ -11,39 +11,64 @@ Tests are key to ensure that everything works correctly. In addition, they free 
 
 
 
-!!!! Spec Architecture
+!!!! Spec architecture
 
 Spec is based on an architecture with three different layers as shown in Figure~*@fig:Architecture*: 
-- ""Presenters:"" Presenters defined the interaction logic and manipulate domain objects. They access backwidgets but via an API that is specified by Adapters.
+- ""Presenters:"" Presenters defined the interaction logic and manipulate domain objects. They access back-end widgets but via an API that is specified by Adapters.
 - ""Adapters:"" Adapters are objects exposing low-level back-end widgets. They are a bridge between presenters and low-level widgets.
-- ""Backend widgets"". Backend widgets are plain widgets that can be used without Spec.
+- ""Back-end widgets"". Back-end widgets are plain widgets that can be used without Spec.
 
-+Spec Architecture (to be redone).>file://figures/Architecture.png|width=75|label=fig:Architecture+
++Spec Architecture.>file://figures/ArchitectureSpec2.pdf|width=75|label=fig:Architecture+
 
 !!!! Three roles and concerns
-To help you understand the different possibilities of testing that you can engage, we identify the following roles and their related concerned
+To help you understand the different possibilities of testing that you can engage, we identify the following roles and their related concerns.
 
-- ""Spec User."" The Spec user is a developer that builds a new application. It defines the logic of his application by assembling together.
-- ""Spec Developer."" The Spec developer is more concerned with the development of new Spec presenter and their link with the adapter.
-- ""Widget Developer."" The widget developer is concerned about the logic and working of a given widget is a given back-end.
+- ""Spec Users.""Spec users are developers that build a new application. They define the logic of the application by assembling together presenters and domain objects.
+- ""Spec Developers."" Spec developers are more concerned with the development of new Spec presenter and their link with the adapter.
+- ""Widget Developers."" Widget developers are concerned about the logic and working of a given widget is a given back-end.
 
-+UI elements under test.>file://figures/UI.png|width=75|label=fig:UI+
+%+UI elements under test.>file://figures/UI.png|width=75|label=fig:UI+
+
 
 !!! The Spec user
-As a Spec user, you consider that the backends are working and our responsibilities is to test the logic of the user interface components. 
-We should make sure that when the model changes, the user interface components reflect the changes. Inversely when the user interface components change, we should ensure that the model is updated.  
 
-!!! Example
+As a Spec user, you should consider that the back-ends are working and your responsibilities is to test the logic of the user interface components.
+We should make sure that when the model changes, the user interface components reflect the changes.
+Inversely when the user interface components change, we should ensure that the model is updated.
 
-Here is a simple example. Imagine we have the following requirements.
-- Click the button should add an element to the list
-- Select an element in the list should populate the form
-- Changing values in the form should change the objects in the list
+!!!! Example
 
-We convert such requirements into tests as follows: 
+%Figure @*fig:UI* shows the little application that we use in our example.
 
-!!!! Spec user test 1:
-Select an element in the list should populate the form. 
+Here is a simple example: Imagine we have the following requirements.
+- Click the button should add an element to the list.
+- Select an element in the list should populate the form.
+- Changing values in the form should change the objects in the list.
+
+Such requirements are in fact the ones of the Pharo Launcher configuration list. 
+We convert such requirements into tests as follows:
+
+!!!! Spec user test 1: triggering a button action
+
+Here we specify that clicking the button should add an element to the list.
+The message ==launchConfigurations== is returning the list of configurations exposed by the launcher. 
+Therefore we store the number of list items, then we access the add button of the presenter (here named image)
+and we click this button sending the message ==click==. 
+And we verify that the length of the list has increased by one. 
+
+[[[
+testClickAddButtonCreatesNewLaunchConfiguration
+	
+	| old |
+	old := image launchConfigurations size.
+	editor addButton click.
+	self assert: image launchConfigurations size equals: old + 1
+]]]
+
+
+!!!! Spec user test 2
+The following test verifies that a selection of an element in the list should populate the form.
+The method ==clickItem:== simulates the selection of the element of index passed as argument. 
 
 [[[
 testClickOnLaunchConfigurationListItemSetsFormName
@@ -56,34 +81,28 @@ testClickOnLaunchConfigurationListItemSetsFormName
 	self assert: editor form nameInput text equals: name
 ]]]
 
-!!!! Spec user test 2: 
-Here we specify that clicking the button should add an element to the list.
-
-[[[
-testClickAddButtonCreatesNewLaunchConfiguration
-	
-	| old |
-	old := image launchConfigurations size.
-	editor addButton click.
-	self assert: image launchConfigurations size equals: old + 1
-]]]
 
 
 !!!! Spec user test 3:
-Changing values in the form should change the objects in the list
+Changing values in the form should change the objects in the list. 
+This test selects the second item of the list so that the form displays the values 
+of such item. 
+Then the name displayed in the form editor is changed to a new text.
+And using the message ==displayValueAt:==, it verifies that the displayed value of a given list item (here the second 2, the currently displayed in the form)
+is actually the new entered text.
 
 [[[
 testEditConfigurationNameUpdatesListItem
 	| newName |
 	newName := 'some name'.
-	editor addButton click.
 	editor configurationList clickItem: 2.
-	editor fomr nameInput text: newName.
+	editor form nameInput text: newName.
 	
 	self 
 		assert: (editor configurationList displayValueAt: 2)
 		equals: newName
 ]]]
+
 
 
 !!! Concerns for the Spec developer
@@ -126,3 +145,13 @@ testSetSelectIndexRaisesSelectionItemChangeEventWithSelectedIndex
 	presenter
 	whenSelectionChangedDo:
 ]]]
+
+
+!!! Known limitation
+
+Currently Spec does not offer a way to script and control popup window. It is not possible to script a button that opens a dialog 
+for a value. 
+Future versions of Spec20 should cover this missing feature.
+
+
+!!! Conclusion
