@@ -450,7 +450,7 @@ EPTest >> testPageEntry
 Remember that if we run Parasol tests we must first run the Selenium server. 
 With the Selenium server and the test running, we can see that our browser was opened and can see the home of our tested page:
 
-+Mercury Tours WebSite>file://figures/newtours|width=80|label=newtours+
++The Mercury Tours WebSite.>file://figures/newtours|width=80|label=newtours+
 
 
 After the web browser is closed, we can see that the test passed because our page have the title ''Welcome: Mercury Tours'' in our tab. 
@@ -515,14 +515,19 @@ self assert: ((driver findElementByXPath: '/html/body/div/table/tbody/tr/td[2]/t
     equals: '$398'
 ]]]
 
-We will refactor this method to make it more understandable. We will add a method to get the controller element, remember to add the method to a protocol according to the method functionality.
+We will refactor this method to make it more understandable. 
+We will add a method to get the controller element.
 
 [[[
 EPHomePageTest >> descriptionFlightFromAtlantaToLasVegas
-	^ driver findElementByXPath: '/html/body/div/table/tbody/tr/td[2]/table/tbody/tr[4]/td/table/tbody/tr/td[2]/table/tbody/tr[2]/td[1]/table[1]/tbody/tr[3]/td/table/tbody/tr[1]/td[1]/font'
+	^ driver findElementByXPath: '/html/body/div/table/tbody/tr/td[2]/
+	table/tbody/tr[4]/td/table/tbody/tr/td[2]/table/tbody/tr[2]/td[1]/
+	table[1]/tbody/tr[3]/td/table/tbody/tr[1]/td[1]/font'
 
 EPHomePageTest >> priceFlightFromAtlantaToLasVegas
-	^ driver findElementByXPath: '/html/body/div/table/tbody/tr/td[2]/table/tbody/tr[4]/td/table/tbody/tr/td[2]/table/tbody/tr[2]/td[1]/table[1]/tbody/tr[3]/td/table/tbody/tr[1]/td[2]/div/font/b'
+	^ driver findElementByXPath: '/html/body/div/table/tbody/tr/td[2]/
+	table/tbody/tr[4]/td/table/tbody/tr/td[2]/table/tbody/tr[2]/
+	td[1]/table[1]/tbody/tr[3]/td/table/tbody/tr[1]/td[2]/div/font/b'
 
 ]]]
 
@@ -530,18 +535,19 @@ Then, we may now refactor the test method as follows:
 
 [[[
 EPHomePageTest >> testFlightFromAtlantaToLasVegas
-	self assert: self descriptionFlightFromAtlantaToLasVegas getText
-                equals: 'Atlanta to Las Vegas'.
-	self assert: self priceFlightFromAtlantaToLasVegas getText
-                equals: '$398'
+	self 
+		assert: self descriptionFlightFromAtlantaToLasVegas getText
+		equals: 'Atlanta to Las Vegas'.
+	self 
+		assert: self priceFlightFromAtlantaToLasVegas getText
+		equals: '$398'
 ]]]
 
 We test the a part of the home page, if you want to test other parts, follow the previous steps and try to construct multiple tests.
 The tests above are a good example of how we get elements from a HTML page and test if the displayed page contains the correct information we want to display.
 
 !!!Testing with Interactions
-
-How about if we wanna test some interactions?
+We will now show how to test interactions. 
 It's an important step to test, so we will explain how you could you do it.
 In this example, we will create a test that register a user in the website.
 First, we will create another subclass of ==EPTest== called ==EPRegisterUserTest==.
@@ -553,27 +559,28 @@ EPTest subclass: #EPRegisterUserTest
 	package: 'Example-Parasol-Tests'
 ]]]
 
-In this website for register a user we need first click the ''REGISTER'' button in the bar menu.
-Therefore, We will create a method that will help us to emulate aa click in the ''REGISTER'' button.
+In this website to register a user we need first click the ''REGISTER'' button in the bar menu.
+Therefore, we will create a method that emulates a click in the ''REGISTER'' button.
 
 [[[
 EPRegisterUserTest >> clickInRegisterButton
 	(driver findElementByLinkText: 'REGISTER') click
 ]]]
 
-We will use the above method to do our setUp method in this class. Create the ==setUp== method like this:
+We use this method in our ==setUp== method as follows:
 [[[
 EPRegisterUserTest >> setUp
 	super setUp.
 	self clickInRegisterButton
 ]]]
-With this little change, the first step that each test in this class will is to move to the ''REGISTER'' form.
-You may see the ''REGISTER'' form in the *@registerForm*
+
+With this little change, the first step that each test will perform it to move to the ''REGISTER'' form.
+You may see the ''REGISTER'' form in Figure *@registerForm*.
 
 +Registration From>file://figures/registerForm|width=80|label=registerForm+
 
-Now, we are prepared to create our tests in ==EPRegisterUserTest==.
-As we mentioned, our first test will be verify if we are in the correct page when we click in register button. 
+Now, we are prepared to create tests in ==EPRegisterUserTest==.
+Our first test is to verify if we are in the correct page when we click in register button. 
 So, create the test.
 
 [[[
@@ -583,14 +590,12 @@ EPRegisterUserTest >> testEntryToRegisterPage
 	self assert: title equals: 'Register: Mercury Tours'
 ]]]
 
-Thanks to our setUp method, we don't need to find and click the button inside ==testEntryToRegisterPage== so I have an advantage.
-
-What we find in this section of the page? We have a register form with multiple fields.
+In this page we have a registration form with multiple fields.
 If we want to register on the page we must complete three sections in the form.
 Contact, mailing and user information, so we define three tests to complete these sections.
 
-As you remember, the first step is see how the page render the elements in the form. 
-For this, we will inspect the HTML code using the browser tools.
+As you remember, the first step is to see how the page render the elements in the form. 
+For this, we inspect the HTML code using the browser tools.
 The following code shows the contact information HTML code:
 
 [[[
@@ -638,20 +643,22 @@ The following code shows the contact information HTML code:
 
 We can draw the following conclusions from the HTML code:
 - All inputs have a name or an ID.
-- All form is in a table.
+- All forms are in a table.
+
 With these conclusions we can start with the tests.
-Our first test will test whether the correct information is entered into the contact information section.
+The test ==firstNameField== tests whether the correct information is entered into the contact information section.
 Like our previous methods, we need to create multiple methods to get the fields elements to put some information into them.
-At following we show one method that return the field with the name ==firstName==.
+At following we show one method that returns the field with the name ==firstName==.
 
 
 [[[
 EPRegisterUserTest >> firstNameField
 	^ driver findElementByName: 'firstName'
 ]]]
+
 You need to create as many of these you need to get all the form fields you need for your test.
 The next step is create a method to set information to fields.
-We use the method sendKeys to send the information that we want.
+We use the message ==sendKeys==to set the information that we want.
 
 [[[
 EPRegisterUserTest >> fillInformationToContactSection
@@ -670,15 +677,17 @@ EPRegisterUserTest >> testIntroduceInformationInContactSection
 	self assert: (self phoneField getAttribute: 'value') equals: '10276123'.
 	self assert: (self emailField getAttribute: 'value') equals: 'example@mail.com'
 ]]]
-If we run the test we can see how Parasol introduces the information to the fields (see *@contactInfo*).
+If we run the test we can see how Parasol introduces the information to the fields (see Figure *@contactInfo*).
 
 
-+Filling Field From using Parasol>file://figures/contactInfo|width=80|label=contactInfo+
++Filling fields using Parasol.>file://figures/contactInfo|width=80|label=contactInfo+
 
 
-Now, we can create tests to fill information to other sections. An important observation is the select box in mailing information section.
+Now, we can create tests to fill information to other sections. 
+An important observation is the select box in mailing information section.
 If we want to test it, we need to use another method to assert it.
-In this case, the option selected contains the attribute called ==selecte==. So, we create the next method to get this element:
+In this case, the selected option contains the attribute called ==selected==. 
+So, we define the next method to get this element:
 
 [[[
 EPRegisterUserTest >> getSelectedOfCountry
@@ -687,37 +696,43 @@ EPRegisterUserTest >> getSelectedOfCountry
 			ifNotNil: [ ^ each ] ]
 ]]]
 
-When you create the test, with this method you get only the element that contain the information that we need.
-So we use the getText method and assert if the fields contain the correct information.
+When you create the test, with this method you only get the element that contain the information that we need.
+So we use the ==getText== message and assert if the fields contain the correct information.
 
 [[[
 EPRegisterUserTest >> testIntroduceInformationInMailingSection
 	self assert: (self getSelectedOfCountry getText) equals: 'UNITED STATES '.
 ]]]
 
-It is also posible change the value of the combo box using the method ==sendkeys== as we saw in previous examples.
+It is also posible change the value of the combo box using the ==sendkeys== message as we saw in previous examples.
 
-Now, with all fields tested, we will create a test to the user registration on the page.
+Now, with all fields tested, we define a test to the user registration on the page.
 If you created the ==fillInformationToMailingSection== and ==fillInformationToUserSection== methods, we will use these methods.
 If you didn't, you need to create these methods.
+
 We need another method to find the submit button and click it, so we create it.
+
 [[[
 EPRegisterUserTest >> clickInSubmitButton
 	(driver findElementByName: 'register') click
 ]]]
 In the page, when you register a user you obtain the following view:
 
-+Registration Successful  View>file://figures/endRegistration|width=80|label=endRegistration+
++Registration successful view.>file://figures/endRegistration|width=80|label=endRegistration+
 
 
 We have two options to assert if the user is registered:
-Get the text 'sign-off' of sign-off option
-Get the description text below the register title.
-You can use any of this options, as an example we will get the description text. So create the method to find the description text.
+- Get the text 'sign-off' of sign-off option
+- Get the description text below the register title.
+
+You can use any of these options, as an example we will get the description text. 
+So define the method to find the description text.
 [[[
 EPRegisterUserTest >> descriptionText
-	^ driver findElementByXPath: '/html/body/div/table/tbody/tr/td[2]/table/tbody/tr[4]/td/table/tbody/tr/td[2]/table/tbody/tr[3]/td/p[2]/font'
+	^ driver findElementByXPath: '/html/body/div/table/tbody/tr/td[2]/
+table/tbody/tr[4]/td/table/tbody/tr/td[2]/table/tbody/tr[3]/td/p[2]/font'
 ]]]
+
 And finally create the test to verify if the user is registered successfully.
 [[[
 EPRegisterUserTest >> testRegistrationOfUser
@@ -726,19 +741,21 @@ EPRegisterUserTest >> testRegistrationOfUser
 	self sendInformationToMailingSection.
 	self sendInformationToUserSection.
 	self clickInSubmitButton.
-	self assert: (self descriptionText getText)
-          equals: 'Thank you for registering.
-                  You may now sign-in using the user name
-                  and password you''ve just entered.'
+	self 
+		assert: (self descriptionText getText)
+		equals: 'Thank you for registering.
+You may now sign-in using the user name
+and password you''ve just entered.'
 ]]]
 
 Sometimes this test can fail because the page needs to save the new user and load the successfully message.
-Another problem that can cause the test failure is the time  it takes for our Selenium server to use the browser driver.
-So we use the timeout pragma to try to avoid this, but you can also use the ==Delay== class. If you don't have this problem, delete the line.
+Another problem that can cause the test failure is the time it takes for our Selenium server to use the browser driver.
+So we use the timeout pragma to try to avoid this, but you can also use the ==Delay== class.
+If you don't have this problem, delete the line.
 
-Finally run the test and observe its result. If the test passed, you are now able to create multiple tests using Parasol. Why don't you continue testing other interactions on the page? We leave the tests as a homework.
+Finally run the test and observe its result. If the test passed, you are now able to create multiple tests using Parasol. 
 
 !!!Conclusion
 
-The purpose of this chapter was to introduce the basics of Parasol to create a minimally elaborate test suite.
-At the end of this chapter you should be able to: i) find elements in a website, fill information in fields, and interact with the website throught links and button.
+The purpose of this chapter was to introduce the basics of Parasol to create a test suite.
+You should now be able to find elements in a website, fill information in fields, and interact with the website throught links and buttons.
