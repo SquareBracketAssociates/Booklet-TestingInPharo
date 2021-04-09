@@ -104,6 +104,10 @@ testEditConfigurationNameUpdatesListItem
 ]]]
 
 
+These examples of tests show that key actions such as clicking on a button, changing text, selecting 
+a given list elements can be used to verify the expected behavior of the user interface.
+
+
 
 !!! Concerns for the Spec developer
 
