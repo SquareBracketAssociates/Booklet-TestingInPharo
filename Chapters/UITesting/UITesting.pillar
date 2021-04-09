@@ -28,9 +28,10 @@ To help you understand the different possibilities of testing that you can engag
 - ""Widget Developers."" Widget developers are concerned about the logic and working of a given widget is a given back-end.
 
 %+UI elements under test.>file://figures/UI.png|width=75|label=fig:UI+
+We will focus on the first role because it is simpler. 
+For the reader interested in the second role, the class ==SpAbstractBackendForTest== is a good starting place.
 
-
-!!! The Spec user
+!!! Spec user perspective
 
 As a Spec user, you should consider that the back-ends are working and your responsibilities is to test the logic of the user interface components.
 We should make sure that when the model changes, the user interface components reflect the changes.
@@ -66,7 +67,7 @@ testClickAddButtonCreatesNewLaunchConfiguration
 ]]]
 
 
-!!!! Spec user test 2
+!!!! Spec user test 2: changing text input
 The following test verifies that a selection of an element in the list should populate the form.
 The method ==clickItem:== simulates the selection of the element of index passed as argument. 
 
@@ -83,7 +84,7 @@ testClickOnLaunchConfigurationListItemSetsFormName
 
 
 
-!!!! Spec user test 3:
+!!!! Spec user test 3: checking list item displayed value
 Changing values in the form should change the objects in the list. 
 This test selects the second item of the list so that the form displays the values 
 of such item. 
@@ -107,55 +108,11 @@ testEditConfigurationNameUpdatesListItem
 These examples of tests show that key actions such as clicking on a button, changing text, selecting 
 a given list elements can be used to verify the expected behavior of the user interface.
 
-
-
-!!! Concerns for the Spec developer
-
-- I should write a presenter that works with many backends
-- « I should agree with all backends! »
-- I make sure widgets work OK
-- My widget updates if my model changes My model updates if my Widget cha
-
-
-+List Presenter.>file://figures/ListPresenter.png|width=75|label=fig:ListPresenter+
-
-!!!! Example of Presenter
-
-When we consider a list presenter as shown in Figure *@fig:ListPresenter*.
-- Changing the selection should raise an event.
-- The argument of the event should contain the changes.
-
-!!!! Example of Presenter test 1.
-Changing the selection should raise an event. 
-
-[[[
-testSetSelectIndexRaisesSelectionChangeEventOnlyOnce
-
-	| count |
-	count := 0.
-	presenter 
-		whenSelectionChangedDo: [ count := count + 1].
-	presenter selectIndex: 1. 
-	self assert: count equals: 1
-]]]
-
-!!!! Example of Presenter test 2.
-The argument of the event should contain the changes
-
-[[[
-testSetSelectIndexRaisesSelectionItemChangeEventWithSelectedIndex
-
-	| selectedItem |
-	presenter
-	whenSelectionChangedDo:
-]]]
-
-
-!!! Known limitation
+!!!! Known limitations and conclusion
 
 Currently Spec does not offer a way to script and control popup window. It is not possible to script a button that opens a dialog 
 for a value. 
 Future versions of Spec20 should cover this missing feature.
 
 
-!!! Conclusion
+
