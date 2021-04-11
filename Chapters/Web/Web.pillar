@@ -1,4 +1,4 @@
-!!Testing Web Applications with Parasol
+!!Testing web applications with Parasol
 ''Chapter Contributors:'' Evelyn Cusi, Daniel Aparicio, and Juan P. Sandoval A.
 
 During the construction of a web application, it is exhausting to have to test the entire flow of the application each time you modify it, and much more as the application grows. This chapter introduce Parasol to allow developers to automate tests with a collection of language specific bindings, giving us the facility to test complex interactions in matter of seconds.
@@ -23,7 +23,7 @@ ZnZincServerAdaptor startOn: 8080.
 
 Since, Parasol uses Selenium WebDriver, you must download Selenium WebDriver and a browser driver, this last one depends on which browser you want to use to test your application.
 
-!!!!Downloading Selenium Web Driver
+!!!!Downloading Selenium web driver
 Selenium server is a project that contains a set of tools and libraries that enable and support the automation of web browsers.
 Selenium is a Java program, therefore it requires a Java Runtime Environment (JRE) 1.6 or a new version to run it.
 If Java Runtime Environment (JRE) is not installed on your system, you can download the JRE from the Oracle website.
@@ -42,7 +42,7 @@ java -Dwebdriver.chrome.driver=chromedriver -jar selenium-server-standalone-3.14
 
 Note that for running the previous command you need to configure  java in the PATH (environmente variable).
 
-!!!!Browser Driver
+!!!!Browser driver
 Selenium requires a driver to interact with the web browser. For instance, Chrome requires Chromedriver, which must be installed before the following examples can be run. The table below shows browsers compatible with Parasol and their respective links to download.
 
 |!Browser Driver |!URL
@@ -52,11 +52,11 @@ Selenium requires a driver to interact with the web browser. For instance, Chrom
 
 We use Chromedriver version 80.0.3987.106 to run the chapter examples, but you can use other browser drivers or another version that you want.
 
-!!!First Steps with Selenium
+!!!First steps with Selenium
 This section describes a simple test wrote using parasol. 
 This section assumes that you have already installed Parasol and Selenium server is already running.
 
-!!!!A First Test
+!!!!A first test
 Let's start easy and assume we want to test if the title of the *http://pharo.org* website is correct. 
 For this, first we need to create a class that inherits from ==TestCase==.
 
@@ -78,7 +78,7 @@ PharoOrgTest >> testTitleOfPharoPage
 	driver close.
 ]]]
 
-!!!!Step by Step Explanation
+!!!!Step by step explanation
 
 First, we create a subclass of ==TestCase==, we do not need instance or class variables for now. 
 We placed this subclass is in the FT-Parasol package.
@@ -121,7 +121,7 @@ driver close.
 You may also use the method ==quit== instead ==close==. The difference is that ==quit== will come out of the browser, and ==close== will close a tab.
 Note that the ==close== method will close a tab only if there is an open tab, by default most browsers will close completely.
 
-!!!! Improve the Structure of Your Test
+!!!! Improve the structure of your test
 
 In our previous example, we wrote the entire test in one method, however, is a best practice add all the prerequisites of the tests on the ==setUp== method and all the steps of cleaning on the == tearDown == method.
 
@@ -157,7 +157,7 @@ PharoOrgTest >> testTitleOfPharoPage
 
 Now, if you run this test again, you should behave in the same way as the first version of our test we saw.
 
-!!! Locating Elements with Parasol: The basics
+!!! Locating elements with Parasol: The basics
 
 In our tests, we would like to verify also if some particular HTML elements display the information we want to. But before to perform this verification, we first need to find these elements.
 Parasol uses what are called ''Locators'' to find and match the elements of the web page. 
@@ -176,7 +176,7 @@ Parasol has eight locators as shown in the following table.
 You can use any of them to find the element that you are looking for in your application. The following paragraphs briefly describe how to use a number of these locators.
 
 
-!!!!Find Element by ID
+!!!!Find element by ID
 The use of ID is the easiest and probably the safest way to locate an element on HTML. Test scripts that use IDs are less prone to changes in the application.
 For example, consider the following HTML form:
 
@@ -196,7 +196,7 @@ textField := driver findElementByID: 'fullName'.
 If no element has the ID attribute that match with the provided one, a ==BPNoSuchElementException== exception will be raised.
 
 
-!!!! Find Element by Name
+!!!! Find element by name
 An HTML element may have an attribute called ==name==, they are normally used in the forms such as text fields and selection buttons. The values of the attributes of name are passed to the server when a form is sent. In terms of lower probability of change, the attribute name is probably the second in importance after ID.
 
 Considering the previous HTML code of example, you can locate the elements using the ==findElementByName== method:
@@ -205,7 +205,7 @@ textField := driver findElementByName: 'textInfo'.
 ]]]
 
 
-!!!! Find Element by Link Text and Partial Link Text
+!!!! Find element by link and partial link
 
 It is possible to find an element based on its link.  You can use this way of location of elements when you know the link text used inside of an anchor tag. With this strategy, the first element with the value of text link that matches with the location will be returned.
 For instance, we may find the following anchor element:
@@ -224,7 +224,7 @@ linkPharo := driver findElementByPartialLinkText: 'Go to'.
 Notice that with ==findElementByPartialLinkText== we don't need to give the full text link, just part of it.
 
 
-!!!!Find Element by Tag Name
+!!!!Find element by tag name
 
 Finding elements by a tag name is used when you want to locate an element by the name of its label. However, because there is a limited set of tag names, it is very possible that more than one element with the same name of tag exists, so this locator is not normally used to identify an element, instead, it is more common to use it in chained locations.
 
@@ -243,7 +243,7 @@ input := driver findElementByTagName: 'input'
 ]]]
 
 
-!!!!Find Element by Class Name
+!!!!Find element by class name
 
 The class attribute of a HTML element is used to add style to our pages. And it can be used to identify elements too.
 
@@ -262,7 +262,7 @@ testClassTwo := driver findElementByClassName: 'testclass2'.
 
 It is common in web applications to use the same class attribute in several elements, so be careful if you try to get the elements by class name.
 
-!!!!Find Element by CSS Selector
+!!!!Find element by CSS selector
 
 You can locate an element through the syntax of the CSS selector.
 
@@ -275,7 +275,7 @@ It could be located like this:
 paragraphHello := driver findElementByCSSSelector: 'p.content'
 ]]]
 
-!!!Finding Elements using XPath
+!!!Finding elements using XPath
 
 XPath, the XML Path Language, is a query language for selecting nodes from an XML document. 
 When a browser renders a web page, the HTML contents may be parsed into a DOM tree or similar. Therefore, it is possible to find a specific node in the tree using XPath.  To illustrate how to find a element with XPath we will use the next HTML code as example:
@@ -302,10 +302,10 @@ Note that XPath is a very powerful way to locate web elements when by id, by nam
 However, XPath expression are vulnerable to structure changes around the web element, because the path from the root to the target element may change.
 
 
-!!! Finding Multiple Elements
+!!! Finding multiple elements
 There are some cases in which you can have more than one element with the same attributes.
 
-!!!!Chain findElement to Find a Child Element
+!!!!Chaining findElement to find a child element
 
 The following example 
 
@@ -325,7 +325,7 @@ For example the following locates the div entry with id "div2" :
 inputOfDiv2 := (driver findElementByID: 'div2') findElementByName: 'same'
 ]]]
 
-!!!!Find Multiple Elements
+!!!!Multiple elements
 
 As the name suggests, ==findElementsByTagName== returns a list of matching elements. Its syntax is exactly the same as ==findElement==, but in plural ==findElements==.
 
@@ -382,7 +382,7 @@ Instead, what you write will be attached to what is already there.
 You can easily delete the content of a text field or text area with the message ==clear==.
 
 
-!!!!Activating Links and Buttons
+!!!!Activating links and buttons
 
 Another very useful action in the navigation of web pages is to click on links and buttons, such action is activated using the message ==click== on the selected element.
 Below is an example of how to use it with our form.
@@ -393,7 +393,7 @@ loginButton click.
 ]]]
 
 
-!!!Parasol in Action
+!!!Parasol in action
 
 Previous sections introduced Parasol features though basic examples. 
 This section applies eveything learned durign the chapter to create a number of tests for a small but real website called ''Mercury Tours''.
@@ -436,7 +436,7 @@ EPTest >> tearDown
 It is important to use the ==quit== message to close the browser when a test ends, as we mentioned in second section of this chapter.
 With the ==setUp== and == tearDown == method, we are able to do any test on the page.
 
-!!!Testing the Page Title
+!!!Testing the page title
 
 Our first test will verify if our URL is the principal URL of web page, which is defined as follows:
 
@@ -456,7 +456,7 @@ With the Selenium server and the test running, we can see that our browser was o
 After the web browser is closed, we can see that the test passed because our page have the title ''Welcome: Mercury Tours'' in our tab. 
 So it's time to do something more complex.
 
-!!!Testing Displayed Information
+!!!Testing displayed information
 
 The Mercury Tours page has a lot of information on its home page. 
 So, why do not try to test this information?
@@ -546,7 +546,7 @@ EPHomePageTest >> testFlightFromAtlantaToLasVegas
 We test the a part of the home page, if you want to test other parts, follow the previous steps and try to construct multiple tests.
 The tests above are a good example of how we get elements from a HTML page and test if the displayed page contains the correct information we want to display.
 
-!!!Testing with Interactions
+!!!Testing interactions
 We will now show how to test interactions. 
 It's an important step to test, so we will explain how you could you do it.
 In this example, we will create a test that register a user in the website.
