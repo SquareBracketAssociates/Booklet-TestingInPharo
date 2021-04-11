@@ -53,6 +53,7 @@ The==verify:== message will assert
 !!! Teachable
  
  The other library for mocking object is Pharo Teachable. It is not integrated into SUnit but still worth checking it. 
+ It is developed by Torsten Bergman.
  
 !!!! Installation 
 You can install teachable using the following expression: 
@@ -63,16 +64,19 @@ Metacello new
 	load 
 ]]]
  
- implementation of a Teachable class who's instances can be teached to respond to messages. It's usefull for creating mocks who should behave like other objects (for instance inside of a test case) without actually implementing a real mock class. Here is an example how it can be used:
+Teachable is a class whose instances can be taught to respond to messages. 
+It's usefull for creating mocks who should behave like other objects (for instance inside of a test case) without actually implementing a real mock class. 
+
+Here is an example how it can be used:
 
 [[[
-|teachable|
+| teachable |
 teachable := Teachable new.
 teachable
     whenSend: #help return: 'ok';
-     whenSend: #doit evaluate: [1 inspect];
+     whenSend: #doit evaluate: [ 1 inspect ];
      acceptSend: #noDebugger;
-     whenSend: #negate: evaluate: [:num num negated].
+     whenSend: #negate: evaluate: [ :num | num negated ].
 ]]]
  
 After teaching the object we can use it as if it had a normal implementation in a class:
@@ -87,3 +91,9 @@ teachable noDebugger.
 teachable negate: 120 
 	"this will return -120"
 ]]]
+
+
+!!! Conclusion
+
+We presented two little approaches to support simple mock objects by providing a way to teach values or action to be performed by the mock. 
+More mature and powerful frameworks exist: BabyMock and Mocketry.
