@@ -110,6 +110,8 @@ a given list elements can be used to verify the expected behavior of the user in
 
 !!!! Known limitations and conclusion
 
+We show in this chapter that you can take advantage of Spec to define tests that will help you to evolve the visual part of your application.
+
 Currently Spec does not offer a way to script and control popup window. It is not possible to script a button that opens a dialog 
 for a value. 
 Future versions of Spec20 should cover this missing feature.
