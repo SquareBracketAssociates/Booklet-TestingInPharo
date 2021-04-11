@@ -1,0 +1,89 @@
+!! MockObject: a Super Simple Mocking
+
+There are several frameworks for defining mock objects: BabyMock and Mocketry are two of the most sophisticated (see their corresponding chapters in this book).
+In this chapter we present a super simple and minimalist mocking extension that has been introduced as an extension of SUnit in Pharo 9.
+It has been designed by Giovanni Corriga. 
+
+!!! About MockObject Design
+While simpler and less sophisticated than other libraries, this implementation is still quite powerful.
+This implementation takes a different approach compared to BabyMock/BabyMock2 and Mocketry:
+- there are no methods such as ==should==, ==can==, or ==be:==, 
+- the mocks are stricter in their behaviour -- users need to send all and only the defined messages, in the same order as they were defined.
+- the mocks need to be manually verified using the new message ==TestCase>>verify:== defined on ==TestCase==.
+
+These limitations are on purpose, mainly for two reasons:
+- to discourage the use of these objects unless they are really needed.
+- to keep the implementation simple so that it can be integrated in Pharo's SUnit library, as opposed to being its own framework.
+
+This extension is similar to Pharo Teachable that you can find at: *https://github.com/astares/Pharo-Teachable* that we present below as a complement. 
+
+
+
+!!! MockObject 
+
+I am a test double object that can be used as a stub, a fake, or a mock.
+ I provide a simple protocol so that the user can teach me what messages to expect, and how to behave or respond to these messages.
+ 
+!!!! Usage
+A new object can be created with==MockObject new==, or using the utility methods on the class side 'instance creation' protocol.
+The main message to teach a MockObject is==on:withArguments:verify:==; the other methods in the 'teaching' protocol all send this message.
+This message takes a selector symbol, a collection of arguments, and a block. By sending this message, the mock object is trained to evaluate the block when receiving a message matching the selector and the arguments.
+ 
+Other variations of this message have more specialized behaviour:==#on:withArguments:respond:== will simply return its third argument when the mock receives a matching message; likewise ==on:withArguments:== will return the mock itself.
+The other methods in the 'teaching' protocol provide an ergonomic API for this behaviour.
+ 
+ A mock object will expect to receive only the messages it has been trained on, in the same order and number as it was trained. If it receives an unknown message, or a known message but in the wrong order, it will simply return itself.
+
+!!! Stubs, Fakes, and Mocks
+
+A MockObject can be used as a stub by not using the ==verify:== variants of the 'teaching' protocol.
+It can also be used as a fake by using the ==verify:== variants with a non-trivial block.
+
+To use the MockObject as a real mock, the user needs to verify its use. This is done by means of the ==TestCase>>verify:== message. 
+Verification needs to be triggered by the user - it's not automatic.
+
+The==verify:== message will assert
+- that the mock has received all the messages it has been trained on 
+- that it has not received only those messages
+- that it has received the messages it has been trained on.
+
+
+
+
+!!! Teachable
+ 
+ The other library for mocking object is Pharo Teachable. It is not integrated into SUnit but still worth checking it. 
+ 
+!!!! Installation 
+You can install teachable using the following expression: 
+[[[
+Metacello new 
+	repository: 'github://astares/Pharo-Teachable/src';
+	baseline: 'Teachable';
+	load 
+]]]
+ 
+ implementation of a Teachable class who's instances can be teached to respond to messages. It's usefull for creating mocks who should behave like other objects (for instance inside of a test case) without actually implementing a real mock class. Here is an example how it can be used:
+
+[[[
+|teachable|
+teachable := Teachable new.
+teachable
+    whenSend: #help return: 'ok';
+     whenSend: #doit evaluate: [1 inspect];
+     acceptSend: #noDebugger;
+     whenSend: #negate: evaluate: [:num num negated].
+]]]
+ 
+After teaching the object we can use it as if it had a normal implementation in a class:
+
+[[[
+teachable help. 
+	"this will return the string 'ok'"
+teachable doit. 
+	"this will open the inspector on the SmallInteger 1"
+teachable noDebugger. 
+	"this will accept the send of #noDebugger and return the teachable"
+teachable negate: 120 
+	"this will return -120"
+]]]
