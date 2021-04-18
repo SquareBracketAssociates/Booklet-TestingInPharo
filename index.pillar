@@ -38,17 +38,13 @@ ${inputFile:path=Chapters/UITesting/UITesting.pillar}$
 ${inputFile:path=Chapters/Web/Web.pillar}$
 %Validated
 
-%${inputFile:path=Chapters/Mocking/SimpleMocking.pillar}$
+${inputFile:path=Chapters/Mocking/SimpleMock.pillar}$
+%Validated
 
 %${inputFile:path=Chapters/SUnit/Implementation.pillar}$
 
-
-
 ${inputFile:path=Chapters/Benchs/Smark.pillar}$
 %Validated
-
-
-
 
 
 ${inputFile:path=Chapters/Misc/Misc.pillar}$
