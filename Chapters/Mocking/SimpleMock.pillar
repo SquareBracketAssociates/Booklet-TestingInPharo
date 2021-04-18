@@ -1,8 +1,13 @@
-!! MockObject: a Super Simple Mocking
+!! MockObject And Teachable: Two Super Simple Mocking
 
-There are several frameworks for defining mock objects: BabyMock and Mocketry are two of the most sophisticated (see their corresponding chapters in this book).
-In this chapter we present a super simple and minimalist mocking extension that has been introduced as an extension of SUnit in Pharo 9.
-It has been designed by Giovanni Corriga. 
+Imagine that you want to test a network protocol, you do now want to rely on real network but you would like
+to fix certain parameters and make that your protocol is reacting correctly. 
+You can use Mock objects to represent a part of the world during your tests.
+A mock object is an object that supports testing in isolation and represents a behavior that 
+should be fixed from a test point of view. 
+
+There are several frameworks for defining mock objects: BabyMock and Mocketry are two of the most sophisticated (see their corresponding chapters in this book). In this chapter we present two super simple and minimalist mocking approach. 
+We start with an extension that has been introduced as an extension of SUnit in Pharo 9. It has been designed by Giovanni Corriga. 
 
 !!! About MockObject Design
 While simpler and less sophisticated than other libraries, this implementation is still quite powerful.
@@ -34,12 +39,13 @@ The other methods in the 'teaching' protocol provide an ergonomic API for this b
  
  A mock object will expect to receive only the messages it has been trained on, in the same order and number as it was trained. If it receives an unknown message, or a known message but in the wrong order, it will simply return itself.
 
+
 !!! Stubs, Fakes, and Mocks
 
 A MockObject can be used as a stub by not using the ==verify:== variants of the 'teaching' protocol.
-It can also be used as a fake by using the ==verify:== variants with a non-trivial block.
 
-To use the MockObject as a real mock, the user needs to verify its use. This is done by means of the ==TestCase>>verify:== message. 
+To use the MockObject as a real mock, the user needs to verify its use. 
+This is done by means of the ==TestCase>>verify:== message. 
 Verification needs to be triggered by the user - it's not automatic.
 
 The==verify:== message will assert
@@ -47,12 +53,76 @@ The==verify:== message will assert
 - that it has not received only those messages
 - that it has received the messages it has been trained on.
 
+!!! Example
+
+[[[
+TestCase << #MyClassUsingMock
+	slots: { #mock };
+	package: 'SUnit-MockObjects-Tests'
+]]]
+
+We create a mock object and teach it two messages ==meaningOfLife== and ==secondMeaning== that should be send one after the other.
+
+[[[
+MyClassUsingMock >> setUp
+
+		super setUp.
+		mock := MockObject new.
+		mock
+			on: #meaningOfLife 
+			respond: 42. 
+		mock 
+			on: #secondMeaning
+			respond: 84.	
+]]]
+
+Then we can write a test that will send the message to the object and expect a given result. 
+We can also verify that all the messages have been sent. 
+
+[[[
+MyClassUsingMock >> testVerifyChecksThatAllTheMessageGotSent
+
+	self assert: mock meaningOfLife equals: 42.
+	self assert: mock secondMeaning equals: 84.
+	self verify: mock
+]]]
 
 
+We can also specify which precise argument a message should be passed using the message ==on:with:respond:== or ==on:with:with:respond:==.
+
+[[[
+MyClassUsingMock2 >> setUp
+
+	super setUp.
+	mock := MockObject new.
+	mock
+		on: #meaningOfLife: 
+		with: 22
+		respond: 42. 
+	mock 
+		on: #secondMeaning:and:
+		with: 32
+		with: 64
+		respond: 84.
+]]]
+
+The following 
+[[[
+MyClassUsingMock2 >> testMeaningOfLifeDoesNotPassCorrectValue
+
+	self should: [ self assert: (mock meaningOfLife: 33) equals: 42] raise: TestFailure
+]]]
+
+[[[
+MyClassUsingMock2 >> testMeaningOfLife
+
+	self assert: (mock meaningOfLife: 22) equals: 42.
+	self assert: (mock secondMeaning: 32 and: 64) equals: 84
+]]]
 
 !!! Teachable
  
- The other library for mocking object is Pharo Teachable. It is not integrated into SUnit but still worth checking it. 
+ The other simple library for mocking object is Pharo Teachable. It is not integrated into SUnit but still worth checking it. 
  It is developed by Torsten Bergman.
  
 !!!! Installation 
