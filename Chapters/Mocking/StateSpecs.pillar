@@ -104,64 +104,60 @@ Equal to: 10.0123 within: 0.01.
 
 
 !!! Should expressions
-
+Should expressions were created with the goal to replace SUnit assertions (==self assert: a equals: b)==.
 The implementation of should expression creates specific specifications and it verifies that receiver satisfies it. 
 When an object is not valid, a should expression signals ==SpecOfFailed== error. 
 Such validation error can be inspected in the debugger to analyze and understand the reason.
 
-Sending a ==not== message to a ==should== expression inverts the logic of following expression:
+Sending a ==not== message to a ==should== expression negates the logic of following expression:
 
 [[[
 3 should not equal: 3. 
 >>> fail with message: Got '3' but it should not equal '3'
 ]]]
 
-Should expressions were created with the goal to replace SUnit assertions (self assert: a = b).
+
 
 To explore complete set of expressions look at the class ==SpecOfShouldExpression==. 
 It is also place where to extend them. The test class ==SpecOfShouldExpressionTests== describes them using tests.
 
 !!!! Specification of object identity
 
-The message ==be:== is used to verify that receiver is identical to given argument:
+The message ==be:== is used to verify that receiver is identical to a given argument:
+The following two expressions will fail, obviously.
 
 [[[
 1 should be: 2.
-]]]
-
-It fails with message: Got "1" but it should be "2".
-
-[[[
 1 should not be: 1.
 ]]]
 
-It fails with message: Got "1" but it should not be "1".
-
 !!!! Specification of object equality
 
-==#equal:== message is used to verify that receiver is equivalent to given argument:
+The ==equal:== message is used to verify that receiver is equivalent to given argument:
+The following two expressions will fail, obviously.
 
 [[[
 3 should equal: 2.
-]]]
-
-It fails with message: Got "3" but it should equal "2".
-
-[[[
 3 should not equal: 3.
 ]]]
 
-It fails with message: Got "3" but it should not equal "3"
 
 
-Language equality operation #= is redefined by many classes according to domain logic. Sometimes they check a lot of conditions to compare objects.
-Problem that it can be not suitable from the point of view of specification. Imaging that we want compare two collection of different type:
+
+!!! About equality for specification
+
+Language equality operation ==\=== is redefined by many classes according to their domain logic. 
+Sometimes they check many conditions.
+This is a problem that it can be not suitable from the point of view of specification. 
+Imagine that we want compare two collections of different types:
 
 [[[
-#(1 2 3) asOrderedCollection = #(1 2 3). "==>false"
+#(1 2 3) asOrderedCollection = #(1 2 3). 
+>>> false
 ]]]
 
-It returns false which is correct from the point of view of collection library. But what we would expect from specification?
+It returns false which is correct from the point of view of collection library. 
+But what we would expect from specification?
 
 [[[
 #(1 2 3) asOrderedCollection should equal: #(1 2 3).
@@ -170,9 +166,10 @@ It returns false which is correct from the point of view of collection library. 
 It would be not suitable to fail because it will force us to always think about collection type when we would like assert their equality.
 In fact we are supposed to assert collection items with this expression and not instances of collections.
 
+So this expression will not fail in StateSpecs. And to achieve its equality specification uses specific message ==#checkStateSpecsEqualityTo:== instead of standart #=.
 
-So this expression will not fail in StateSpecs. And to achieve it equality specification uses specific message ==#checkStateSpecsEqualityTo:== instead of standart #=.
-Default Object implementation calls #=. But some classes redefine it with appropriate logic to provide as less restrictive behaviour as possible.
+Default Object implementation calls #=. 
+But some classes redefine it with appropriate logic to provide as less restrictive behaviour as possible.
 
 Idea is that general equality specification should be as much simple equality as possible with enough restrictions. And if you want some extra details you should use different explicit specification which describes them.
 In case of collections you should check for collection class explicitly if it is important for your business case where you use specification:
@@ -188,17 +185,19 @@ actual should equal: expected.
 Following this logic StateSpecs do not check order when compare basic collection classes:
 
 [[[
-#(1 2 3) should equal: #(2 1 3). "will not fail"
-#(1 2 3) asSet should equal: #(2 1 3). "will not fail"
+#(1 2 3) should equal: #(2 1 3). 
+>>> true 
+#(1 2 3) asSet should equal: #(2 1 3). 
+>>> true 
 ]]]
 
-When order is important use different message ==#equalInOrder:==:
+When the order is important,  use the message ==equalInOrder:==:
 
 [[[
 #(1 2 3) asOrderedCollection should equalInOrder: #(2 1 3).
+>>> Fails #(1 2 3)" but it should equal in order to "#(2 1 3)
 ]]]
 
-It fails with message: Got "#(1 2 3)" but it should equal in order to "#(2 1 3)".
 
 
 There are collection classes like String or ByteArray which are supposed to be in order and which type is important. For them theses properties are always taken into account for equality comparison:

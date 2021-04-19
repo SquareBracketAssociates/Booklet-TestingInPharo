@@ -147,8 +147,8 @@ aMock on: #messageToBeMocked:withArguments:
 [[[
 aMock 
 	on: #messageToBeMocked:withArguments:
-	with: 1 
-	with: 'two' 
+	with: 1
+	with: 'two'
 ]]]
 
 !!!! Partial match
@@ -156,8 +156,8 @@ aMock
 [[[
 aMock 
 	on: #messageToBeMocked:withArguments:
-	with: MockObject any 
-	with: 'two' 
+	with: MockObject any
+	with: 'two'
 ]]]
 
 The above training methods are to be used when we don't care about the behaviour when mocking, but only that the message is sent.
