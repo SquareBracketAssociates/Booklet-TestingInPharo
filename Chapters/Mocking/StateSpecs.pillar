@@ -13,9 +13,6 @@ StateSpecs provides fluid DSL to validate objects over these specification.
 
 StateSpecs offers different kind of validations. For the classes ==SpecOfCollectionItem==, ==SpecOfObjectClass==, and ==SpecOfObjectSuperclass== verify different properties of an object.
 
-
-
-
 !!! How to load StateSpecs
 You can load StateSpecs using the following expression.
 
@@ -28,8 +25,11 @@ Metacello new
 
 !!! Basic
 
-Specifications can match and validate objects. In case an object does not satisfy a specification you will get failure result with detailed descriptiong about the problem.
-For example try create SpecOfObjectClass and validate objects.
+Specifications can match and validate objects. 
+In case an object does not satisfy a specification you will get failure result with detailed descriptiong about the problem.
+For example the following snippet use ==SpecOfObjectClass== and validate objects.
+
+We create a specification stating that we expect a small integer and we validate whether different objects verify it. 
 
 [[[
 spec := SpecOfObjectClass requiredClass: SmallInteger.
@@ -40,7 +40,7 @@ spec validate: 'some string'.
 >>> a SpecOfValidationFailure(Got 'some string' but it should be an instance of SmallInteger)
 ]]]
 
-Instead of validation you can simply match objects for specification to get true or false:
+Instead of validation you can simply match objects with a specification using the ==matches:== predicate.
 
 [[[
 spec matches: 10. 
@@ -48,18 +48,19 @@ spec matches: 10.
 ]]]
 
 [[[
-spec matches: "string". 
+spec matches: 'string'. 
 >>> false
 ]]]
 
-Specifications can be inverted using the  message ==not==.
+Specifications can be negated using the message ==not==.
 
 [[[
 spec not validate: 10.  "==> a SpecOfValidationFailure(Got 10 but it should not be an instance of SmallInteger)"
 spec not validate: 'some string'. "==> a SpecOfValidationSuccess"
 ]]]
 
-The message ==not== creates a new spec instance. You can also invert current one with the message ==invert==.
+The message ==not== creates a new spec instance. 
+You can also negate the current one with the message ==invert==.
 
 
 !!! Two little DSLs
@@ -75,7 +76,7 @@ y should equal: 10
 
 Such expressions verify that the receiver follows the constraints they represent.
 
-The "word" classes DSL allows you to instantiate specs using natural readable words.
+The "word" classes DSL allows you to instantiate specifications using natural readable words.
 They are builders that return expectation objects.
 
 [[[
@@ -88,7 +89,7 @@ Equal to: 'test'.
 ]]]
 
 Word classes were introduced to get fluid interface for mock expectations like for example
-stating that the results of a give message should be a string. 
+stating that the results of a given message should be a string. 
 But they are very handy shorcuts to access specifications in general. 
 The same word can return different specifications in different expressions which allows very fluid instantiation interface:
 
@@ -104,9 +105,9 @@ Equal to: 10.0123 within: 0.01.
 
 !!! Should expressions
 
-The implementation of should expression creates specific specifications and it verifies that receiver satisfy it. 
+The implementation of should expression creates specific specifications and it verifies that receiver satisfies it. 
 When an object is not valid, a should expression signals ==SpecOfFailed== error. 
-Such validation error can be inspected in the debugger to deeply analyze the reason.
+Such validation error can be inspected in the debugger to analyze and understand the reason.
 
 Sending a ==not== message to a ==should== expression inverts the logic of following expression:
 
@@ -117,14 +118,12 @@ Sending a ==not== message to a ==should== expression inverts the logic of follow
 
 Should expressions were created with the goal to replace SUnit assertions (self assert: a = b).
 
-
-
 To explore complete set of expressions look at the class ==SpecOfShouldExpression==. 
-It is also place where to extend them. ==SpecOfShouldExpressionTests== describes them using tests.
+It is also place where to extend them. The test class ==SpecOfShouldExpressionTests== describes them using tests.
 
 !!!! Specification of object identity
 
-==#be:== message is used to verify that receiver is identical to given argument:
+The message ==be:== is used to verify that receiver is identical to given argument:
 
 [[[
 1 should be: 2.

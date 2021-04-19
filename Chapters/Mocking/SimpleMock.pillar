@@ -120,6 +120,50 @@ MyClassUsingMock2 >> testMeaningOfLife
 	self assert: (mock secondMeaning: 32 and: 64) equals: 84
 ]]]
 
+
+!!! About matching arguments
+
+Regarding the arguments matching, the code always goes through the matching logic but it's still quite flexible. 
+The following three possibilities are supported:
+- ignoring the arguments: if the message send has no arguments of interest,
+- full match: if all arguments of the actual message send match the expected arguments,
+- partial match: the user of the mock should use ==MockObject class>>any== for any argument that can be ignored. This is a special wildcard object to be used when we don't care about an argument.
+
+For example, let's assume we have this code under test:
+
+[[[
+aMock messageToBeMocked: 1 withArguments: 'two'
+]]]
+
+This can be mocked the three following way: ignoring arguments, full match or partial match. 
+
+!!!! Ignoring arguments.
+
+[[[
+aMock on: #messageToBeMocked:withArguments:
+]]]
+
+!!!! Full match.
+[[[
+aMock 
+	on: #messageToBeMocked:withArguments:
+	with: 1 
+	with: 'two' 
+]]]
+
+!!!! Partial match
+
+[[[
+aMock 
+	on: #messageToBeMocked:withArguments:
+	with: MockObject any 
+	with: 'two' 
+]]]
+
+The above training methods are to be used when we don't care about the behaviour when mocking, but only that the message is sent.
+If we want to control what is returned by the message send, we can use the ==respond:== variants.
+If we want even finer control e.g. side effects, raising exceptions  we can use the ==verify:== variants.
+
 !!! Teachable
  
  The other simple library for mocking object is Pharo Teachable. It is not integrated into SUnit but still worth checking it. 
