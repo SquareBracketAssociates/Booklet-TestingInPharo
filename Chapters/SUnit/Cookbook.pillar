@@ -374,22 +374,16 @@ In this example the generated cases will be 9. One per each combination of ==opt
 !!! Customising Test
 
 In this section, we show that SUnit offers two hooks to define what a test selector is and how to perform the test.
-[[[
-HiExamplesTest class >> classWithExamplesToTest
-	^ self 
-]]]
-
-[[[
-HiExamplesTest class >> isAbstract
-	^ self = HiExamplesTest
-]]]
+Imagine that we want to support that class method on a given class returned by ==classWithExamplesToTest== whose selector follow the pattern ==example*== methods are considered at tests.
+We can define method ==testSelectors== as follows:
 
 [[[
 HiExamplesTest class >> testSelectors [
-	^ self classWithExamplesToTest classSide methods 
-		select: [ :each |  (each selector beginsWith: 'example') and: [ each numArgs = 0 ] ]
+	^ self classWithExamplesToTest class methods 
+		select: [ :each | (each selector beginsWith: 'example') and: [ each numArgs = 0 ] ]
 		thenCollect: [ :each | each selector ]
 ]]]
+Then we can redefine the method ==performTest== to example the method on the class itself. 
 
 [[[
 HiExamplesTest >> performTest
