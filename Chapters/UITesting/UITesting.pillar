@@ -39,74 +39,108 @@ Inversely when the user interface components change, we should ensure that the m
 
 !!!! Example
 
-%Figure @*fig:UI* shows the little application that we use in our example.
+We will test a simple spec application. The model for this application can be any class.
+It shows in a tree presenter all the subclasses of the model. Also, has a text presenter that shows the definition string for the selected class.
+Finally, has a string morph and a button. When the button is
+pressed, the colour of the morph changes randomly.
 
-Here is a simple example: Imagine we have the following requirements.
-- Click the button should add an element to the list.
-- Select an element in the list should populate the form.
-- Changing values in the form should change the objects in the list.
++A Spec application.>file://figures/example_spec_application.jpg|width=75|label=fig:SpecApp+
 
-Such requirements are in fact the ones of the Pharo Launcher configuration list. 
-We convert such requirements into tests as follows:
+!!!! Spec user test 1: the tool should be initialized correctly
 
-!!!! Spec user test 1: triggering a button action
-
-Here we specify that clicking the button should add an element to the list.
-The message ==launchConfigurations== is returning the list of configurations exposed by the launcher. 
-Therefore we store the number of list items, then we access the add button of the presenter (here named image)
-and we click this button sending the message ==click==. 
-And we verify that the length of the list has increased by one. 
+The tool will be instantiated with a model.
+In this case, we will use ==Object== because it is the root of almost all classes.
+So, when we instantiate the spec application of the figure above, all the sub presenters of the application must show the data of the model.
 
 [[[
-testClickAddButtonCreatesNewLaunchConfiguration
-	
-	| old |
-	old := image launchConfigurations size.
-	editor addButton click.
-	self assert: image launchConfigurations size equals: old + 1
+testInitialization
+
+	| model |
+	model := String.
+	spApplication := ClassVisualizerPresenter on: model.
+	self assert: spApplication model equals: model.
+	self
+		assert: spApplication textPresenter text
+		equals: model classDefinitions first definitionString.
+	self
+		assert: spApplication morphPresenter morph contents
+		equals: model name
 ]]]
 
 
-!!!! Spec user test 2: changing text input
-The following test verifies that a selection of an element in the list should populate the form.
-The method ==clickItem:== simulates the selection of the element of index passed as argument. 
+!!!! Spec user test 2: when selecting a new item in the tree presenter the text presenter and the morph should change
+
+The tree presenter shows a tree of classes.
+When a class of the tree presenter is selected, the text presenter should change according to the definition of the new selected class.
+The morph must change as well.
 
 [[[
-testClickOnLaunchConfigurationListItemSetsFormName
-	| name |
-	name := 'test'.
-	image addLaunchConfiguration: (PhLaunchConfiguration named: name).
-	editor refreshList.
-	
-	editor configurationList clickItem: 3.
-	self assert: editor form nameInput text equals: name
+testSelectItemOnTreePresenter
+
+	"As we have initialized the tree with Object as its roots. The class OrderedCollection is a subclass of Object. We would simulate that a user selectes OrderedCollection from the tree presenter."
+
+	spApplication := ClassVisualizerPresenter on: Object.
+	spApplication hierarchyTreePresenter selectItem: OrderedCollection.
+	self
+		assert: spApplication hierarchyTreePresenter selectedItem
+		equals: OrderedCollection.
+	self
+		assert: spApplication textPresenter text
+		equals: OrderedCollection classDefinitions first definitionString.
+	self
+		assert: spApplication morphPresenter morph contents
+		equals: OrderedCollection name
 ]]]
 
 
+!!!! Spec user test 3: triggering the button action
 
-!!!! Spec user test 3: checking list item displayed value
-Changing values in the form should change the objects in the list. 
-This test selects the second item of the list so that the form displays the values 
-of such item. 
-Then the name displayed in the form editor is changed to a new text.
-And using the message ==displayValueAt:==, it verifies that the displayed value of a given list item (here the second 2, the currently displayed in the form)
-is actually the new entered text.
+The action of the colour button changes the colour of the morph randomly.
+When the button is clicked the morph must change its colour.
 
 [[[
-testEditConfigurationNameUpdatesListItem
-	| newName |
-	newName := 'some name'.
-	editor configurationList clickItem: 2.
-	editor form nameInput text: newName.
-	
-	self 
-		assert: (editor configurationList displayValueAt: 2)
-		equals: newName
+testButtonChangesMorph
+
+	| previousColor |
+	spApplication := ClassVisualizerPresenter on: Object.
+	previousColor := spApplication morphPresenter morph color.
+	spApplication clickColorButon.
+	self
+		deny: spApplication morphPresenter morph color
+		equals: previousColor
 ]]]
 
 
-These examples of tests show that key actions such as clicking on a button, changing text, selecting 
-a given list elements can be used to verify the expected behavior of the user interface.
+!!!! Spec user test 4: the text presenter should not be editable
+
+For this application, we only want that the text presenter shows the class definition.
+We do not want the user to be able to edit it.
+
+[[[
+testTextPresenterIsNotEditable
+
+	spApplication := ClassVisualizerPresenter on: Object.
+	self deny: spApplication textPresenter isEditable
+]]]
+
+
+!!!! Spec user test 5: the window is built correctly
+
+Here, we will test that the title and the initial extent of the window are correct.
+Also, we will test if the window were built correctly.
+
+[[[
+testInitializeWindow
+
+	| window |
+	spApplication := ClassVisualizerPresenter on: Object.
+	window := spApplication openWithSpec.
+	self assert: window isBuilt.
+	self assert: window title equals: ClassVisualizerPresenter title.
+	self assert: window initialExtent equals: 600 @ 400.
+	window close
+]]]
+
 
 !!!! Known limitations and conclusion
 
