@@ -28,7 +28,7 @@ To help you understand the different possibilities of testing that you can engag
 - ""Widget Developers."" Widget developers are concerned about the logic and working of a given widget is a given back-end.
 
 %+UI elements under test.>file://figures/UI.png|width=75|label=fig:UI+
-We will focus on the first role because it is simpler. 
+We will focus on the first role. 
 For the reader interested in the second role, the class ==SpAbstractBackendForTest== is a good starting place.
 
 !!! Spec user perspective
