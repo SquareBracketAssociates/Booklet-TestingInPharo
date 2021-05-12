@@ -104,7 +104,7 @@ testButtonChangesMorph
 	| previousColor |
 	spApplication := ClassVisualizerPresenter on: Object.
 	previousColor := spApplication morphPresenter morph color.
-	spApplication clickColorButon.
+	spApplication colorButton click.
 	self
 		deny: spApplication morphPresenter morph color
 		equals: previousColor
