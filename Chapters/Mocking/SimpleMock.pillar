@@ -1,4 +1,4 @@
-!! MockObject And Teachable: Two Super Simple Mocking
+!! MockObject and Teachable: Two super simple mocking approaches
 
 Imagine that you want to test a network protocol, you do now want to rely on real network but you would like
 to fix certain parameters and make that your protocol is reacting correctly. 
@@ -7,9 +7,10 @@ A mock object is an object that supports testing in isolation and represents a b
 should be fixed from a test point of view. 
 
 There are several frameworks for defining mock objects: BabyMock and Mocketry are two of the most sophisticated (see their corresponding chapters in this book). In this chapter we present two super simple and minimalist mocking approach. 
-We start with an extension that has been introduced as an extension of SUnit in Pharo 9. It has been designed by Giovanni Corriga. 
+We start with an extension that has been introduced as an extension of SUnit in Pharo 9. 
+It has been designed by Giovanni Corriga. 
 
-!!! About MockObject Design
+!!! About MockObject design
 While simpler and less sophisticated than other libraries, this implementation is still quite powerful.
 This implementation takes a different approach compared to BabyMock/BabyMock2 and Mocketry:
 - there are no methods such as ==should==, ==can==, or ==be:==, 
@@ -151,7 +152,7 @@ aMock
 	with: 'two'
 ]]]
 
-!!!! Partial match
+!!!! Partial match.
 
 [[[
 aMock 
@@ -166,7 +167,8 @@ If we want even finer control e.g. side effects, raising exceptions  we can use 
 
 !!! Teachable
  
- The other simple library for mocking object is Pharo Teachable. It is not integrated into SUnit but still worth checking it. 
+ The other simple library for mocking object is Pharo Teachable. 
+ It is not integrated into SUnit but still worth checking it. 
  It is developed by Torsten Bergman.
  
 !!!! Installation 

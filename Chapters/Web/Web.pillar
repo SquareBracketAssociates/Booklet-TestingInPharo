@@ -1,5 +1,5 @@
 !!Testing web applications with Parasol
-''Chapter Contributors:'' Evelyn Cusi, Daniel Aparicio, and Juan P. Sandoval A.
+''Chapter Contributors:'' Evelyn Cusi and Daniel Aparicio
 
 During the construction of a web application, it is exhausting to have to test the entire flow of the application each time you modify it, and much more as the application grows. This chapter introduce Parasol to allow developers to automate tests with a collection of language specific bindings, giving us the facility to test complex interactions in matter of seconds.
 

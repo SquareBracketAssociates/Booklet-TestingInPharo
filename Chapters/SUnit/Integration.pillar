@@ -121,8 +121,9 @@ jobs:
 
 !!! Travis	
 
-First you should enable the travis services on your github account. We sketch here the process. 
+First you should enable the travis services on your github account. We sketch here the process.
 Better refer to the documentation since the process was changed in the past.
+Nowadays travis does not look to work as it was used to.
 
 It usually means that: 
 - you should have an account on travis-ci.com (travis-ci.org has been deprecated).
@@ -156,7 +157,9 @@ smalltalk:
 ]]]
 
 !!! With Appveyor 
-If you want to validate your tests on Windows, you  should create the file ==appveyor.yml== file. Here is an example.
+
+If you want to validate your tests on Windows, you  should create the file ==appveyor.yml== file. 
+Here is an example:
 
 [[[
 environment:

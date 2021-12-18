@@ -301,7 +301,7 @@ In such cases, it may make sense to set up the database and open a connection to
 start to run.
 
 
-+setUp and teardDown in action.>file://figures/setUpAndTearDownWithResources.pdf|width=80|label=fig:setUpAndTearDownWithR+
++==setUp== and ==teardDown== in action.>file://figures/setUpAndTearDownWithResources.pdf|width=80|label=fig:setUpAndTearDownWithR+
 
 
 Where should we cache these resources, so that they can be shared by a suite of tests? The instance variables of a particular ==TestCase== subclass won't
@@ -390,7 +390,7 @@ MyTestResource >> tearDown
 
 
 
-!!! Customising Test
+!!! Customising tests
 
 In this section, we show that SUnit offers two hooks to define what a test selector is and how to perform the test.
 Imagine that we want to support that class method on a given class returned by ==classWithExamplesToTest== whose selector follow the pattern ==example*== methods are considered at tests.
@@ -426,9 +426,8 @@ For example, this is what the ==CoCompletionEngineTest== class is doing to inher
 [[[
 CoCompletionEngineTest >> shouldInheritSelectors
 
-		^ true
+	^ true
 ]]]
-
 
  Here is the definition of the method ==shouldInheritSelectors==. 
 [[[
