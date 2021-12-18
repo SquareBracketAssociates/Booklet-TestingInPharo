@@ -5,8 +5,107 @@ This chapter will give you more details on how to use SUnit. If you have used
 another testing framework such as JUnit, much of this will be familiar, since
 all these frameworks have their roots in SUnit. Normally you will use SUnit's
 GUI to run tests, but there are situations where you may not want to use it.
+But let us start with a powerful feature of SUnit: parametrized tests.
 
-!!!Other assertions
+
+!!! Parameterized Tests
+
+Since Pharo 7.0 you can express parameterized tests. 
+Parametrized tests are tests that can be executed on multiple configurations: your tests will run
+on different contexts that you can specify basically as test arguments. 
+Parametrized tests are really powerful when you want to check whether two implementations pass the same set of tests. 
+
+To declare a parameterized test you have to:
+- define your test case class as a subclass of ==ParametrizedTestCase== instead of ==TestCase==. This class should define accessors that will be used to configure the tests.
+- define a ''class'' method named ==testParameters== which specifies the actual parameters.
+
+!!!! A simple example first
+Here is an example taken from the Enlumineur project which is a pretty printer for Pharo code.
+Using paramterized tests let us know whether two different pretty printers produce the same outputs.
+
+We define the class ==BIEnlumineurTest==. 
+It has different parameters expressed as instance variables such as ==formatterClass== and ==contextClass==.
+
+[[[
+ParametrizedTestCase subclass: #BIEnlumineurTest
+	instanceVariableNames: 'configurationSelector formatterClass contextClass'
+	classVariableNames: ''
+	package: 'Enlumineur-Tests'
+]]]
+
+This class should define accessors for its parameters, here for ==formatterClass== and ==contextClass==.
+The tests should use the tests instance variables and should not refer directly to the classes held by the instance variables. 
+Else this would shortcut the idea of a parametrized test itself.
+
+Then we define the class method ==testParameters== as follows. 
+
+[[[
+BIEnlumineurTest class >> testParameters
+	^ ParametrizedTestMatrix new
+		addCase: { (#formatterClass -> BIEnlumineurPrettyPrinter) . (#contextClass -> BIEnlumineurContext) };
+		yourself
+]]]
+
+Now the framework will run the test using the parameters we mentioned. 
+To add a new variation we just have to add a case using the ==addCase:== message. 
+
+!!!! Controlling configuration
+
+The following example generates 2 cases. 
+Exactly the 2 cases listed in ==testParameters== method.
+The values for ==number1== and ==number2== will be set and the test will be executed.
+
+[[[
+PaSelectedCasesExampleTest class >> testParameters
+
+	^ ParametrizedTestMatrix new
+		addCase: { #number1 -> 2. #number2 -> 1.0. #result -> 3 };
+		addCase: { #number1 -> (2/3). #number2 -> (1/3). #result -> 1 };
+		yourself
+]]]
+	
+!!! Matrix: a more advanced case
+
+Sometimes you do not want to enumerate all the combinations by hand.
+In that case you can use a matrix and specify all the possible values of a parameter.
+The class ==PaSimpleMatrixExampleTest== contains some examples.
+
+The foilowing test executes 81 different cases. 
+All the combinations in the matrix are executed, i.e. item1 values will be enumerated, and for each ones, all the 
+values of the other parameters will be also enumerated. 
+This way all possible combinations are generated and tests run for each of them.
+
+[[[
+PaSimpleMatrixExampleTest class >> testParameters
+
+	^ ParametrizedTestMatrix new
+		forSelector: #item1 addOptions: { 1. 'a'. $c };
+		forSelector: #item2 addOptions: { 2. 'b'. $d };
+		forSelector: #collectionClass addOptions: { Set. Bag. OrderedCollection }
+]]]
+
+The test matrix generates using a cartesian product the configurations or a set of well known cases.
+Each option is constituted from a set of possible values and a selector that is the name of the parameter to set in the test case instance.
+Another example of ==testParameters== is: 
+
+[[[
+testParameters
+
+	^ ParametrizedTestMatrix new
+		forSelector: #option1 addOptions: #(a b c);
+		forSelector: #option2 addOptions: {[1].[2].[3]};
+		yourself.
+]]] 
+
+This example will generate 9 different configuration. One per each combination of ==option1== and ==option2==.  
+Do not forget that the test case should have a setter for each options.
+
+In addition each option can be a literal or a block to generate that value. The block has an optional parameter, the parameter is the test case to configure.
+
+
+
+
+!!! Other assertions
 
 In addition to ==assert:== and ==deny:==, there are several other methods that
 can be used to make assertions.
@@ -36,7 +135,7 @@ Note that this is usually not really good to catch exception using the ==Error==
 it is catching basically everything. In that current case, the ==at:== primitive signals an instance of ==Error== so 
 we have deal with it. 
 
-!!!!Using ==assert:equals:==
+!!!! Using ==assert:equals:==
 
 In addition to ==assert:==, there is also ==assert:equals:== that offers a
 better report in case of error (incidentally, ==assert:equals:== uses ==assert:description:==).
@@ -57,7 +156,7 @@ testAsDate
 ]]]
 
 
-!!!!Assertion description strings
+!!!! Assertion description strings
 @sec:descriptionStrings
 
 The ==TestAsserter== assertion protocol includes a number of methods that allow
@@ -80,6 +179,11 @@ deny:description:
 should:description:
 shouldnt:description:
 ]]]
+
+
+
+
+
 
 !!!Running tests
 
@@ -181,7 +285,7 @@ All the other assertion methods that we have seen are not resumable by default;
 ==assert: p description: s== is equivalent to
 ==assert: p description: s resumable: false==.
 
-!!! Test Resources
+!!! Test resources
 
 One of the important features of a suite of tests is that they should be
 independent of each other.
@@ -285,91 +389,6 @@ MyTestResource >> tearDown
 ]]]
 
 
-!!! Parameterized Tests
-Since Pharo 7.0 you can express parameterized tests.
-To declare a parameterized test you have to:
-- define your test case class as a subclass of ==ParametrizedTestCase== instead of ==TestCase==. This class should define accessors that will be used to configure the tests.
-- define a class method named ==testParameters== which specifies the actual parameters.
-
-!!!! Simple example first
-Here is an example taken from the Enlumineur project. 
-
-We define the class ==BIEnlumineurTest==. It has different parameters expressed as instance variables such as ==formatterClass== and ==contextClass==.
-[[[
-ParametrizedTestCase subclass: #BIEnlumineurTest
-	instanceVariableNames: 'configurationSelector formatterClass contextClass'
-	classVariableNames: ''
-	package: 'BlueInk-Enlumineur-Tests'
-]]]
-
-This class should define accessors for its parameters.
-
-Then we define the class method ==testParameters== as follows. 
-
-[[[
-BIEnlumineurTest class >> testParameters
-	^ ParametrizedTestMatrix new
-		addCase:
-			{(#formatterClass -> BIEnlumineurPrettyPrinter).
-			(#contextClass -> BIEnlumineurContext)};
-		yourself
-]]]
-
-Now the framework will run the test using the parameters we mentioned. 
-To add a new variation we just have to add a case using the ==addCase:== message. 
-
-!!!! Controlling configuration
-
-The following example generates 2 cases. 
-Exactly the 2 cases listed in ==testParameters== method.
-
-[[[
-PaSelectedCasesExampleTest class >> testParameters
-
-	^ ParametrizedTestMatrix new
-		addCase: { #number1 -> 2. #number2 -> 1.0. #result -> 3 };
-		addCase: { #number1 -> (2/3). #number2 -> (1/3). #result -> 1 };
-		yourself
-]]]
-	
-!!!! Matrix: a more advanced case
-
-Sometimes you do not want to enumerate all the combinations by hand.
-In that case you can use a Matrix and specify all the possible values of a parameters
-The class ==PaSimpleMatrixExampleTest== contains other examples.
-This test execute 81 different cases. 
-
-All the combinations in the matrix
-
-[[[
-PaSimpleMatrixExampleTest class >> testParameters
-
-	^ ParametrizedTestMatrix new
-		forSelector: #item1 addOptions: { 1. 'a'. $c };
-		forSelector: #item2 addOptions: { 2. 'b'. $d };
-		forSelector: #collectionClass addOptions: { Set. Bag. OrderedCollection }
-]]]
-
-
-The test matrix can be generated with cartesian product configurations or a set of well known cases.
-
-An example of #testParameters is: 
-
-[[[
-testParameters
-
-	^ ParametrizedTestMatrix new
-		forSelector: #option1 addOptions: #(a b c);
-		forSelector: #option2 addOptions: {[1].[2].[3]};
-		yourself.
-]]] 
-
-Each option is constituted from a set of possible values and a selector that is the name of the property to set in the test case instance.
-
-Also each option can be a literal or a block to generate that value. The block has an optional parameter, the parameter is the test case to configure.
-
-In this example the generated cases will be 9. One per each combination of ==option1== and ==option2==.  The test Case should have a setter for each of the option.
-
 
 !!! Customising Test
 
@@ -427,4 +446,6 @@ TestCase class >> shouldInheritSelectors
 !!! Conclusion
 
 SUnit is a simple framework but it already provides a powerset of mechanism to take real advantage of writing tests.
+In particular parametrized tests are powerful when you have the several objects that expose the same API, then you can reuse your 
+tests.
 
