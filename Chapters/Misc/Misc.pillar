@@ -59,4 +59,54 @@ String >> contractTo: smallSize
 Once you defined an executable comment, you can check that it is valid by comparing the results with the expected one. You can also use the DrTests plugin for executable comments.
 
 
+!!! Supporting examples with assertions
+
+Some people wants to be able to have test methods (with assertions) that can call each others and without been forced
+that the method starts with the 'test' prefix.
+SUnit can be simply extended to support such example testing methods. 
+
+This is as simple as overriding the method ==testSelectors== in a subclass of ==TestCase==.
+
+[[[
+TestCase << #ExampleTest
+	package: 'SUnit-Extensions'
+]]]
+
+Here we decided to only consider test methods when they are tagged with the pragma ==\#example==.
+In addition we check that the method should not expect an argument.
+
+[[[
+ExampleTest class >> testSelectors
+
+	^ self methods
+		select: [ :each | (each hasPragmaNamed: #example) and: [ each selector isUnary ] ]
+		thenCollect: [ :each | each selector ]
+]]]
+
+Here is an example taken from Bloc
+
+[[[
+simulateMouseMoveOutside
+	<gtExample>
+	| element mouseLeave mouseMove mouseEnter |
+
+	element := self blueElement.
+	element size: 100@100.
+	element relocate: 100@100.
+
+	mouseLeave := mouseMove := mouseEnter := 0.
+
+	element addEventHandlerOn: BlMouseMoveEvent do: [ mouseMove := mouseMove + 1 ].
+	element addEventHandlerOn: BlMouseEnterEvent do: [ mouseEnter := mouseEnter + 1 ].
+	element addEventHandlerOn: BlMouseLeaveEvent do: [ mouseLeave := mouseLeave + 1 ].
+	
+	BlSpace simulateMouseMoveOutside: element.
+
+	self assert: mouseMove equals: 0.
+	self assert: mouseEnter equals: 0.
+	self assert: mouseLeave equals: 0.
+
+	^ element
+]]]
+
 
