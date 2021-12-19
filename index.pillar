@@ -121,6 +121,9 @@ ${inputFile:path=Chapters/Web/Web.pillar}$
 ${inputFile:path=Chapters/Mocking/SimpleMock.pillar}$
 %Validated
 
+${inputFile:path=Chapters/Mocking/Mocketry.pillar}$
+${inputFile:path=Chapters/Mocking/StateSpecs.pillar}$
+
 %${inputFile:path=Chapters/SUnit/Implementation.pillar}$
 
 ${inputFile:path=Chapters/Benchs/Smark.pillar}$

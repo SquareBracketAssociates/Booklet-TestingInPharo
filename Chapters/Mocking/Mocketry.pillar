@@ -15,23 +15,26 @@ Metacello new
 
 !!! About Test-Driven Development and Mock Objects
 
-Test-Driven Development is a software development technique in which programmers write tests before they write the code itself. In the tests they make assertions about the expected behavior of the object under test. There are two kinds of assertions, the ones where you assert that an object answered correctly in response to a query message:
+Test-Driven Development is a software development technique in which programmers write tests before they write the code itself. 
+In the tests they make assertions about the expected behavior of the object under test.
+There are two kinds of assertions, the ones where you assert that an object answered correctly in response to a message.
+Here is an example expressed using Mocketry:
 
 [[[
 result := calculator add: 'V' to: 'VII'.
-
 result should equal: 'XII'.
 ]]]
 
-And the ones where you assert that an object sent the correct message to an other object. A mock object library helps in the latter case by providing a framework for setting up those assertions:
+And the ones where you assert that an object sent the correct message to another object.
+ A mock object library helps in the latter case by providing a framework for setting up those assertions:
 
 [[[
 publisher publish: testEvent.
-
 subscriber should receive eventReceived: testEvent.
 ]]]
 
-Mock library also provides tools to specify expected behaviour of interacting objects to simulate particular test case:
+A mock library also provides tools to specify the expected behavior of interacting objects to simulate particular test case.
+Here is an example: 
 
 [[[
 order := Order on: 50 of: #product.
@@ -45,9 +48,11 @@ warehouse should receive remove: 50 of: #product.
 
 !!! TDD is not just about testing
 
-Test-Driven Development combined with mock objects supports good Object-Oriented design by emphasizing how the objects collaborates with each other rather than their internal implementation. Mock objects can help you discover object roles as well as design the communication protocols between the objects.
+Test-Driven Development combined with mock objects supports good object-oriented design by emphasizing how the objects collaborates with each other rather than their internal implementation. 
+Mock objects can help you discover object roles as well as design the communication protocols between the objects.
 
-We'll describe how to use mock objects and outside-in TDD in practice. We're going to use SUnit as our test framework (we assume you're familiar with it) and Mocketry as our mock object library. This will be more like a message (or interaction) oriented approach of TDD, so we choose the example codes accordingly. Depending on what problem you're trying to solve and what design strategy you're following, you might want to use simple assertions instead of mocks and expectations. But in an object oriented code there are plenty of places where objects ''tell each other to do things'' therefore mocks will come in handy.
+We'll describe how to use mock objects and outside-in TDD in practice. 
+We're going to use SUnit as our test framework (we assume you're familiar with it) and Mocketry as our mock object library. This will be more like a message (or interaction) oriented approach of TDD, so we choose the example codes accordingly. Depending on what problem you're trying to solve and what design strategy you're following, you might want to use simple assertions instead of mocks and expectations. But in an object oriented code there are plenty of places where objects ''tell each other to do things'' therefore mocks will come in handy.
 
 !!! How does outside-in TDD work?
 
@@ -62,9 +67,9 @@ With SUnit you create test case classes by subclasing TestCase. Then in any test
 yourMock := Mock new.
 ]]]
 
-Mocketry not requires any special context variables for this.
-
-Also Mocketry implements auto naming logic to retrieve variable names from test context. Inside test yourMock will be shown as "a Mock(yourMock)" (in debugger).
+Mocketry does not require any special context variables for this.
+Also Mocketry implements auto naming logic to retrieve variable names from test context. 
+Inside test yourMock will be shown as "a Mock(yourMock)" (in debugger).
 
 But if you need special name you can specify it:
 
@@ -88,7 +93,6 @@ Now In the next sections, we will develop a complete sample application written 
 Let's design a simple shopping cart that will calculate the price of the products and charge the customer's credit card. The total charge is calculated by subtracting the discount price from the total order amount. During this process we are going to discover several roles that mock objects will play.
 
 !!! Writing our first test
-
 After an incoming checkout message, the shopping cart will send a ==charge:== message to a credit card object if it is not empty. This outgoing message and its argument is what we need to test in order to verify the behaviour of our shopping cart.
 
 Let's start with the simplest test when the shopping cart is empty. In this case no ==charge:== message should be sent.
@@ -238,13 +242,13 @@ Refactoring is part of TDD. We should check after each test if there is anything
 [[[
 ShoppingCartTest >> testChargingCardAfterBuyingManyProducts
 	self prices: {#sku1 -> 10. #sku2 -> 30. #sku3 -> 50}.
-  cart addSKU: #sku1.
+	cart addSKU: #sku1.
 	cart addSKU: #sku2.
 	cart addSKU: #sku3.
 
 	cart checkout.
 
-  creditCard should receive charge: 90.
+	creditCard should receive charge: 90.
 ]]]
 
 [[[
@@ -295,9 +299,9 @@ We know that there are rules for calculating the discount price. Those rules tak
 
 [[[
 ShoppingCartTest > >setUp
-  super setUp.
+	super setUp.
 	priceCatalog := Mock new.
-  discountCalculator := Mock new.
+	discountCalculator := Mock new.
 	creditCard := Mock new.
 	cart := ShoppingCart catalog: priceCatalog discount: discountCalculator payment: creditCard.
 ]]]
@@ -309,7 +313,7 @@ ShoppingCartTest >> testChargingCardWithDiscount
 	cart addSKU: #sku1.
 	cart addSKU: #sku2.
 
-  cart checkout.
+	cart checkout.
 
   creditCard should receive charge: 40.
 ]]]
@@ -387,14 +391,14 @@ In the next test case we'll send two ==checkout== message to the shopping cart, 
 [[[
 ShoppingCartTest>>testFirstPaymentFailedSecondSucceed
 	self prices: {#sku -> 25}.
-  cart addSKU: #sku.
+	cart addSKU: #sku.
 
-  (creditCard stub charge: 25) willRaise: PaymentError new.
+	(creditCard stub charge: 25) willRaise: PaymentError new.
 	[cart checkout] should raise: PaymentError.
 
-  (creditCard stub charge: Any) willReturn: true.
+	(creditCard stub charge: Any) willReturn: true.
 	cart checkout.
-  (creditCard should receive charge: 25) twice.
+	(creditCard should receive charge: 25) twice.
 ]]]
 
 The failure report is:
@@ -450,7 +454,7 @@ We'll leave those as an exercise for the reader.
 !!! Features overview
 @overview
 !!!! Create mocks easily
-To create mock just use ""new""
+To create mock just use the message ==new==.
 [[[
 yourMock := Mock new.
 ]]]
@@ -910,6 +914,7 @@ rect area.
 Arg rectangle should be: rect.
 Arg rectangle should receive width.
 ]]]
+
 !!! Verify message sends count
 
 Mocketry allows one to verify how many times object received particular message:
@@ -942,7 +947,7 @@ mock2 someMessage.
 Any should receive someMessage twice. "will not fail because both mocks received #someMessage twice"
 ]]]
 
-!!!Verify message send result
+!!! Verify message send result
 There are two ways how to verify result of occurred message:
 
 First you can continue ==should receive== expression with ==which should== clause to validate actual returned value:
@@ -964,7 +969,7 @@ result := mock someMessage.
 result should beReturnedFrom: [ mock someMessage ].
 ]]]
 
-!!!Verify group of message sends
+!!! Verify group of message sends
 
 There is way to verify group of message sends at once:
 
@@ -987,7 +992,7 @@ Messages
 - ""beDone"" measn that we don't care about order of message sends.
 - ""beDoneInOrder"" verifies that messages were set in same order as they defined inside given block
 
-!!!Verify all expectations
+!!! Verify all expectations
 There is way how to verify that all defined expectations were occurred:
 [[[
 mock1 := Mock new.
