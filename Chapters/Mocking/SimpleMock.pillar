@@ -6,7 +6,7 @@ You can use Mock objects to represent a part of the world during your tests.
 A mock object is an object that supports testing in isolation and represents a behavior that 
 should be fixed from a test point of view. 
 
-There are several frameworks for defining mock objects: BabyMock and Mocketry are two of the most sophisticated (see their corresponding chapters in this book). In this chapter we present two super simple and minimalist mocking approach. 
+There are several frameworks for defining mock objects: BabyMock and Mocketry are two of the most sophisticated. In this chapter we present two super simple and minimalist mocking approach. 
 We start with an extension that has been introduced as an extension of SUnit in Pharo 9. 
 It has been designed by Giovanni Corriga. 
 
@@ -35,7 +35,7 @@ A new object can be created with==MockObject new==, or using the utility methods
 The main message to teach a MockObject is==on:withArguments:verify:==; the other methods in the 'teaching' protocol all send this message.
 This message takes a selector symbol, a collection of arguments, and a block. By sending this message, the mock object is trained to evaluate the block when receiving a message matching the selector and the arguments.
  
-Other variations of this message have more specialized behaviour:==#on:withArguments:respond:== will simply return its third argument when the mock receives a matching message; likewise ==on:withArguments:== will return the mock itself.
+Other variations of this message have more specialized behavior:==on:withArguments:respond:== will simply return its third argument when the mock receives a matching message; likewise ==on:withArguments:== will return the mock itself.
 The other methods in the 'teaching' protocol provide an ergonomic API for this behaviour.
  
  A mock object will expect to receive only the messages it has been trained on, in the same order and number as it was trained. If it receives an unknown message, or a known message but in the wrong order, it will simply return itself.
@@ -67,14 +67,14 @@ We create a mock object and teach it two messages ==meaningOfLife== and ==second
 [[[
 MyClassUsingMock >> setUp
 
-		super setUp.
-		mock := MockObject new.
-		mock
-			on: #meaningOfLife 
-			respond: 42. 
-		mock 
-			on: #secondMeaning
-			respond: 84.	
+	super setUp.
+	mock := MockObject new.
+	mock
+		on: #meaningOfLife 
+		respond: 42. 
+	mock 
+		on: #secondMeaning
+		respond: 84.	
 ]]]
 
 Then we can write a test that will send the message to the object and expect a given result. 
@@ -167,9 +167,9 @@ If we want even finer control e.g. side effects, raising exceptions  we can use 
 
 !!! Teachable
  
- The other simple library for mocking object is Pharo Teachable. 
- It is not integrated into SUnit but still worth checking it. 
- It is developed by Torsten Bergman.
+The other simple library for mocking object is Pharo Teachable. 
+It is not integrated into SUnit but still worth checking it. 
+It is developed by Torsten Bergman.
  
 !!!! Installation 
 You can install teachable using the following expression: 

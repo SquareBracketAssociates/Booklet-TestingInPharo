@@ -7,7 +7,7 @@ it describes particular object states with first class specifications.
 StateSpecs introduces two little DSLs: should expression and word classes.
 Should expressions were originally invented by Dave Astels in project SSpec as part of general rethinking 
 the Testing Driven Development (TDD) methodology in favor of  Behavior Driven Design (BDD).
-SSpec approach has been ported to many different languages (NSpec in C#, RSpec in Ruby for example).
+SSpec approach has been ported to many different languages (NSpec in C\#, RSpec in Ruby for example).
 
 StateSpecs provides fluid DSL to validate objects over these specification.
 
