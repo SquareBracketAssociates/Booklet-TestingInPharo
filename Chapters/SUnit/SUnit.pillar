@@ -90,22 +90,22 @@ In fact this is really important to understand the difference between a failure 
 
 Remove an element that is not in a set from that set raises and error. If we write the following test, the test will fail.
 
-[[[caption=Testing removal of inexisting element.
-MyExampleSetTest >> testRemoveInexistingElement
+[[[caption=Testing removal of unexisting element.
+MyExampleSetTest >> testRemoveInexistentElement
 	empty remove: 5.
 ]]]
 
 Now using the message ==should:raise:== we make sure that we check that the expression effectively raises an error. 
 It means that our test can either pass (i.e., it means that the test fulfil our requirement here that it should raise an error when removing an unknown element) or fail. We planned such behavior. It can fail or pass. 
 
-[[[caption=Testing removal of inexisting element.
-MyExampleSetTest >> testRemoveInexistingElement
+[[[caption=Testing removal of an inexistent element.
+MyExampleSetTest >> testRemoveInexistentElement
 
 	self should: [ empty remove: 5 ] raise: NotFound
 ]]]
 
 For an error this is different, an error occurs in an unplanned manner. 
-The execution of the first version of ==testRemoveInexistingElement== would lead to an error.
+The execution of the first version of ==testRemoveInexistentElement== would lead to an error.
 
 
 !!!! Expected Failures and Skip
