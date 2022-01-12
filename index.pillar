@@ -3,14 +3,14 @@
 Pharo is the unique enviroment in which you can start to write a test, execute the test and from the debugger grow your program. 
 We coined this powerful technique Xtreme Test Driven Design. 
 This is powerful because it gives you a unique situation where you are in close contact with the specific state of your program.
-There you can write your code interacting with a life organism (the set of objects that are currently executing your program).
+There you can write your code interacting with a live organism (the set of objects that are currently executing your program).
 It gives you a unique opportunity to query and interact deeply with your objects. 
 
-Now describing Xtreme Test Driven Design feels like describing swimming amongs fishes in a scuba diving session.
+Now describing Xtreme Test Driven Design feels like describing swimming among the fishes in a scuba diving session.
 It is difficult to transmit the sensation. 
 
 Xtreme TDD takes its root in testing and this is why in this book we will describe unit testing in Pharo.
-We will not explain Xtreme TDD more than that and if you want to try we sugges to follow the video available at *http://rmod-pharo-mooc.lille.inria.fr/MOOC/PharoMOOC-Videos/EN/Week2/W2-Redo-EN-final.mp4*
+We will not explain Xtreme TDD more than that and if you want to try we suggest you to follow the video available at *http://rmod-pharo-mooc.lille.inria.fr/MOOC/PharoMOOC-Videos/EN/Week2/W2-Redo-EN-final.mp4*
 
 !!! Outline
 In this book we will present how you to test and develop testing strategies in Pharo.
