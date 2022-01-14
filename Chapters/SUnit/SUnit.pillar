@@ -88,24 +88,24 @@ As we mentioned earlier, the results of a test execution is mainly: passed (mean
 !!!!Failures vs. Error
 In fact this is really important to understand the difference between a failure and an error. A failure is something that you plan and you check whether is happened or not. When it happens your tests pass, else it fails.
 
-Remove an element that is not in a set from that set raises and error. If we write the following test, the test will fail.
+Remove an element that is not in a set from that set raises an error. If we write the following test, the test will fail.
 
-[[[caption=Testing removal of unexisting element.
-MyExampleSetTest >> testRemoveInexistentElement
+[[[caption=Testing removal of nonexisting element.
+MyExampleSetTest >> testRemoveNonexistentElement
 	empty remove: 5.
 ]]]
 
 Now using the message ==should:raise:== we make sure that we check that the expression effectively raises an error. 
 It means that our test can either pass (i.e., it means that the test fulfil our requirement here that it should raise an error when removing an unknown element) or fail. We planned such behavior. It can fail or pass. 
 
-[[[caption=Testing removal of an inexistent element.
-MyExampleSetTest >> testRemoveInexistentElement
+[[[caption=Testing removal of an nonexistent element.
+MyExampleSetTest >> testRemoveNonexistentElement
 
 	self should: [ empty remove: 5 ] raise: NotFound
 ]]]
 
 For an error this is different, an error occurs in an unplanned manner. 
-The execution of the first version of ==testRemoveInexistentElement== would lead to an error.
+The execution of the first version of ==testRemoveNonexistentElement== would lead to an error.
 
 
 !!!! Expected Failures and Skip
@@ -113,8 +113,7 @@ The execution of the first version of ==testRemoveInexistentElement== would lead
 In addition a test can be in two other states: skipped and expectedFailures.
 Such states are handy during development. 
 
-The idea is that if you write a complex tests and suddently you realize that you will have more work than expected to make your
-test passes, you can mark it as skipped.
+The idea is that if you write a complex test and suddently you realize that you will have more work than expected to make your test pass, you can mark it as skipped.
 
 
 [[[caption=An example of skipped test.
@@ -124,7 +123,7 @@ MyExampleSetTest >> testToBeRevisitedLater
 	...
 ]]]
 
-In fact it is much better to use the message ==skip== than use a guard.
+In fact it is much better to use the message ==skip== than to use a guard.
 Why because the framework can report clearly that your test is skipped. 
 Using a guard as below is the best way to confuse yourself, because the framework
 will return that the test passes while it does NOT.
@@ -158,7 +157,7 @@ testFromClassWhichTraitIsExtendedButNotItself
 !!!Glossary
 
 
-- ""Test case."" A test case is a single test. It defined a context, a stimulus and at the minimum one assertion. It is described as a method of a TestCase subclass starting with ""test"".
+- ""Test case."" A test case is a single test. It defines a context, a stimulus and at the minimum one assertion. It is described as a method of a TestCase subclass starting with ""test"".
 -  ""Test suite."" A test suite (Composite design pattern) is a group of tests. The tests belonging to a test suite do not have to be from the same class. In practice the test runner builds a test suite for all the test cases defined in a class and executes them one by one.  Instances of the class ==TestSuite== contain a collection of test cases.  An instance of ==TestSuite== contains tests, and other test suites. That is, a test suite contains sub-instances of ==TestCase== and ==TestSuite==.
 - ""Fixture."" A fixture is a context in which a stimulus will be executed and assertions verified. To share a fixture amongst multiple tests you can define the ==setUp== method. It is automatically invoked before any test method execution.
 - ""Failure."" A failure is the situation where you planned something and checked it and it is not correct.
