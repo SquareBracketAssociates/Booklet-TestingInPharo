@@ -25,7 +25,7 @@ The Pharo community has a long tradition of testing because of the incremental
 style of development supported by its programming environment. 
 
 !!!! Favor executable tests
-During increment development sessions in Pharo, the old fashioned programmer would write code snippets in a playground as soon as a
+During incremental development sessions in Pharo, the old fashioned programmer would write code snippets in a playground as soon as a
 method was finished.
 Sometimes a test would be incorporated as a comment at the head of the method that it exercised, or tests that needed some set up would be included as example methods in the class. 
 The problem with these practices is that tests in a playground are not available to other programmers who modify the code. 
@@ -140,7 +140,7 @@ stands for:
 
 
 
-!!!A piece of advices on testing
+!!!A piece of advice on testing
 
 While the mechanics of testing are easy, writing good tests is not. Here is some
 advice on how to design tests.
@@ -210,7 +210,7 @@ We can argue over and over why tests are important.
 The only real way to understand for real their values is by experience.
 
 The Pharo core development has three basic rules about testing.
-Here are them: 
+Here they are: 
 
 @@important A test that is not automated is not a test.
 
