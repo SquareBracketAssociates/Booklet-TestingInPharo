@@ -89,6 +89,9 @@ Therefore a part of the text of this book was written originally in Pharo by Exa
 We thank them for this material that we revised. 
 Our ultimate goal is to revisit the implementation of SUnit and to keep this book up to date.
 
+!!!! Acknowledgments. We want to thank Jimmie Houchin for improving the english of this book.
+
+
 !!! Getting started
 
 We areally encourage you to experience test driven design and in particular Xtreme test driven design.
