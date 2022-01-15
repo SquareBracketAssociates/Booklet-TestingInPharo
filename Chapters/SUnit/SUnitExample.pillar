@@ -7,7 +7,7 @@ We will create a test i.e., create a context (also called a fixture), execute a 
 are working.
 
 If you already read the SUnit chapter on Pharo by Example book you can skip this chapter since 
-the contents in the same.
+the contents are the same.
 
 !!!Step 1: Create the test class
 
@@ -94,9 +94,9 @@ MyExampleSetTest >> testOccurrences
 ]]]
 
 Note that we use the message ==assert:equals:== and not ==assert:== as in the first test.
-We could have use ==assert:==.
-But the message ==assert:equals:== is better since it report error in a much better way. 
-When an assertion is failing, ==assert:equals:== shows the expected value and the value it got.
+We could have used ==assert:==.
+But the message ==assert:equals:== is better since it reports the error in a much better way. 
+When an assertion is failing, ==assert:equals:== shows the expected value and the value received.
 While ==assert:== just mentions that something is not true.
 
 Now make sure that your test is passing too.
@@ -177,7 +177,7 @@ MyExampleSetTest >> testRemove
 
 Note the use of the method ==TestCase >> deny:== to assert something that should not be true. 
 ==aTest deny: anExpression== is equivalent to
-==aTest assert: anExpression not==, but is much more readable.
+==aTest assert: anExpression not==, but is much more readable and expresses the intent more clearly.
 
 %!!!Step 6: Other ways to run the tests
 %+Should use DrTests.>file://figures/updatedbrowsertests.png|width=80|label=fig:browsertests+
