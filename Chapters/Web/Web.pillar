@@ -143,7 +143,7 @@ PharoOrgTest >> setUp
 	driver get: 'https://pharo.org/'
 ]]]
 
-In the same way, we move the cleaning statemetns in the == tearDown == method:
+In the same way, we move the cleaning statements in the == tearDown == method:
 [[[
 PharoOrgTest >> tearDown
 	super tearDown.
@@ -339,9 +339,9 @@ Sometimes, findElement fails due to multiple matching elements on a page, of whi
 
 !!!Interacting with the elements 
 Until now we saw how to navigate through a URL and how to select elements.
-Now, our next step is interact with these elements.
+Now, our next step is to interact with these elements.
 You can do different things with these elements depending on their type.
-Using the following form as an example we will show how interact with it and its elements.
+Using the following form as an example we will show how to interact with it and its elements.
 
 [[[
 <html>
@@ -396,7 +396,7 @@ loginButton click.
 !!!Parasol in action
 
 Previous sections introduced Parasol features though basic examples. 
-This section applies eveything learned durign the chapter to create a number of tests for a small but real website called ''Mercury Tours''.
+This section applies eveything learned during the chapter to create a number of tests for a small but real website called ''Mercury Tours''.
 ''Mercury Tours'' is an agency that offers trips. 
 Maybe if you worked with automated web test before, you are familiar with it.
 
@@ -459,10 +459,10 @@ So it's time to do something more complex.
 !!!Testing displayed information
 
 The Mercury Tours page has a lot of information on its home page. 
-So, why do not try to test this information?
+So, why not try to test this information?
 As an example, we will write a test to verify the information in the table called ''specials''.
 Assume that you want to test that the first row is the flight from Atlanta to Las Vegas and the price is $398. 
-How do we do that? First step is to know how our page represent this information.
+How do we do that? First step is to know how our page represents this information.
 
 Use the developer tools of Chrome browser and select the desired row. 
 We get the following HTML code:
@@ -486,13 +486,13 @@ We get the following HTML code:
 
 We can see the following details:
 - The row is inside a table.
-- The table or the row not contains an ID or a Class that we use to find this element.
+- The table or the row does not contain an ID or a Class that we can use to find this element.
 - The CSS or the Tag Name can't help us to find this row.
 
 In this special  cases, XPath is a useful locator in this particular case.
 First, we need to create a subclass of ==EPTest==. 
-We are using ==EPTest== as a base clase for future test clases.
-This decision give us a number of benefits, for instance, we may find easily all test clases by inspecting the subclases of ==EPTest==, and we can reuse some methods in the subclases, in particular, the ==setUp== and == tearDown == methods.
+We are using ==EPTest== as a base class for future test classes.
+This decision give us a number of benefits, for instance, we may find easily all test classes by inspecting the subclasses of ==EPTest==, and we can reuse some methods in the subclasses, in particular, the ==setUp== and == tearDown == methods.
 
 Therefore, we define the following class:
 [[[
@@ -543,13 +543,13 @@ EPHomePageTest >> testFlightFromAtlantaToLasVegas
 		equals: '$398'
 ]]]
 
-We test the a part of the home page, if you want to test other parts, follow the previous steps and try to construct multiple tests.
+We test a part of the home page, if you want to test other parts, follow the previous steps and try to construct multiple tests.
 The tests above are a good example of how we get elements from a HTML page and test if the displayed page contains the correct information we want to display.
 
 !!!Testing interactions
 We will now show how to test interactions. 
 It's an important step to test, so we will explain how you could you do it.
-In this example, we will create a test that register a user in the website.
+In this example, we will create a test that registers a user in the website.
 First, we will create another subclass of ==EPTest== called ==EPRegisterUserTest==.
 
 [[[
@@ -574,13 +574,13 @@ EPRegisterUserTest >> setUp
 	self clickInRegisterButton
 ]]]
 
-With this little change, the first step that each test will perform it to move to the ''REGISTER'' form.
+With this little change, the first step that each test will perform is to move to the ''REGISTER'' form.
 You may see the ''REGISTER'' form in Figure *@registerForm*.
 
 +Registration From>file://figures/registerForm|width=80|label=registerForm+
 
 Now, we are prepared to create tests in ==EPRegisterUserTest==.
-Our first test is to verify if we are in the correct page when we click in register button. 
+Our first test is to verify if we are in the correct page when we click on the register button. 
 So, create the test.
 
 [[[
@@ -658,7 +658,7 @@ EPRegisterUserTest >> firstNameField
 
 You need to create as many of these you need to get all the form fields you need for your test.
 The next step is create a method to set information to fields.
-We use the message ==sendKeys==to set the information that we want.
+We use the message ==sendKeys== to set the information that we want.
 
 [[[
 EPRegisterUserTest >> fillInformationToContactSection
@@ -704,7 +704,7 @@ EPRegisterUserTest >> testIntroduceInformationInMailingSection
 	self assert: (self getSelectedOfCountry getText) equals: 'UNITED STATES '.
 ]]]
 
-It is also posible change the value of the combo box using the ==sendkeys== message as we saw in previous examples.
+It is also posible change the value of the combo box using the ==sendKeys== message as we saw in previous examples.
 
 Now, with all fields tested, we define a test to the user registration on the page.
 If you created the ==fillInformationToMailingSection== and ==fillInformationToUserSection== methods, we will use these methods.
