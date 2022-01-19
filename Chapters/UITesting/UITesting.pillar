@@ -23,7 +23,7 @@ Spec is based on an architecture with three different layers as shown in Figure~
 !!!! Three roles and concerns
 To help you understand the different possibilities of testing that you can engage, we identify the following roles and their related concerns.
 
-- ""Spec Users.""Spec users are developers that build a new application. They define the logic of the application by assembling together presenters and domain objects.
+- ""Spec Users."" Spec users are developers that build a new application. They define the logic of the application by assembling together presenters and domain objects.
 - ""Spec Developers."" Spec developers are more concerned with the development of new Spec presenter and their link with the adapter.
 - ""Widget Developers."" Widget developers are concerned about the logic and working of a given widget is a given back-end.
 
@@ -127,7 +127,7 @@ testTextPresenterIsNotEditable
 !!!! Spec user test 5: the window is built correctly
 
 Here, we will test that the title and the initial extent of the window are correct.
-Also, we will test if the window were built correctly.
+Also, we will test if the window was built correctly.
 
 [[[
 testInitializeWindow
