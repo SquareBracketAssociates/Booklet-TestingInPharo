@@ -70,7 +70,7 @@ Sometimes you do not want to enumerate all the combinations by hand.
 In that case you can use a matrix and specify all the possible values of a parameter.
 The class ==PaSimpleMatrixExampleTest== contains some examples.
 
-The foilowing test executes 81 different cases. 
+The following test executes 81 different cases. 
 All the combinations in the matrix are executed, i.e. item1 values will be enumerated, and for each ones, all the 
 values of the other parameters will be also enumerated. 
 This way all possible combinations are generated and tests run for each of them.
@@ -98,7 +98,7 @@ testParameters
 ]]] 
 
 This example will generate 9 different configuration. One per each combination of ==option1== and ==option2==.  
-Do not forget that the test case should have a setter for each options.
+Do not forget that the test case should have a setter for each option.
 
 In addition each option can be a literal or a block to generate that value. The block has an optional parameter, the parameter is the test case to configure.
 
@@ -427,7 +427,7 @@ MyTestResource >> tearDown
 !!! Customising tests
 
 In this section, we show that SUnit offers two hooks to define what a test selector is and how to perform the test.
-Imagine that we want to support that class method on a given class returned by ==classWithExamplesToTest== whose selector follow the pattern ==example*== methods are considered at tests.
+Imagine that we want to support a class method on a given class returned by ==classWithExamplesToTest== whose selector follow the pattern ==example*== methods are considered as tests.
 We can define method ==testSelectors== as follows:
 
 [[[
@@ -451,10 +451,10 @@ The logic is a bit cumbersome.
 By default a new test case class inherits from a subclass of ==TestCase== that is abstract. 
 If your new subclass as no test methods it will inherit from its superclass.
 
-Otherwise if you new class has selectors and inherits from a concrete superclass, you should redefine ==shouldInheritSelectors==
+Otherwise if your new class has selectors and inherits from a concrete superclass, you should redefine ==shouldInheritSelectors==
 to return ==true==.
 
-What developers uses in practice is the last part: the redefine the method ==shouldInheritSelectors==.
+What developers use in practice is the last part: to redefine the method ==shouldInheritSelectors==.
 For example, this is what the ==CoCompletionEngineTest== class is doing to inherit the tests of ==CompletionEngineTest==
 
 [[[
@@ -478,7 +478,7 @@ TestCase class >> shouldInheritSelectors
 
 !!! Conclusion
 
-SUnit is a simple framework but it already provides a powerset of mechanism to take real advantage of writing tests.
-In particular parametrized tests are powerful when you have the several objects that expose the same API, then you can reuse your 
+SUnit is a simple framework but it already provides a powerful set of mechanisms to take real advantage of writing tests.
+In particular parametrized tests are a powerful method when you have several objects that expose the same API, then you can reuse your 
 tests.
 
