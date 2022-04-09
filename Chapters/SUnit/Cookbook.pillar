@@ -104,6 +104,40 @@ In addition each option can be a literal or a block to generate that value. The 
 
 
 
+!!! Classes vs. objects as parameters
+
+There is a subtle but important point about the kind of the parameters. Indeed, we may wonder whether it is better to pass a class or an instance as parameter of a test. Theoritically there is not much difference between passing a class or an object.  
+However in practice there is a difference because when we pass an object, as in the following configuration, the framework does not recreate the object
+during each test execution. Therefore if your object accumulates information, then such information will be shared amongs your tests and this is a bad idea. 
+
+[[[
+CbkDlittleImporterTest class >> testParameters
+
+	^ ParametrizedTestMatrix new
+			addCase: { #importer -> CBkCollectorDLittleImporter new };
+		yourself.
+]]]
+
+The solution is to favor passing classes as follows and to explicitly create objects in the ==setUp==. 
+This way you are sure that your object does not hold state from previous execution.
+
+[[[
+CbkDlittleImporterTest class >> testParameters
+
+	^ ParametrizedTestMatrix new
+			addCase: { #importerClass -> CBkCollectorDLittleImporter };
+		yourself.
+
+CbkDlittleImporterTest >> setUp 
+	super setUp.
+	importer := importerClass new.
+	
+CbkDlittleImporterTest >> importerClass: anImporterClass
+	importerClass := anImporterClass
+]]]
+
+In conclusion, we suggest to pass instances as parameters when the objects are not complex
+and to favor classes otherwise.
 
 !!! Other assertions
 
