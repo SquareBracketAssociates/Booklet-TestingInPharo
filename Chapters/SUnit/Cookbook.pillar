@@ -70,7 +70,7 @@ Sometimes you do not want to enumerate all the combinations by hand.
 In that case you can use a matrix and specify all the possible values of a parameter.
 The class ==PaSimpleMatrixExampleTest== contains some examples.
 
-The following test executes 81 different cases. 
+The following test executes 27 different cases. 
 All the combinations in the matrix are executed, i.e. item1 values will be enumerated, and for each ones, all the 
 values of the other parameters will be also enumerated. 
 This way all possible combinations are generated and tests run for each of them.
