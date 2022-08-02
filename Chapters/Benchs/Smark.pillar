@@ -113,6 +113,12 @@ Fib40 total: iterations=25 runtime: 1022.7ms +/-1.5
 
 There you go, now we have the average execution time and error margin, the error margin measure with a 90\% of confidence degree assuming that the variable distribution is normal.
 
+!!! Setup and teardown 
+
+Similarly to SUnit, SMark offers two hook methods to define the actions to be done before and after a benchmark is executed. 
+
+
+
 !!!SMark benchmark runners
 
 The way that SMark will run benchmarks depends on the Smark runner you use. 
