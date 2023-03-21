@@ -140,7 +140,7 @@ Note that the `close` method will close a tab only if there is an open tab, by d
 #### Improve the structure of your test
 
 
-In our previous example, we wrote the entire test in one method, however, is a best practice add all the prerequisites of the tests on the `setUp` method and all the steps of cleaning on the ` tearDown ` method.
+In our previous example, we wrote the entire test in one method, however, is a best practice add all the prerequisites of the tests on the `setUp` method and all the steps of cleaning on the `tearDown` method.
 
 Therefore, to improve the structure of these tests, we first will convert the temporary variable driver into an instance variable.
 
@@ -161,7 +161,7 @@ PharoOrgTest >> setUp
 ```
 
 
-In the same way, we move the cleaning statements in the ` tearDown ` method:
+In the same way, we move the cleaning statements in the `tearDown` method:
 ```
 PharoOrgTest >> tearDown
 	super tearDown.
@@ -494,7 +494,7 @@ EPTest >> tearDown
 
 
 It is important to use the `quit` message to close the browser when a test ends, as we mentioned in second section of this chapter.
-With the `setUp` and ` tearDown ` method, we are able to do any test on the page.
+With the `setUp` and `tearDown` method, we are able to do any test on the page.
 
 ### Testing the page title
 
@@ -557,7 +557,7 @@ We can see the following details:
 In this special  cases, XPath is a useful locator in this particular case.
 First, we need to create a subclass of `EPTest`. 
 We are using `EPTest` as a base class for future test classes.
-This decision give us a number of benefits, for instance, we may find easily all test classes by inspecting the subclasses of `EPTest`, and we can reuse some methods in the subclasses, in particular, the `setUp` and ` tearDown ` methods.
+This decision give us a number of benefits, for instance, we may find easily all test classes by inspecting the subclasses of `EPTest`, and we can reuse some methods in the subclasses, in particular, the `setUp` and `tearDown` methods.
 
 Therefore, we define the following class:
 ```
