@@ -348,11 +348,7 @@ However, XPath expression are vulnerable to structure changes around the web ele
 ### Finding multiple elements
 
 There are some cases in which you can have more than one element with the same attributes.
-
-#### Chaining findElement to find a child element
-
-
-The following example 
+This is the case of  the following example: two div siblings have the same attributes.
 
 ```
 <div id = "div1">
@@ -362,10 +358,9 @@ The following example
 	<input type="checkbox" name = "same" value="on">Same checkbox in Div2</input>
 </div>
 ```
-
-
+#### Chaining findElement to find a child element
 In these cases, XPATH can be used, however, there is a simpler way, using nested selectors which is nothing else than locating elements in the result of a previous location.
-For example the following locates the div entry with id "div2" :
+For example the following locates the div entry with id `'div2'` :
 
 ```
 inputOfDiv2 := (driver findElementByID: 'div2') findElementByName: 'same'
@@ -573,9 +568,13 @@ The following method give us the expected result, but it contains some things th
 ```
 EPHomePageTest >> testPriceAndInfoForFlightFromAtlantaToLasVegas
 
-self assert: ((driver findElementByXPath: '/html/body/div/table/tbody/tr/td[2]/table/tbody/tr[4]/td/table/tbody/tr/td[2]/table/tbody/tr[2]/td[1]/table[1]/tbody/tr[3]/td/table/tbody/tr[1]/td[1]/font') getText)
+self assert: ((driver findElementByXPath: '/html/body/div/table/tbody/tr/td[2]/table/tbody/
+tr[4]/td/table/tbody/tr/td[2]/table/tbody/tr[2]/td[1]/
+table[1]/tbody/tr[3]/td/table/tbody/tr[1]/td[1]/font') getText)
      equals: 'Atlanta to Las Vegas'.
-self assert: ((driver findElementByXPath: '/html/body/div/table/tbody/tr/td[2]/table/tbody/tr[4]/td/table/tbody/tr/td[2]/table/tbody/tr[2]/td[1]/table[1]/tbody/tr[3]/td/table/tbody/tr[1]/td[2]/div/font/b') getText)
+self assert: ((driver findElementByXPath: '/html/body/div/table/tbody/tr/td[2]/table/tbody/tr[4]/td/table/tbody/tr/td[2]/table/tbody/
+tr[2]/td[1]/table[1]/tbody/tr[3]/td/table/tbody/tr[1]/
+td[2]/div/font/b') getText)
     equals: '$398'
 ```
 
