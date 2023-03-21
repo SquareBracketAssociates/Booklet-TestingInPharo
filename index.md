@@ -46,7 +46,7 @@ When you are used to define a class as follows:
 
 ```
 TestCase subclass: #MyExampleSetTest
-	instanceVariableNames: 'x'
+	instanceVariableNames: 'x y'
 	classVariableNames: ''
 	package: 'MySetTest'
 ```
@@ -56,7 +56,7 @@ We use the following fluid definition
 
 ```
 TestCase << #MyExampleSetTest
-	slots: { #x };
+	slots: { #x . #y };
 	package: 'MySetTest'
 ```
 
@@ -98,7 +98,8 @@ Therefore a part of the text of this book was written originally in Pharo by Exa
 We thank them for this material that we revised. 
 Our ultimate goal is to revisit the implementation of SUnit and to keep this book up to date.
 
-#### Acknowledgments. We want to thank Jimmie Houchin for improving the english of this book.
+##### Acknowledgments. 
+We want to thank Jimmie Houchin for improving the english of this book.
 
 
 

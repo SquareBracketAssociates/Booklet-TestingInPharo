@@ -9,7 +9,7 @@ software quality would do well to adopt it.
 Indeed, developers in many languages have come to appreciate the power of unit testing, and versions of _xUnit_ now
 exist for every programming language.
 
-What you will discover while programming in Pharo is that Pharo supports **Xtreme TDD**: you define your tests first as in TDD
+What you will discover while programming in Pharo is that Pharo supports _Xtreme TDD_: you define your tests first as in TDD
 but you execute your program which breaks and you code in the debugger. 
 This is simply such a productivity boost that we urge you to try. 
 We are just addicted to it. In Pharo this is super cool to define a test, run the code and code in the debugger: this is such a speed up and positive energy. 
@@ -191,7 +191,7 @@ identify bugs in that functionality. As far as possible try to have unit tests
 for each method that could possibly fail, and group them per class. However, for
 certain deeply recursive or complex setup situations, it is easier to write
 tests that represent a scenario in the larger application. These are called
-acceptance tests \(or integration tests, or functional tests\).
+acceptance tests (or integration tests, or functional tests).
 
 Tests that break Feathers' rules may make good acceptance tests. Group
 acceptance tests according to the functionality that they test. For example, if
