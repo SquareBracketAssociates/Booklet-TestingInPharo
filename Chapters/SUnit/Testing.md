@@ -217,38 +217,6 @@ make it harder to estimate how many bugs remain in the code. So, have a property
 in mind when you write a test.
 
 
-### Testing comments
-
-Often you would like to comment your methods with little examples. 
-The problem of putting code snippets in the comment of a method is that they are doomed to rot.
-And you do not have an easy way to find comments that are outdated. 
-
-This is why, in Pharo you can also use executable comments to document your methods. 
-An executable comment is a comment containing Pharo code but that follows a certain form (expression `>>>` resulting expression). This form makes sure that the IDE can check if they are still valid.
-
-Let us look at an example from the class ==String==.
-
-
-```
-String >> asCamelCase
-	"Convert to CamelCase, i.e, remove spaces, and convert starting lowercase to uppercase."
-
-	"'A man, a plan, a canal, panama' asCamelCase >>> 'AMan,APlan,ACanal,Panama'"
-	"'Here 123should % be 6 the name6 of the method' asCamelCase  >>> 'Here123should%Be6TheName6OfTheMethod'"
-
-		^ self species streamContents: [:stream |
-               self substrings do: [:sub |
-                       stream nextPutAll: sub capitalized]]
-```
-
-The comment `"'A man, a plan, a canal, panama' asCamelCase >>> 'AMan,APlan,ACanal,Panama'"` is an executable comment.
- It is delimited by `"` and `>>>`.
-- The message `>>>` delimits the expression from its result. 
-- On the left we get the expression.
-- On the right we get the result. 
-
-This way a tool can verify that the comment is correct. 
-
 
 
 ### Pharo testing rules as a conclusion

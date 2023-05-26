@@ -1,12 +1,43 @@
-## The SUnit cookbook
-
+## A little cookbook
 @cha:cookbook
 
-This chapter will give you more details on how to use SUnit. If you have used
-another testing framework such as JUnit, much of this will be familiar, since
-all these frameworks have their roots in SUnit. Normally you will use SUnit's
-GUI to run tests, but there are situations where you may not want to use it.
-But let us start with a powerful feature of SUnit: parametrized tests.
+This chapter will give you more details on the possiblities offered to you to express tests. We will start to show that we can also have method comments that are automatically validated and as such as be  similar to elementary unit tests.
+
+Note that if you have used another testing framework such as JUnit, much of this will be familiar, since all these frameworks have their roots in SUnit. We will also present a powerful feature of SUnit: parametrized tests.
+
+
+### Testing comments
+
+Often you would like to comment your methods with little examples. 
+The problem of putting code snippets in the comment of a method is that they are doomed to rot.
+And you do not have an easy way to find comments that are outdated. 
+
+This is why, in Pharo you can also use executable comments to document your methods.
+An executable comment is a comment containing Pharo code but that follows a certain form (expression `>>>` resulting expression). This form makes sure that the IDE can check if they are still valid.
+
+Let us look at an example from the class ==String==.
+
+
+```
+String >> asCamelCase
+	"Convert to CamelCase, i.e, remove spaces, and convert starting lowercase to uppercase."
+
+	"'A man, a plan, a canal, panama' asCamelCase >>> 'AMan,APlan,ACanal,Panama'"
+	"'Here 123should % be 6 the name6 of the method' asCamelCase  >>> 'Here123should%Be6TheName6OfTheMethod'"
+
+		^ self species streamContents: [:stream |
+               self substrings do: [:sub |
+                       stream nextPutAll: sub capitalized]]
+```
+
+The comment `"'A man, a plan, a canal, panama' asCamelCase >>> 'AMan,APlan,ACanal,Panama'"` is an executable comment.
+ It is delimited by `"` and `>>>`.
+- The message `>>>` delimits the expression from its result. 
+- On the left we get the expression.
+- On the right we get the result. 
+
+This way a tool can verify that the comment is correct. 
+
 
 
 ### Parameterized tests
