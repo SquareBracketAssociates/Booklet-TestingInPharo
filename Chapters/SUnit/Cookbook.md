@@ -354,7 +354,6 @@ All the other assertion methods that we have seen are not resumable by default;
 
 ### Test resources
 
-
 One of the important features of a suite of tests is that they should be
 independent of each other.
 The failure of one test should not cause an avalanche of failures of other tests that depend upon it, nor should the order in which
@@ -392,7 +391,6 @@ Then we associate it with `MyTestCase` by overriding the class method `MyTestCas
 ```caption=An example of a TestResource subclass
 TestResource << #MyTestResource
 	package: 'MyPackage'
-
 
 MyTestResource >> setUp
 	...

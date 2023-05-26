@@ -3,6 +3,7 @@
 
 Mocketry is an alternate mock framework developed by Denis Kudriashov.
 It provides a simple way to stub any message to any object and to verify any behavior.
+This chapter has been written by Denis Kudriashov.
 
 ### How to install Mocketry?
 
@@ -15,13 +16,12 @@ Metacello new
   load.
 ```
 
-
 ### About Test-Driven Development and Mock Objects
 
-
 Test-Driven Development is a software development technique in which programmers write tests before they write the code itself. 
-In the tests they make assertions about the expected behavior of the object under test.
+In the tests developers make assertions about the expected behavior of the object under test.
 There are two kinds of assertions, the ones where you assert that an object answered correctly in response to a message.
+
 Here is an example expressed using Mocketry:
 
 ```
@@ -38,51 +38,43 @@ publisher publish: testEvent.
 subscriber should receive eventReceived: testEvent.
 ```
 
-
 A mock library also provides tools to specify the expected behavior of interacting objects to simulate particular test case.
+
 Here is an example: 
 
 ```
 order := Order on: 50 of: #product.
 warehouse := Mock new.
 (warehouse stub has: 50 of: #product) willReturn: true.
-
 order fillFrom: warehouse.
-
 warehouse should receive remove: 50 of: #product.
 ```
 
-
 ### TDD is not just about testing
-
 
 Test-Driven Development combined with mock objects supports good object-oriented design by emphasizing how the objects collaborates with each other rather than their internal implementation. 
 Mock objects can help you discover object roles as well as design the communication protocols between the objects.
 
 We'll describe how to use mock objects and outside-in TDD in practice. 
-We're going to use SUnit as our test framework \(we assume you're familiar with it\) and Mocketry as our mock object library. This will be more like a message \(or interaction\) oriented approach of TDD, so we choose the example codes accordingly. Depending on what problem you're trying to solve and what design strategy you're following, you might want to use simple assertions instead of mocks and expectations. But in an object oriented code there are plenty of places where objects _tell each other to do things_ therefore mocks will come in handy.
+We're going to use SUnit as our test framework and Mocketry as our mock object library. This will be more like a message \(or interaction\) oriented approach of TDD, so we choose the example codes accordingly. Depending on what problem you're trying to solve and what design strategy you're following, you might want to use simple assertions instead of mocks and expectations. But in an object-oriented code there are plenty of places where objects _tell each other to do things_ therefore mocks will come in handy.
 
 ### How does outside-in TDD work?
 
-
 We start with the action that triggers the behavior we want to implement and work our way from the outside towards the inside of the system. We work on one object at a time, and substitute its collaborator objects with mocks. Thus the interface of the collaborators are driven by the need of the object under test. We setup expectations on the mocks, which allows us to finish the implementation and testing of the object under test without the existence of concrete collaborators. After we finished an object, we can move on towards one of its collaborator and repeat the same process.
-Now In the following sections, we will develop a complete sample application written with TDD.
+Now in the following sections, we will develop a complete sample application written with TDD.
+
 
 ### Getting started
 
-
-With SUnit you create test case classes by subclasing TestCase. Then in any test you can create mock by simple `new` message:
+In a SUnit test you can create mock with a simple `new` message:
 
 ```
 yourMock := Mock new.
 ```
 
-
 Mocketry does not require any special context variables for this.
-Also Mocketry implements auto naming logic to retrieve variable names from test context. 
-Inside test yourMock will be shown as "a Mock\(yourMock\)" \(in debugger\).
-
-But if you need special name you can specify it:
+Also Mocketry implements auto naming logic to retrieve variable names from the test context. A variable `yourMock` will be shown as "a Mock(yourMock)"  in a debugger.
+But if you need special name you can specify it using the `named:` message.
 
 ```
 Mock named: 'yourMock'
@@ -97,18 +89,17 @@ Also there is way to get multiple mocks at once:
 
 Then to specify expected behaviour for mock just send `stub` message to it. Following expression will be recorded as expectation.
 And to verify what was going on with objects just send `should receive` messages and following expression will be verified.
-Look at *@stubMessageSends@* section for all detailes on Mocketry API.
+Section *@stubMessageSends@*  provides more  details on Mocketry API.
 
 Now In the next sections, we will develop a complete sample application written with TDD.
 
-### A simple shopping cart
-
+### A tutorial: a simple shopping cart
 
 Let's design a simple shopping cart that will calculate the price of the products and charge the customer's credit card. The total charge is calculated by subtracting the discount price from the total order amount. During this process we are going to discover several roles that mock objects will play.
 
 ### Writing our first test
 
-After an incoming checkout message, the shopping cart will send a `charge:` message to a credit card object if it is not empty. This outgoing message and its argument is what we need to test in order to verify the behaviour of our shopping cart.
+After an incoming checkout message, the shopping cart will send a `charge:` message to a credit card object if it is not empty. This outgoing message and its argument is what we need to test to verify the behaviour of our shopping cart.
 
 Let's start with the simplest test when the shopping cart is empty. In this case no `charge:` message should be sent.
 
@@ -117,14 +108,11 @@ ShoppingCartTest >> testNoChargeWhenCartIsEmpty
 	| creditCard cart |
 	creditCard := Mock new.
 	cart := ShoppingCart payment: creditCard.
-
 	cart checkout.
-
 	creditCard should not receive charge: Any.
 ```
 
-
-The `creditCard` is a dependency for the shopping cart, so we pass it through a constructor method. Then we trigger the behavior we want to test by sending a `checkout` message to the shopping cart. And at the end we check our expected behaviour - credit card should not be charged by any amount because nothing exists in the cart.
+The `creditCard` is a dependency for the shopping cart, so we pass it through a constructor method. Then we trigger the behavior we want to test by sending a `checkout` message to the shopping cart. And at the end we check our expected behaviour - credit card should not be charged by any amount because it is empty.
 
 And empty implementation of `checkout` method will pass the test:
 
@@ -133,13 +121,11 @@ ShoppingCart >> checkout
 	"empty implementation"
 ```
 
-
 Usually we want to start with a failing test because we want to be sure that the test is capable of failing, then we can write just enough production code pass the test. This is an exceptional case, so we'll keep an eye on this test and come back to this later.
 
 ### One product, no discount
 
-
-Now let's add one product id \(we'll call it SKU which is an abbreviation of stock keeping unit\) to the shopping cart and check the price being sent to the credit card. But to do so we need to know the price of the product. It would be helpful if there were an object that could find out the price of an item by its SKU. We can bring this object to existence with the help of the mock library.
+Now let's add one product id (we'll call it SKU which is an abbreviation of stock keeping unit) to the shopping cart and check the price being sent to the credit card. But to do so we need to know the price of the product. It would be helpful if there were an object that could find out the price of an item by its SKU. We can bring this object to existence with the help of the mock library.
 
 Let's create a mocked `priceCatalog` and move the initialization of the shopping cart in the `setUp` method.
 
@@ -148,13 +134,12 @@ ShoppingCartTest >> setUp
 	super setUp.
 	priceCatalog := Mock new.
 	creditCard := Mock new.
-	cart := ShoppingCart catalog: priceCatalog payment: creditCard.
+	cart := ShoppingCart catalog: priceCatalog payment: creditCard
 ```
-
 
 We converted the `cart` and `creditCard` temporary variables to instance variables because we are using them in both tests.
 
-Now we can setup and use the `priceCatalog` without worrying about its internal structure of an actual catalog.
+Now we can setup and use the `priceCatalog` without worrying about the internal structure of an actual catalog.
 
 ```
 ShoppingCartTest >> testChargingCardAfterBuyingOneProduct
@@ -187,7 +172,7 @@ The following implementation passes the test.
 
 ```
 ShoppingCart >> addSKU: aString
-	sku := aString.
+	sku := aString
 ```
 
 
@@ -221,10 +206,8 @@ ShoppingCartTest >> testChargingCardAfterBuyingManyProducts
 	cart addSKU: #sku1.
 	cart addSKU: #sku2.
 	cart addSKU: #sku3.
-
-	cart checkout.
-
-  creditCard should receive charge: 90.
+	cart checkout
+	creditCard should receive charge: 90
 ```
 
 
@@ -246,17 +229,15 @@ The shopping cart keeps the last SKU only that's why it reports the wrong price.
 ```
 ShoppingCart >> initialize
 	super initialize.
-	skus := OrderedCollection new.
+	skus := OrderedCollection new
 ```
-
 
 Then we replace the assignment to an `add:` message in the `addSKU:` method.
 
 ```
 ShoppingCart >> addSKU: aString
-	skus add: aString.
+	skus add: aString
 ```
-
 
 Finally we change the nil check to an empty check and add the `orderPrice` calculation.
 
@@ -275,17 +256,15 @@ ShoppingCartTest >> testChargingCardAfterBuyingManyProducts
 	cart addSKU: #sku1.
 	cart addSKU: #sku2.
 	cart addSKU: #sku3.
-
 	cart checkout.
-
-	creditCard should receive charge: 90.
+	creditCard should receive charge: 90
 ```
 
 
 ```
 ShoppingCartTest >> prices: associations
 	associations do: [:each |
-			(priceCatalog stub priceOf: each key) willReturn each value].
+			(priceCatalog stub priceOf: each key) willReturn each value]
 ```
 
 

@@ -128,9 +128,9 @@ without fear to break your code and do not get notified about it.
 
 <!inputFile|path=Chapters/Mocking/SimpleMock.md!>
 
-<!inputFile|path=Chapters/Mocking/Mocketry.md!>
+%<!inputFile|path=Chapters/Mocking/Mocketry.md!>
 
-<!inputFile|path=Chapters/Mocking/StateSpecs.md!>
+%<!inputFile|path=Chapters/Mocking/StateSpecs.md!>
 
 <!inputFile|path=Chapters/Benchs/Smark.md!>
 
