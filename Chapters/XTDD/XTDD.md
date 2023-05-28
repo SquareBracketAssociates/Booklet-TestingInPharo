@@ -85,35 +85,41 @@ Now we are ready to create a method on the fly.
 Just press the button Create. You will get prompt for the class, pick up the class `Counter`.
 
 The debugger will show you that the system created a generic method named `count:` for you. 
-It is generic because there is no magic. As shown in Figure *@genericMethodDefined@* This method is 
+It is generic because there is no magic. As shown in Figure *@genericMethodDefined@*, this method is 
 
 ```
 count: anInteger
 	self shouldBeImplemented
 ```
 
+The message `shouldBeImplemented` is just a method to raise a specific error. So that the debugger reopens and that you can redefine the method. 
+
 ![The system defined a generic method and restarted the execution: it is now waiting for a definition.](figures/XTDD10.png width=50&label=genericMethodDefined)
 
 
 
 #### Edit the method in the debugger
+Now just edit the method right in the debugger as follows and shown in Figure *@countInDebu@*.
+Here we just want a setter that sets the value of the instance variable `count`.
+So we just type it!
 
-![](figures/XTDD11.png width=50)
+```
+count: anInteger
+	count := anInteger
+```
 
-- But there is no instance variable!
-- So what?
+Here we define the method as we want it and yes the instance variable `count` does not exist yet.
+Do it and compile the method. The class browser will prompt you for the creation of `count` as an instance variable.
 
-### Add an instance variable on the fly
+![Before compiling the method, the class browser shows us that the instance variable `count` does not exist yet.](figures/XTDD11.png width=50&anchor=countInDebu)
 
-![](figures/XTDD12.png width=80)
 
-We compile and obtain
+![Defining a new instance variable from within the debugger.](figures/XTDD13.png width=50&anchor=InstVarInDebu)
 
-![](figures/XTDD13.png width=100)
-
-and continue the execution as shown in 
-
-![](figures/XTDD14.png width=80)
+Compile the method, answer the prompt and you should get the method that we defined previously.
+Now continue the execution by pressing the Proceed button
+%![](figures/XTDD13.png width=100)
+%![](figures/XTDD14.png width=80)
 
 
 
