@@ -28,6 +28,8 @@ We use a dead simple counter. Nothing simpler.
 This way we will focus on the essence of the process.
 We want to show you that you can do it.
 
+### Before executing a test
+
 #### A package and an empty test case class
 
 First we define a package `Counter` and define a subclass of `TestCase` named `CounterTest`.
@@ -59,38 +61,44 @@ When you compile the method, the system asks you to define the missing class (se
 
 ![Pharo class browser  request actions to handle the fact that the class `Counter` is undefined.](figures/XTDD4.png width=50&label=fig:DefinesPrompt)
 
-![Pharo class browser  shows the class `Counter` slanted because that class
-does not exist.](figures/XTDD5.png width=50&label=fig:gettingDefined)
+Finally the class browser propose you a class definition so that you can define the missing class on the spot (See Figure *@fig:Defined@*).
+Once the class is defined you will see that it is not slanted anymore in the class browser. 
+And you are ready to execute the test even if you did not define any method yet!
+This is the all point of XTDD.
+
+![Pharo class browser proposes a class definition for the class `Counter`.](figures/XTDD5.png width=50&label=fig:Defined)
+
+### Executing a test to define missing methods
+Event if we did not define any methods yet, we will execute the test. 
+We will just press the little grey button on the left of the method name in the right most list as shown in Figure *@readyToTun@*. 
+It will raise an error because the methods `count:` and `count` are not defined. 
+
+![Executing a test pressing the grey button on the left of the method name will raise an error.](figures/XTDD7.png width=50&label=readyToTun)
+
+Figure *@error1@* shows the debugger: It indicates that an instance of the class Counter did not understand the message `count:`.
+So far so good, this is what we expected. 
+
+![A debugger showing that the method `count:` is not defined hence led to an error.](figures/XTDD8.png width=50&label=error1)
+
+##### Define a method on the fly.
+Now we are ready to create a method on the fly.
+Just press the button Create. You will get prompt for the class, pick up the class `Counter`.
+
+The debugger will show you that the system created a generic method named `count:` for you. 
+It is generic because there is no magic. As shown in Figure *@genericMethodDefined@* This method is 
+
+```
+count: anInteger
+	self shouldBeImplemented
+```
+
+![The system defined a generic method and restarted the execution: it is now waiting for a definition.](figures/XTDD10.png width=50&label=genericMethodDefined)
 
 
-
-
-#### Test defined but not executed
-
-figures/XTDD6.png|width=90+
-
-
-#### Running the test
-
-figures/XTDD7.png|width=90+
-
-#### First Error
-
-figures/XTDD8.png width=80
-
-Of course, we did not define any method, yet!
-
-#### Create a method on the fly}$
-
-figures/XTDD9.png width=90
-
-#### Create a method on the fly (II)
-
-figures/XTDD10.png width=90
 
 #### Edit the method in the debugger
 
-![](figures/XTDD11.png width=80)
+![](figures/XTDD11.png width=50)
 
 - But there is no instance variable!
 - So what?
