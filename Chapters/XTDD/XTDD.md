@@ -111,75 +111,63 @@ count: anInteger
 Here we define the method as we want it and yes the instance variable `count` does not exist yet.
 Do it and compile the method. The class browser will prompt you for the creation of `count` as an instance variable.
 
-![Before compiling the method, the class browser shows us that the instance variable `count` does not exist yet.](figures/XTDD11.png width=50&anchor=countInDebu)
+![Before compiling the method, the class browser shows us that the instance variable `count` does not exist yet.](figures/XTDD11.png width=50&label=countInDebu)
 
 
-![Defining a new instance variable from within the debugger.](figures/XTDD13.png width=50&anchor=InstVarInDebu)
+![Defining a new instance variable from within the debugger.](figures/XTDD12.png width=50&anchor=InstVarInDebu)
 
 Compile the method, answer the prompt and you should get the method that we defined previously.
-Now continue the execution by pressing the Proceed button
+Now continue the execution by pressing the Proceed button.
 %![](figures/XTDD13.png width=100)
 %![](figures/XTDD14.png width=80)
 
+The system will fail again because we did not define the method `count` as shown in Figure *@@*.
+You should just add this method as previously showed. 
 
 
-#### Supporting the programmer flow
+![The debugger opens because the method `count` was not defined.](figures/XTDD15.png  width=50&label=countUndefined)
 
-The system 
-- ""created"" a new method for us
-- ""Removed"" the stack element with Error
-- ""Replaced"" it with a call to the new method
-- ""Relaunched"" execution
-We edited it and recompiled the method.
-The system ""continued"" execution.
-
-#### New method
-
-The system:
-- Created a new method
-- Removed the stack element with Error
-- Replaced it with a ""call"" to the new method
+Now notice that the compiler is guessing that the method is an accessor since it has the same name as the instance variable `count` (see Figure *@accessor@*). It proposes you the method body as:
 
 ```
-count: anInteger
-	self shouldBeImplemented
+count 
+	^ count
 ```
+So just accept and press proceed. You test should be green and you get done.
 
-The message `shouldBeImplemented` is just an exception so that the debugger stops again.
+![Compiler proposed a definition for your accessor.](figures/XTDD16.png width=50&label=accessor)
 
 
-#### Same story....
 
-![](figures/XTDD15.png  width=90)
 
-#### Debugger also precompiles methods}$
 
-![](figures/XTDD16.png width=70)
+### Stepping back: Supporting the programmer flow
 
-A method with the same name as an attribute is probably an accessor
+The system performed several actions to improve the flow of programming: 
+- It created new methods for us.
+- It removed from the  the stack, the element with Error.
+- It replaced it with a message to the new generic method
+- It relaunched the execution so that  so that we can define the method and proceed the execution.
 
-#### Test is green
+We edited and recompiled the method.  And we could continue within the exact same flow of programming. 
 
-![](figures/XTDD17.png width=90)
+### One cycle
 
-### One Cycle
+We show you one simple cycle and now you are ready to:
+- Run all the tests to check if nothing was broken.
+- Commit your changes if the tests are green.
+- Write a new test for the next cycle.
 
-- Run all the tests
-- Ready to commit
-- New test
+### Why XTDD is powerful?
 
-### Why XTDD is powerful
+eXtreme Test-Driven development is powerful because of the following reasons: 
 
-- Avoid ""guessing"" context when coding
-- Much much better context 
--- inspect that ""specific"" instance state
--- talk to that ""specific"" object
-- Inspectable / interactable context
-- Tests are not a side effect artifact but the ""driving"" force
+- You do not have to guess what will be the exact context of call of a method.  Since you are in the debugger you can access all the objects (receiver or arguments), you can inspect their specific state. So you avoid guessing. 
+- Tests are not a side effect artifact but a strong driving force.
+- The development flow is smooth and strongly connected. You write a test and use the test execution to define a context
+that helps you define the method. You define methods or instance variables as you go and when you need them. 
+You do not have to plan and guess in advance. 
 
-### Protip from expert Pharo developers
-
-- Grab ""as fast as"" possible one object
-- ""Cristalize"" your scenario with a test
-- Xtreme TDD
-- Loop
+##### Protip from expert Pharo developers
+Pharo pro developers know what they can gain from XTDD this is why they try to grab an instance as fast as they can and send this object 
+a message. The best way is to write a test fixture and to execute. 
