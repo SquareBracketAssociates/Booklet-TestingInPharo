@@ -1,4 +1,4 @@
-## Xtreme test-driven Development  by Example
+## Extreme Test-Driven Development  by Example
 
 
 
@@ -41,9 +41,9 @@ TestCase << #CounterTest
 #### A first test
 
 We define a first test that 
-- Creates a new instance of the class `Counter`
-- Defines its count value using the setter `count:`
-- And verifies that the count value is correct. 
+- creates a new instance of the class `Counter`,
+- defines its count value using the setter `count:`,
+- and verifies that the count value is correct. 
 
 ```
 CounterTest >> testSetAndGetCounter
@@ -85,10 +85,10 @@ Now we are ready to create a method on the fly.
 Just press the button Create. You will get prompt for the class, pick up the class `Counter`.
 
 The debugger will show you that the system created a generic method named `count:` for you. 
-It is generic because there is no magic. As shown in Figure *@genericMethodDefined@*, this method is 
+It is generic because there is no magic. As shown in Figure *@genericMethodDefined@*, this method is the following one:
 
 ```
-count: anInteger
+Counter >> count: anInteger
 	self shouldBeImplemented
 ```
 
@@ -114,14 +114,14 @@ Do it and compile the method. The class browser will prompt you for the creation
 ![Before compiling the method, the class browser shows us that the instance variable `count` does not exist yet.](figures/XTDD11.png width=50&label=countInDebu)
 
 
-![Defining a new instance variable from within the debugger.](figures/XTDD12.png width=50&anchor=InstVarInDebu)
+![Defining a new instance variable from within the debugger.](figures/XTDD12.png width=50&label=InstVarInDebu)
 
 Compile the method, answer the prompt and you should get the method that we defined previously.
 Now continue the execution by pressing the Proceed button.
 %![](figures/XTDD13.png width=100)
 %![](figures/XTDD14.png width=80)
 
-The system will fail again because we did not define the method `count` as shown in Figure *@@*.
+The system will fail again because we did not define the method `count` as shown in Figure *@countUndefined@*.
 You should just add this method as previously showed. 
 
 
