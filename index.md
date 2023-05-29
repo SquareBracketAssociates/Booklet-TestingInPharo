@@ -116,6 +116,8 @@ without fear to break your code and do not get notified about it.
 
 <!inputFile|path=Chapters/SUnit/SUnitExample.md!>
 
+<!inputFile|path=Chapters/XTDD/XTDD.md!>
+
 <!inputFile|path=Chapters/SUnit/SUnit.md!>
 
 <!inputFile|path=Chapters/SUnit/Cookbook.md!>
