@@ -3,6 +3,7 @@
 
 
 In this chapter we will describe eXtreme Test-Driven Development (XTDD). 
+XTDD is a unique feature of Pharo and its tools.
 We show that XTDD is Test-Driven Development on steroids.
 What is really exciting is that XTDD takes live programming at its best.
 It shows that in Pharo we can develop smart tools that offer to developers
@@ -11,15 +12,15 @@ absolutely grogeous development flow.
 
 ### A simple and powerful principle
 
-The main idea behind XTDD is to avoid to break the development flow.
+The main idea behind XTDD is to avoid to break the development flow and to take advantage of live programming. 
 It is as simple as: 
 - First, you write a test.
 - Second, you execute the test.
-- When it breaks, you define the method on the fly in the debugger.
+- When it breaks, you define classes, methods, or add instance variables on the fly in the debugger.
 - Then, you resume the execution from the debugger and continue the execution until the test is green.
 
 What you should see is that there is no border between specifying a test and developing the code under test.
-You develop in the flow of the executed program.
+You develop in the flow of the executed program interacting with the objects as you go along.
 
 ### Studying an example
 
@@ -28,9 +29,15 @@ We use a dead simple counter. Nothing simpler.
 This way we will focus on the essence of the process.
 We want to show you that you can do it.
 
+Basically we will define a test, the system will help defining missing entities (classes).
+Then we will execute the test. It will break and via the debugger we will create new method, add new instance variable
+and continue the execution without getting out of the debugger. 
+
+Let us get started.
+
 ### Before executing a test
 
-#### A package and an empty test case class
+#### Define a package and an empty test case class
 
 First we define a package `Counter` and define a subclass of `TestCase` named `CounterTest`.
 
@@ -38,9 +45,14 @@ First we define a package `Counter` and define a subclass of `TestCase` named `C
 TestCase << #CounterTest
 	package: 'Counter'
 ```
+
+![Pharo class browser  shows the class `Counter` slanted because that class
+does not exist.](figures/XTDD3.png width=50&label=fig:gettingDefined)
+
+
 #### A first test
 
-We define a first test that 
+We define a first test `testSetAndGetCounter` that 
 - creates a new instance of the class `Counter`,
 - defines its count value using the setter `count:`,
 - and verifies that the count value is correct. 
@@ -54,8 +66,6 @@ Now during the definition of the method the system will notify you because the c
 Figure *@fig:gettingDefined@* shows that the IDE presents the class `Counter` slanted to show that this class
 does not exist. 
 
-![Pharo class browser  shows the class `Counter` slanted because that class
-does not exist.](figures/XTDD3.png width=50&label=fig:gettingDefined)
 
 When you compile the method, the system asks you to define the missing class (see Figure *@fig:DefinesPrompt@*).
 
@@ -80,7 +90,7 @@ So far so good, this is what we expected.
 
 ![A debugger showing that the method `count:` is not defined hence led to an error.](figures/XTDD8.png width=50&label=error1)
 
-##### Define a method on the fly.
+#### Define a method on the fly.
 Now we are ready to create a method on the fly.
 Just press the button Create. You will get prompt for the class, pick up the class `Counter`.
 
@@ -130,7 +140,7 @@ You should just add this method as previously showed.
 Now notice that the compiler is guessing that the method is an accessor since it has the same name as the instance variable `count` (see Figure *@accessor@*). It proposes you the method body as:
 
 ```
-count 
+Counter >> count 
 	^ count
 ```
 So just accept and press proceed. You test should be green and you get done.
