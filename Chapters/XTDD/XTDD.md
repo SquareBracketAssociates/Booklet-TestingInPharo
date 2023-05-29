@@ -50,7 +50,7 @@ TestCase << #CounterTest
 does not exist.](figures/XTDD3.png width=50&label=fig:gettingDefined)
 
 
-#### A first test
+#### Define a first test
 
 We define a first test `testSetAndGetCounter` that 
 - creates a new instance of the class `Counter`,
@@ -90,7 +90,7 @@ So far so good, this is what we expected.
 
 ![A debugger showing that the method `count:` is not defined hence led to an error.](figures/XTDD8.png width=50&label=error1)
 
-#### Define a method on the fly.
+#### Define a method on the fly
 Now we are ready to create a method on the fly.
 Just press the button Create. You will get prompt for the class, pick up the class `Counter`.
 
@@ -156,7 +156,7 @@ So just accept and press proceed. You test should be green and you get done.
 The system performed several actions to improve the flow of programming: 
 - It created new methods for us.
 - It removed from the  the stack, the element with Error.
-- It replaced it with a message to the new generic method
+- It replaced it by reexecuting the method that was invoking the missing one.
 - It relaunched the execution so that  so that we can define the method and proceed the execution.
 
 We edited and recompiled the method.  And we could continue within the exact same flow of programming. 
@@ -170,14 +170,14 @@ We show you one simple cycle and now you are ready to:
 
 ### Why XTDD is powerful?
 
-eXtreme Test-Driven development is powerful because of the following reasons: 
+EXtreme Test-Driven development is powerful because of the following reasons: 
 
-- You do not have to guess what will be the exact context of call of a method.  Since you are in the debugger you can access all the objects (receiver or arguments), you can inspect their specific state. So you avoid guessing. 
+- You do not have to guess what will be the exact context of call of a method. Since you are in the debugger you can access all the objects (receiver or arguments), you can inspect their specific state. So you avoid guessing, the objects are at your fingers just interact with them to validate hypotheses you need for defining your methods.
 - Tests are not a side effect artifact but a strong driving force.
-- The development flow is smooth and strongly connected. You write a test and use the test execution to define a context
+- The development flow is smooth and strongly connected with your scenario. You write a test and use the test execution to define a context
 that helps you define the method. You define methods or instance variables as you go and when you need them. 
 You do not have to plan and guess in advance. 
 
-##### Protip from expert Pharo developers
+#### Protip from expert Pharo developers
 Pharo pro developers know what they can gain from XTDD this is why they try to grab an instance as fast as they can and send this object 
 a message. The best way is to write a test fixture and to execute. 
