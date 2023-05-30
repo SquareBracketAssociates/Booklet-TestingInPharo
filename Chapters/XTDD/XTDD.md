@@ -7,7 +7,7 @@ XTDD is a unique feature of Pharo and its tools.
 We show that XTDD is Test-Driven Development on steroids.
 What is really exciting is that XTDD takes live programming at its best.
 It shows that in Pharo we can develop smart tools that offer to developers
-absolutely grogeous development flow.
+absolutely gorgeous development flow.
 
 
 ### A simple and powerful principle
@@ -76,7 +76,7 @@ Once the class is defined you will see that it is not slanted anymore in the cla
 And you are ready to execute the test even if you did not define any method yet!
 This is the all point of XTDD.
 
-![Pharo class browser proposes a class definition for the class `Counter`.](figures/XTDD5.png width=50&label=fig:Defined)
+![Pharo class browser proposes a class definition for the class `Counter`.](figures/NXTDD5.png width=50&label=fig:Defined)
 
 ### Executing a test to define missing methods
 Event if we did not define any methods yet, we will execute the test. 
@@ -88,7 +88,7 @@ It will raise an error because the methods `count:` and `count` are not defined.
 Figure *@error1@* shows the debugger: It indicates that an instance of the class Counter did not understand the message `count:`.
 So far so good, this is what we expected. 
 
-![A debugger showing that the method `count:` is not defined hence led to an error.](figures/XTDD8.png width=50&label=error1)
+![A debugger showing that the method `count:` is not defined hence led to an error.](figures/NXTDD8.png width=50&label=error1)
 
 #### Define a method on the fly
 Now we are ready to create a method on the fly.
@@ -104,7 +104,7 @@ Counter >> count: anInteger
 
 The message `shouldBeImplemented` is just a method to raise a specific error. So that the debugger reopens and that you can redefine the method. 
 
-![The system defined a generic method and restarted the execution: it is now waiting for a definition.](figures/XTDD10.png width=50&label=genericMethodDefined)
+![The system defined a generic method and restarted the execution: it is now waiting for a definition.](figures/NXTDD10.png width=50&label=genericMethodDefined)
 
 
 
@@ -124,7 +124,7 @@ Do it and compile the method. The class browser will prompt you for the creation
 ![Before compiling the method, the class browser shows us that the instance variable `count` does not exist yet.](figures/XTDD11.png width=50&label=countInDebu)
 
 
-![Defining a new instance variable from within the debugger.](figures/XTDD12.png width=50&label=InstVarInDebu)
+![Defining a new instance variable from within the debugger.](figures/NXTDD12.png width=50&label=InstVarInDebu)
 
 Compile the method, answer the prompt and you should get the method that we defined previously.
 Now continue the execution by pressing the Proceed button.
@@ -145,7 +145,7 @@ Counter >> count
 ```
 So just accept and press proceed. You test should be green and you get done.
 
-![Compiler proposed a definition for your accessor.](figures/XTDD16.png width=50&label=accessor)
+![Compiler proposed a definition for your accessor.](figures/NXTDD16.png width=50&label=accessor)
 
 
 

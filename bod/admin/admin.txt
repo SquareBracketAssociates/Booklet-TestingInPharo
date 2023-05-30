@@ -1,0 +1,5 @@
+format 15,5 * 22 cm
+Blanc 90
+couverture souple
+
+ISBN 9782322481149

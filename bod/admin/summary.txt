@@ -1,0 +1,8 @@
+Pharo is a modern, dynamically-typed, reflective, and pure object-oriented programming language - http://www.pharo.org. 
+
+Pharo inherits and enhances the testing spirit from its ancestor Smalltalk. Indeed, Pharo’s SUnit framework is the one of key asset of Agile Development as brought forward by K. Beck in its Test-Driven Development seminal book.
+
+But Pharo is much more powerful. It defines and supports eXtreme Test-Driven Development, a.k.a TDD on Steriods. Unique to Pharo, eXtreme Test-Driven Development is a powerful development technique that puts live objects at the center of the coding experience. With its unique flow, it delivers an excellent and unforeseen productivity mixing a fully live programming environment with TDD.
+
+In this book you will learn all the elements around TDD and XTDD. You will be empowered and understand why writing tests is not a side effect but a key element of the development process.
+Once immersed into XTDD you will not program the same way anymore.
