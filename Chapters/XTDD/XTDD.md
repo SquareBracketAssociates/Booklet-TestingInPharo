@@ -47,7 +47,7 @@ TestCase << #CounterTest
 ```
 
 ![Pharo class browser  shows the class `Counter` slanted because that class
-does not exist.](figures/XTDD3.png width=50&label=fig:gettingDefined)
+does not exist.](figures/XTDD3.png width=55&label=fig:gettingDefined)
 
 
 #### Define a first test
@@ -69,26 +69,26 @@ does not exist.
 
 When you compile the method, the system asks you to define the missing class (see Figure *@fig:DefinesPrompt@*).
 
-![Pharo class browser  request actions to handle the fact that the class `Counter` is undefined.](figures/XTDD4.png width=50&label=fig:DefinesPrompt)
+![Pharo class browser  request actions to handle the fact that the class `Counter` is undefined.](figures/XTDD4.png width=55&label=fig:DefinesPrompt)
 
 Finally the class browser propose you a class definition so that you can define the missing class on the spot (See Figure *@fig:Defined@*).
 Once the class is defined you will see that it is not slanted anymore in the class browser. 
 And you are ready to execute the test even if you did not define any method yet!
 This is the all point of XTDD.
 
-![Pharo class browser proposes a class definition for the class `Counter`.](figures/NXTDD5.png width=50&label=fig:Defined)
+![Pharo class browser proposes a class definition for the class `Counter`.](figures/NXTDD5.png width=55&label=fig:Defined)
 
 ### Executing a test to define missing methods
 Event if we did not define any methods yet, we will execute the test. 
 We will just press the little grey button on the left of the method name in the right most list as shown in Figure *@readyToTun@*. 
 It will raise an error because the methods `count:` and `count` are not defined. 
 
-![Executing a test pressing the grey button on the left of the method name will raise an error.](figures/XTDD7.png width=50&label=readyToTun)
+![Executing a test pressing the grey button on the left of the method name will raise an error.](figures/XTDD7.png width=55&label=readyToTun)
 
 Figure *@error1@* shows the debugger: It indicates that an instance of the class Counter did not understand the message `count:`.
 So far so good, this is what we expected. 
 
-![A debugger showing that the method `count:` is not defined hence led to an error.](figures/NXTDD8.png width=50&label=error1)
+![A debugger showing that the method `count:` is not defined hence led to an error.](figures/NXTDD8.png width=55&label=error1)
 
 #### Define a method on the fly
 Now we are ready to create a method on the fly.
@@ -104,7 +104,7 @@ Counter >> count: anInteger
 
 The message `shouldBeImplemented` is just a method to raise a specific error. So that the debugger reopens and that you can redefine the method. 
 
-![The system defined a generic method and restarted the execution: it is now waiting for a definition.](figures/NXTDD10.png width=50&label=genericMethodDefined)
+![The system defined a generic method and restarted the execution: it is now waiting for a definition.](figures/NXTDD10.png width=55&label=genericMethodDefined)
 
 
 
@@ -121,10 +121,10 @@ count: anInteger
 Here we define the method as we want it and yes the instance variable `count` does not exist yet.
 Do it and compile the method. The class browser will prompt you for the creation of `count` as an instance variable.
 
-![Before compiling the method, the class browser shows us that the instance variable `count` does not exist yet.](figures/XTDD11.png width=50&label=countInDebu)
+![Before compiling the method, the class browser shows us that the instance variable `count` does not exist yet.](figures/XTDD11.png width=55&label=countInDebu)
 
 
-![Defining a new instance variable from within the debugger.](figures/NXTDD12.png width=50&label=InstVarInDebu)
+![Defining a new instance variable from within the debugger.](figures/NXTDD12.png width=55&label=InstVarInDebu)
 
 Compile the method, answer the prompt and you should get the method that we defined previously.
 Now continue the execution by pressing the Proceed button.
@@ -135,7 +135,7 @@ The system will fail again because we did not define the method `count` as shown
 You should just add this method as previously showed. 
 
 
-![The debugger opens because the method `count` was not defined.](figures/XTDD15.png  width=50&label=countUndefined)
+![The debugger opens because the method `count` was not defined.](figures/XTDD15.png  width=55&label=countUndefined)
 
 Now notice that the compiler is guessing that the method is an accessor since it has the same name as the instance variable `count` (see Figure *@accessor@*). It proposes you the method body as:
 
@@ -145,7 +145,7 @@ Counter >> count
 ```
 So just accept and press proceed. You test should be green and you get done.
 
-![Compiler proposed a definition for your accessor.](figures/NXTDD16.png width=50&label=accessor)
+![Compiler proposed a definition for your accessor.](figures/NXTDD16.png width=55&label=accessor)
 
 
 
