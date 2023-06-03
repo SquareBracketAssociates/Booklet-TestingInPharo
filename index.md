@@ -42,7 +42,7 @@ Note that the version documented in this chapter and used in Pharo is a modified
 In this book, we use the following conventions.
 We use the new fluid class syntax introduced in Pharo 9. Fluid means that we use a cascade to define the class elements and omit the empty ones.
 
-When you were used defining a class as follows:
+When you were used to defining a class as follows:
 
 ```
 TestCase subclass: #MyExampleSetTest
