@@ -4,7 +4,7 @@ _Chapter Contributors:_ Evelyn Cusi and Daniel Aparicio
 
 During the construction of a web application, it is exhausting to have to test the entire flow of the application each time you modify it, and much more as the application grows. This chapter introduces Parasol to allow developers to automate tests with a collection of language-specific bindings, giving us the facility to test complex interactions in a matter of seconds.
 
-Parasol, also called _Beach Parasol_, is a Smalltalk framework to write functional/acceptance tests using Selenium WebDriver. Through Parasol, you can access all functionalities of Selenium WebDriver in an intuitive way. Parasol gives a convenient API to access to the WebDrivers of Selenium such as Chrome, Firefox, and others. Actually, Parasol supports Pharo 6.0 and 7.0, and also supports GemStone version 3.1, 3.2 and 3.3.
+Parasol, also called _Beach Parasol_, is a Smalltalk framework to write functional/acceptance tests using Selenium WebDriver. Through Parasol, you can access all functionalities of Selenium WebDriver in an intuitive way. Parasol gives a convenient API to access to the WebDrivers of Selenium such as Chrome, Firefox, and others. Actually, Parasol supports recent versions of Pharo and GemStone.
 Parasol was developed by Johan Brichau and Andy Kellens from Two Rivers.
 
 ### Getting started
