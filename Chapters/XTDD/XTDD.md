@@ -1,18 +1,17 @@
 ## Extreme Test-Driven Development  by Example
 
 
-
 In this chapter we will describe eXtreme Test-Driven Development (XTDD). 
 XTDD is a unique feature of Pharo and its tools.
 We show that XTDD is Test-Driven Development on steroids.
 What is really exciting is that XTDD takes live programming at its best.
 It shows that in Pharo we can develop smart tools that offer to developers
-absolutely gorgeous development flow.
+an absolutely gorgeous development flow.
 
 
 ### A simple and powerful principle
 
-The main idea behind XTDD is to avoid to break the development flow and to take advantage of live programming. 
+The main idea behind XTDD is to avoid breaking the development flow and to take advantage of live programming. 
 It is as simple as: 
 - First, you write a test.
 - Second, you execute the test.
@@ -24,13 +23,13 @@ You develop in the flow of the executed program interacting with the objects as 
 
 ### Studying an example
 
-Let us illustrate  eXtreme Test-Driven Development. 
+Let us illustrate eXtreme Test-Driven Development. 
 We use a dead simple counter. Nothing simpler.
 This way we will focus on the essence of the process.
 We want to show you that you can do it.
 
-Basically we will define a test, the system will help defining missing entities (classes).
-Then we will execute the test. It will break and via the debugger we will create new method, add new instance variable
+Basically we will define a test, and the system will help define missing entities (classes).
+Then we will execute the test. It will break and via the debugger, we will create new methods, add new instance variables
 and continue the execution without getting out of the debugger. 
 
 Let us get started.
@@ -62,7 +61,7 @@ CounterTest >> testSetAndGetCounter
 	self assert: (Counter new count: 22) count equals: 22
 ```
 
-Now during the definition of the method the system will notify you because the class `Counter` does not exist. 
+Now during the definition of the method, the system will notify you because the class `Counter` does not exist. 
 Figure *@fig:gettingDefined@* shows that the IDE presents the class `Counter` slanted to show that this class
 does not exist. 
 
@@ -71,16 +70,16 @@ When you compile the method, the system asks you to define the missing class (se
 
 ![Pharo class browser  request actions to handle the fact that the class `Counter` is undefined.](figures/XTDD4.png width=55&label=fig:DefinesPrompt)
 
-Finally the class browser propose you a class definition so that you can define the missing class on the spot (See Figure *@fig:Defined@*).
+Finally, the class browser proposes you a class definition so that you can define the missing class on the spot (See Figure *@fig:Defined@*).
 Once the class is defined you will see that it is not slanted anymore in the class browser. 
 And you are ready to execute the test even if you did not define any method yet!
-This is the all point of XTDD.
+This is the whole point of XTDD.
 
 ![Pharo class browser proposes a class definition for the class `Counter`.](figures/NXTDD5.png width=55&label=fig:Defined)
 
 ### Executing a test to define missing methods
-Event if we did not define any methods yet, we will execute the test. 
-We will just press the little grey button on the left of the method name in the right most list as shown in Figure *@readyToTun@*. 
+Even if we did not define any methods yet, we will execute the test. 
+We will just press the little grey button on the left of the method name in the rightmost list as shown in Figure *@readyToTun@*. 
 It will raise an error because the methods `count:` and `count` are not defined. 
 
 ![Executing a test pressing the grey button on the left of the method name will raise an error.](figures/XTDD7.png width=55&label=readyToTun)
@@ -92,7 +91,7 @@ So far so good, this is what we expected.
 
 #### Define a method on the fly
 Now we are ready to create a method on the fly.
-Just press the button Create. You will get prompt for the class, pick up the class `Counter`.
+Just press the button Create. You will get prompted for the class: pick up the class `Counter`.
 
 The debugger will show you that the system created a generic method named `count:` for you. 
 It is generic because there is no magic. As shown in Figure *@genericMethodDefined@*, this method is the following one:
@@ -102,7 +101,7 @@ Counter >> count: anInteger
 	self shouldBeImplemented
 ```
 
-The message `shouldBeImplemented` is just a method to raise a specific error. So that the debugger reopens and that you can redefine the method. 
+The message `shouldBeImplemented` is just a method to raise a specific error. So that the debugger reopens and you can redefine the method. 
 
 ![The system defined a generic method and restarted the execution: it is now waiting for a definition.](figures/NXTDD10.png width=55&label=genericMethodDefined)
 
@@ -132,7 +131,7 @@ Now continue the execution by pressing the Proceed button.
 %![](figures/XTDD14.png width=80)
 
 The system will fail again because we did not define the method `count` as shown in Figure *@countUndefined@*.
-You should just add this method as previously showed. 
+You should just add this method as previously shown. 
 
 
 ![The debugger opens because the method `count` was not defined.](figures/XTDD15.png  width=55&label=countUndefined)
@@ -143,7 +142,7 @@ Now notice that the compiler is guessing that the method is an accessor since it
 Counter >> count 
 	^ count
 ```
-So just accept and press proceed. You test should be green and you get done.
+So just accept and press proceed. Your test should be green and you get done.
 
 ![Compiler proposed a definition for your accessor.](figures/NXTDD16.png width=55&label=accessor)
 
@@ -155,9 +154,9 @@ So just accept and press proceed. You test should be green and you get done.
 
 The system performed several actions to improve the flow of programming: 
 - It created new methods for us.
-- It removed from the  the stack, the element with Error.
-- It replaced it by reexecuting the method that was invoking the missing one.
-- It relaunched the execution so that  so that we can define the method and proceed the execution.
+- It removed from the stack, the element with Error.
+- It replaced it by re-executing the method that was invoking the missing one.
+- It relaunched the execution so that we can define the method and proceed with the execution.
 
 We edited and recompiled the method.  And we could continue within the exact same flow of programming. 
 
@@ -170,9 +169,9 @@ We show you one simple cycle and now you are ready to:
 
 ### Why XTDD is powerful?
 
-EXtreme Test-Driven development is powerful because of the following reasons: 
+EXtreme Test-Driven development is powerful because for the following reasons: 
 
-- You do not have to guess what will be the exact context of call of a method. Since you are in the debugger you can access all the objects (receiver or arguments), you can inspect their specific state. So you avoid guessing, the objects are at your fingers just interact with them to validate hypotheses you need for defining your methods.
+- You do not have to guess what will be the exact context of the call of a method. Since you are in the debugger you can access all the objects (receiver or arguments), and you can inspect their specific state. So you avoid guessing, the objects are at your fingers just interact with them to validate the hypotheses you need for defining your methods.
 - Tests are not a side effect artifact but a strong driving force.
 - The development flow is smooth and strongly connected with your scenario. You write a test and use the test execution to define a context
 that helps you define the method. You define methods or instance variables as you go and when you need them. 
@@ -180,4 +179,4 @@ You do not have to plan and guess in advance.
 
 #### Protip from expert Pharo developers
 Pharo pro developers know what they can gain from XTDD this is why they try to grab an instance as fast as they can and send this object 
-a message. The best way is to write a test fixture and to execute. 
+a message. The best way is to write a test fixture and execute it. 
