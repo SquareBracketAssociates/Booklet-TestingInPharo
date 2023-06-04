@@ -2,9 +2,9 @@
 
 @cha:sunitexample
 In this chapter we present a small example showing how simple it is to use SUnit. 
-Before going into the details of SUnit \(see next Chapter\), we will show a step by step example. 
+Before going into the details of SUnit \(see next Chapter\), we will show a step-by-step example. 
 We use an example that tests the class `Set`. Try entering the code as we go along.
-We will create a test i.e., create a context \(also called a fixture\), execute a stimulus and verify that some assertions 
+We will create a test i.e., create a context \(also called a fixture\), execute a stimulus, and verify that some assertions 
 are working.
 
 If you already read the SUnit chapter on Pharo by Example book you can skip this chapter since 
@@ -13,7 +13,7 @@ the contents are the same.
 ### Step 1: Create the test class
 
 
-First you should create a new subclass of `TestCase` called
+First, you should create a new subclass of `TestCase` called
 `MyExampleSetTest` that looks like this:
 
 ```label=scr:exSet&caption=An Example Set Test class&language=Smalltalk
@@ -23,9 +23,9 @@ TestCase << #MyExampleSetTest
 
 
 The class `MyExampleSetTest` groups all the tests related to the class `Set`. 
-As we will show latter, we will use it to define the context in which the tests will run. 
+As we will show later, we will use it to define the context in which the tests will run. 
 
-The name of the class is not critical, but by convention it should end in
+The name of the class is not critical, but by convention, it should end in
 `Test`. If you define a class called `Pattern` and call the corresponding
 test class `PatternTest`, the two classes will be alphabetized together in the
 browser \(assuming that they are in the same package\). It _is critical_ that
@@ -43,7 +43,7 @@ The framework is there: use it.
 
 
 We start by defining a method named `testIncludes`.
-Pay attention the `'test'` part is important.
+Pay attention to the `'test'` part is important.
 Each method represents one test. 
 The names of the methods should start with the string `'test'` so that SUnit will collect them into test suites.
 Test methods take no arguments.
@@ -247,7 +247,7 @@ MyExampleSetTest debug: #testRemove
 
 The method `assert:` is defined in the class `TestAsserter`. This is a
 superclass of `TestCase` and therefore all other `TestCase` subclasses and
-is responsible for all kind of test result assertions. The `assert:` method
+is responsible for all kinds of test result assertions. The `assert:` method
 expects a boolean argument, usually the value of a tested expression. When the
 argument is true, the test passes; when the argument is false, the test fails.
 
@@ -268,7 +268,7 @@ Modify your tests to provoke both errors and failures.
 ### Conclusion
 
 
-- To maximize their potential, unit tests should be fast, repeatable, independent of any direct human interaction and cover a single unit of functionality.
+- To maximize their potential, unit tests should be fast, repeatable, independent of any direct human interaction, and cover a single unit of functionality.
 - Tests for a class called `MyClass` belong in a class named `MyClassTest`, which should be introduced as a subclass of `TestCase`.
 - Initialize your test data in a `setUp` method.
 - Each test method should start with the word _test_.

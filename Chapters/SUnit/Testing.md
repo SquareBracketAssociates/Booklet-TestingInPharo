@@ -224,11 +224,11 @@ The only real way to understand for real their values is by experience.
 The Pharo core development has three basic rules for testing.
 Here they are: 
 
-##### Important A test that is not automated is not a test.
+##### Important: A test that is not automated is not a test.
 
-##### Important Everything that is not tested does not exist.
+##### Important: Everything that is not tested does not exist.
 
-##### Important Everything that is not tested will break.
+##### Important: Everything that is not tested will break.
 
 With this in mind, we urge ourselves to write tests. 
 Sometimes we are sloppy and lazy but most of the time we push ourselves to stay bold.

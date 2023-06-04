@@ -1,23 +1,21 @@
 ## Introduction
 
-
-Pharo is a unique environment in which you can start to write a test, execute it, and from the debugger grow your program. 
-We coined this powerful technique Xtreme Test Driven Design. 
+Pharo is a unique environment in which you can write a test, execute it, and from the raised debugger grow your program. 
+We coined this powerful technique Xtreme Test-Driven Design.
 This is powerful because it gives you a unique situation where you are in close contact with the specific state of your program.
 There you can write your code interacting with a live organism \(the set of objects that are currently executing your program\).
 It gives you a unique opportunity to query and interact deeply with your objects. 
+Another important point is that tests are at the center of your development flow, not just because you were told to do so but 
+because tests help you develop faster and more robust software.
 
-Now describing Xtreme Test Driven Design feels like describing swimming among the fishes in a scuba diving session.
-It is difficult to transmit the sensation. 
-
-Xtreme TDD takes its root in testing and this is why in this book we will describe unit testing in Pharo.
-We will not explain Xtreme TDD more than that and if you want to try we suggest you to follow the video available at [http://rmod-pharo-mooc.lille.inria.fr/MOOC/PharoMOOC-Videos/EN/Week2/W2-Redo-EN-final.mp4](http://rmod-pharo-mooc.lille.inria.fr/MOOC/PharoMOOC-Videos/EN/Week2/W2-Redo-EN-final.mp4)
+Describing Xtreme Test-Driven Development feels like describing swimming among the fishes in a scuba diving session.
+It is difficult to transmit the sensation. Still, we explain Xtreme TDD in a full chapter using a simple example.
+Since Xtreme Test-Driven Development takes its root in unit testing, we will describe unit testing in Pharo.
 
 ### Outline
 
 In this book, we will present how to test and develop testing strategies in Pharo.
-We will present the SUnit framework, but also DrTests a plugin architecture to propose extensions and analyses
-to improve your tests.
+We will present the SUnit framework and its extensions.
 We show that contrary to what is commonly believed, testing UI is possible and that you can take advantage of it.
 We present how to connect your GitHub repository to take advantage of integration services.
 We also present how to test web applications. 
@@ -106,7 +104,7 @@ We want to thank Jimmie Houchin for improving the English of this book.
 ### Getting started
 
 
-We encourage you to experience test-driven development and in particular Xtreme test-driven development.
+We encourage you to experience Test-Driven Development and in particular Xtreme Test-Driven Development.
 Yes, writing tests looks like an extra effort but it is really worth it.
 Tests force you to design APIs. They give you insurance so that you will be able to change your code 
 without fear to break your code and not getting notified about it. 
