@@ -119,7 +119,7 @@ A `TestCase` class defines the context in which the tests will run.
 We will add the two instance variables `full` and `empty` that
 we will use to represent a full and an empty set.
 
-```label=scr:exSet&caption=An Example Set Test class&language=Smalltalk
+```label=scr:exSet2&caption=An Example Set Test class&language=Smalltalk
 TestCase << #MyExampleSetTest
 	slots: { #full . #empty};
 	package: 'MySetTest'
