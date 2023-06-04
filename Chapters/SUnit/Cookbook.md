@@ -1,7 +1,8 @@
 ## A little cookbook
 @cha:cookbook
 
-This chapter will give you more details on the possiblities offered to you to express tests. We will start to show that we can also have method comments that are automatically validated and as such as be  similar to elementary unit tests.
+This chapter will give you more details on the possibilities offered to you to express tests. 
+We will start to show that we can also have method comments that are automatically validated and that such executable comments are similar to elementary unit tests.
 
 Note that if you have used another testing framework such as JUnit, much of this will be familiar, since all these frameworks have their roots in SUnit. We will also present a powerful feature of SUnit: parametrized tests.
 
@@ -9,10 +10,10 @@ Note that if you have used another testing framework such as JUnit, much of this
 ### Testing comments
 
 Often you would like to comment your methods with little examples. 
-The problem of putting code snippets in the comment of a method is that they are doomed to rot.
-And you do not have an easy way to find comments that are outdated. 
+The problem with putting code snippets in the comment of a method is that they are doomed to rot.
+And you do not have an easy way to find outdated comments. 
 
-This is why, in Pharo you can also use executable comments to document your methods.
+This is why, in Pharo, you can also use executable comments to document your methods.
 An executable comment is a comment containing Pharo code but that follows a certain form (expression `>>>` resulting expression). This form makes sure that the IDE can check if they are still valid.
 
 Let us look at an example from the class ==String==.
@@ -33,15 +34,14 @@ String >> asCamelCase
 The comment `"'A man, a plan, a canal, panama' asCamelCase >>> 'AMan,APlan,ACanal,Panama'"` is an executable comment.
  It is delimited by `"` and `>>>`.
 - The message `>>>` delimits the expression from its result. 
-- On the left we get the expression.
-- On the right we get the result. 
+- On the left, we get the expression.
+- On the right, we get the result. 
 
 This way a tool can verify that the comment is correct. 
 
 
 
 ### Parameterized tests
-
 
 Since Pharo 7.0 you can express parameterized tests. 
 Parametrized tests are tests that can be executed on multiple configurations: your tests will run
@@ -56,7 +56,7 @@ To declare a parameterized test you have to:
 #### A simple example first
 
 Here is an example taken from the Enlumineur project which is a pretty printer for Pharo code.
-Using paramterized tests let us know whether two different pretty printers produce the same outputs.
+Using parametrized tests lets us know whether two different pretty printers produce the same outputs.
 
 We define the class `BIEnlumineurTest`. 
 It has different parameters expressed as instance variables such as `formatterClass` and `contextClass`.
@@ -69,7 +69,7 @@ ParametrizedTestCase <<: #BIEnlumineurTest
 
 
 This class should define accessors for its parameters, here for `formatterClass` and `contextClass`.
-The tests should use the tests instance variables and should not refer directly to the classes held by the instance variables. 
+The tests should use the test instance variables and should not refer directly to the classes held by the instance variables. 
 Else this would shortcut the idea of a parametrized test itself.
 
 Then we define the class method `testParameters` as follows. 
@@ -106,11 +106,11 @@ PaSelectedCasesExampleTest class >> testParameters
 
 
 Sometimes you do not want to enumerate all the combinations by hand.
-In that case you can use a matrix and specify all the possible values of a parameter.
+In that case, you can use a matrix and specify all the possible values of a parameter.
 The class `PaSimpleMatrixExampleTest` contains some examples.
 
 The following test executes 27 different cases. 
-All the combinations in the matrix are executed, i.e. item1 values will be enumerated, and for each ones, all the 
+All the combinations in the matrix are executed, i.e. item1 values will be enumerated, and for each one, all the 
 values of the other parameters will be also enumerated. 
 This way all possible combinations are generated and tests run for each of them.
 
@@ -124,7 +124,7 @@ PaSimpleMatrixExampleTest class >> testParameters
 ```
 
 
-The test matrix generates using a cartesian product the configurations or a set of well known cases.
+The test matrix generates using a cartesian product the configurations or a set of well-known cases.
 Each option is constituted from a set of possible values and a selector that is the name of the parameter to set in the test case instance.
 Another example of `testParameters` is: 
 
@@ -138,7 +138,7 @@ testParameters
 ```
 
 
-This example will generate 9 different configuration. One per each combination of `option1` and `option2`.  
+This example will generate 9 different configurations. One per each combination of `option1` and `option2`.  
 Do not forget that the test case should have a setter for each option.
 
 In addition each option can be a literal or a block to generate that value. The block has an optional parameter, the parameter is the test case to configure.
@@ -148,9 +148,10 @@ In addition each option can be a literal or a block to generate that value. The 
 ### Classes vs. objects as parameters
 
 
-There is a subtle but important point about the kind of the parameters. Indeed, we may wonder whether it is better to pass a class or an instance as parameter of a test. Theoritically there is not much difference between passing a class or an object.  
-However in practice there is a difference because when we pass an object, as in the following configuration, the framework does not recreate the object
-during each test execution. Therefore if your object accumulates information, then such information will be shared amongs your tests and this is a bad idea. 
+There is a subtle but important point about the kind of parameters. 
+Indeed, we may wonder whether it is better to pass a class or an instance as a parameter of a test. Theoretically, there is not much difference between passing a class or an object.  
+However, in practice, there is a difference because when we pass an object, as in the following configuration, the framework does not recreate the object
+during each test execution. Therefore if your object accumulates information, then such information will be shared among your tests and this is a bad idea. 
 
 ```
 CbkDlittleImporterTest class >> testParameters
@@ -162,7 +163,7 @@ CbkDlittleImporterTest class >> testParameters
 
 
 The solution is to favor passing classes as follows and to explicitly create objects in the `setUp`. 
-This way you are sure that your object does not hold state from previous execution.
+This way you are sure that your object does not hold its state from the previous execution.
 
 ```
 CbkDlittleImporterTest class >> testParameters
@@ -180,7 +181,7 @@ CbkDlittleImporterTest >> importerClass: anImporterClass
 ```
 
 
-In conclusion, we suggest to pass instances as parameters when the objects are not complex
+In conclusion, we suggest passing instances as parameters when the objects are not complex
 and to favor classes otherwise.
 
 ### Other assertions
@@ -211,18 +212,18 @@ method below illustrates the use of `should:raise:`.
 Try running this test. Note that the first argument of the `should:` and
 `shouldnt:` methods is a block that contains the expression to be executed.
 
-Note that this is usually not really good to catch exception using the `Error` class, since
+Note that this is usually not good to catch exceptions using the `Error` class since
 it is catching basically everything. In that current case, the `at:` primitive signals an instance of `Error` so 
-we have deal with it. 
+we have to deal with it. 
 
 #### Using `assert:equals:`
 
 
 In addition to `assert:`, there is also `assert:equals:` that offers a
-better report in case of error \(incidentally, `assert:equals:` uses `assert:description:`\).
+better report in case of error (incidentally, `assert:equals:` uses `assert:description:`).
 
 For example, the two following tests are equivalent. However, the second one
-will report the value that the test is expecting: this makes easier to
+will report the value that the test is expecting: this makes it easier to
 understand the failure. In this example, we suppose that `aDateAndTime` is an
 instance variable of the test class.
 
@@ -239,7 +240,6 @@ testAsDate
 
 
 #### Assertion description strings
-
 @sec:descriptionStrings
 
 The `TestAsserter` assertion protocol includes a number of methods that allow
@@ -280,8 +280,8 @@ Normally, you will run your tests using the Test Runner or using your code
 browser. You can also run a single test as follows:
 
 ```testcase=true
-MyExampleSetTest run: #testRemove
->>> 1 run, 1 passed, 0 failed, 0 errors
+> MyExampleSetTest run: #testRemove
+1 run, 1 passed, 0 failed, 0 errors
 ```
 
 
@@ -293,8 +293,8 @@ Any subclass of `TestCase` responds to the message `suite`, which builds a test 
 To run the tests in the suite, send it the message `run`. For example:
 
 ```testcase=true
-MyExampleSetTest suite run
->>> 5 run, 5 passed, 0 failed, 0 errors
+> MyExampleSetTest suite run
+5 run, 5 passed, 0 failed, 0 errors
 ```
 
 
@@ -304,8 +304,7 @@ MyExampleSetTest suite run
 
 ### Advanced features of SUnit
 
-
-In addition to `TestResource` that we present just in subsequent section, SUnit contains assertion description strings,
+In addition to `TestResource` that we present just in the subsequent section, SUnit contains assertion description strings,
 logging support, the ability to skip tests, and resumable test failures.
 
 
@@ -346,7 +345,7 @@ OCCompiledMethodIntegrityTest >> testPragmas
 
 
 It is better to use `skip` than to use a simple `^ self` because in the latter case
-you may think that you test is executed while it is not!
+you may think that your test is executed when it is not!
 
 #### Continuing after a failure
 
@@ -363,7 +362,7 @@ aCollection do: [ :each | self assert: each even ]
 
 
 In this case, as soon as the test finds the first element of the collection that isn't `even`, the test stops. 
-However, we would usually like to continue, and see both how many elements, and which elements, aren't `even` \(and maybe also
+However, we would usually like to continue and see both how many elements, and which elements, aren't `even` \(and maybe also
 log this information\). 
 
 You can do this as follows:
@@ -389,7 +388,7 @@ One of the important features of a suite of tests is that they should be
 independent of each other.
 The failure of one test should not cause an avalanche of failures of other tests that depend upon it, nor should the order in which
 the tests are run matter.
-Performing `setUp` before each test and `tearDown` afterwards helps to reinforce this independence.
+Performing `setUp` before each test and `tearDown` afterward helps to reinforce this independence.
 
 However, there are occasions where setting up the necessary context is just too time-consuming for it to be done before the execution of each test. 
 Moreover, if it is known that the test cases do not disrupt the resources used by the tests, then it is wasteful to set them up afresh for each test. 
@@ -404,7 +403,7 @@ start to run.
 
 Where should we cache these resources, so that they can be shared by a suite of tests? The instance variables of a particular `TestCase` subclass won't
 do, because a TestCase instance persists only for the duration of a single test \(as mentioned before, the instance is created anew _for each test method_\). 
-A global variable would work, but using too many global variables pollutes the name space, and the binding between the global and the tests that depend on it will not be explicit. 
+A global variable would work, but using too many global variables pollutes the namespace, and the binding between the global and the tests that depend on it will not be explicit. 
 
 A better solution is to define a TestResource and use it. 
 The class `TestResource` implements a singleton to manage the execution of setUp and tearDown around a complete test suite as shown in Figure *@fig:setUpAndTearDownWithR@*.
@@ -414,7 +413,7 @@ Methods `setUp` and `tearDown` should be overridden in the subclass to ensure th
 One thing remains: somehow, SUnit has to be told which resources are associated with which test suite. A resource is associated with a particular subclass of
 `TestCase` by overriding the _class_ method `resources`.
 
-By default, the resources of a `TestSuite` are the union of the resources of the `TestCase`s that it contains.
+By default, the resources of a `TestSuite` are the union of the resources of the `TestCase`'s that it contains.
 
 Here is an example. We define a subclass of `TestResource` called `MyTestResource`.
 Then we associate it with `MyTestCase` by overriding the class method `MyTestCase class >> resources` to return an array of the test resource classes that `MyTestCase` will use.
@@ -433,7 +432,7 @@ MyTestCase class >> resources
 ```
 
 
-You can also defines the instance side method `isAvailable` to indicate whether the resource is available.
+You can also define the instance side method `isAvailable` to indicate whether the resource is available.
 But if you need this, better read the code of the `TestResource` class. 
 
 
@@ -441,7 +440,7 @@ But if you need this, better read the code of the `TestResource` class.
 
 
 The following trace \(written to the `Transcript`\) illustrates that a global
-set up is run before and after each test in a sequence. Let's see if you can
+setup is run before and after each test in a sequence. Let's see if you can
 obtain this trace yourself.
 
 ```
@@ -489,14 +488,17 @@ MyTestResource >> tearDown
 ```
 
 
-
-
-### Customising tests
-
+### Customising tests: Examples as tests
 
 In this section, we show that SUnit offers two hooks to define what a test selector is and how to perform the test.
-Imagine that we want to support a class method on a given class returned by `classWithExamplesToTest` whose selector follow the pattern `example*` methods are considered as tests.
-We can define method `testSelectors` as follows:
+
+Imagine that we want to support example methods as tests. 
+Let us define what are example methods: 
+Let us say that an example method is a class method if its selector follows the pattern `example*`.
+
+For the sake of simplicity imagine that the method `classWithExamplesToTest` returns a class defining example methods.
+
+We can then define the method `testSelectors` as follows:
 
 ```
 HiExamplesTest class >> testSelectors [
@@ -505,13 +507,15 @@ HiExamplesTest class >> testSelectors [
 		thenCollect: [ :each | each selector ]
 ```
 
-Then we can redefine the method `performTest` to example the method on the class itself. 
+Then we can redefine the method `performTest` to execute the example method on the class itself. 
 
 ```
 HiExamplesTest >> performTest
  	example := self class classWithExamplesToTest perform: testSelector asSymbol
 ```
 
+What you can see is that with a couple of methods, we can extend SUnit to support alternative ways to define and execute tests.
+No need for several tenths of classes as in some solutions.
 
 
 ### Inheriting TestCase
@@ -519,10 +523,10 @@ HiExamplesTest >> performTest
 
 A new `TestCase` can inherit tests from a superclass.
 The logic is a bit cumbersome. 
-By default a new test case class inherits from a subclass of `TestCase` that is abstract. 
-If your new subclass as no test methods it will inherit from its superclass.
+By default, a new test case class inherits from a subclass of `TestCase` that is abstract. 
+If your new subclass has no test methods it will inherit from its superclass.
 
-Otherwise if your new class has selectors and inherits from a concrete superclass, you should redefine `shouldInheritSelectors`
+Otherwise, if your new class has selectors and inherits from a concrete superclass, you should redefine `shouldInheritSelectors`
 to return `true`.
 
 What developers use in practice is the last part: to redefine the method `shouldInheritSelectors`.
@@ -530,7 +534,6 @@ For example, this is what the `CoCompletionEngineTest` class is doing to inherit
 
 ```
 CoCompletionEngineTest >> shouldInheritSelectors
-
 	^ true
 ```
 
@@ -538,7 +541,7 @@ CoCompletionEngineTest >> shouldInheritSelectors
  Here is the definition of the method `shouldInheritSelectors`. 
 ```
 TestCase class >> shouldInheritSelectors
-	"I should inherit from an Abstract superclass but not from a concrete one by default, 
+	"I should inherit from an Abstract superclass but not from a concrete one by default 
 	unless I have no testSelectors in which case I must be expecting to inherit them from my superclass.  
 	If a test case with selectors wants to inherit selectors from a concrete superclass, override this to true in that subclass."
 	
@@ -547,10 +550,7 @@ TestCase class >> shouldInheritSelectors
 ```
 
 
-
-
 ### Conclusion
-
 
 SUnit is a simple framework but it already provides a powerful set of mechanisms to take real advantage of writing tests.
 In particular parametrized tests are a powerful method when you have several objects that expose the same API, then you can reuse your 
