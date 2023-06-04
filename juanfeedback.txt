@@ -1,7 +1,0 @@
-
-
-
-Page 23. edtiable  --> editable
-Page 66.  ’instance creation’  ’teaching’ --> first simple quote is the other way around.
-Page 67. Theverify: --> there is a missing step between the and verify:
-Page 71. At the beginning, mention that I contribute to the chapter, but this may be redundant since I am part of the authors.
