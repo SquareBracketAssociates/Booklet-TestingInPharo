@@ -2,9 +2,9 @@
 
 _Chapter Contributors:_ Evelyn Cusi and Daniel Aparicio
 
-During the construction of a web application, it is exhausting to have to test the entire flow of the application each time you modify it, and much more as the application grows. This chapter introduce Parasol to allow developers to automate tests with a collection of language specific bindings, giving us the facility to test complex interactions in matter of seconds.
+During the construction of a web application, it is exhausting to have to test the entire flow of the application each time you modify it, and much more as the application grows. This chapter introduces Parasol to allow developers to automate tests with a collection of language-specific bindings, giving us the facility to test complex interactions in a matter of seconds.
 
-Parasol, or also called _Beach Parasol_, is a Smalltalk framework to write functional/acceptance tests using Selenium WebDriver. Through Parasol, you can access to all functionalities of Selenium WebDriver in an intuitive way. Parasol gives a convenient API to access to the WebDrivers of Selenium such as: Chrome, Firefox and others. Actually, Parasol supports Pharo 6.0 and 7.0, also supports GemStone version 3.1, 3.2 and 3.3.
+Parasol, also called _Beach Parasol_, is a Smalltalk framework to write functional/acceptance tests using Selenium WebDriver. Through Parasol, you can access all functionalities of Selenium WebDriver in an intuitive way. Parasol gives a convenient API to access to the WebDrivers of Selenium such as Chrome, Firefox, and others. Actually, Parasol supports Pharo 6.0 and 7.0, and also supports GemStone version 3.1, 3.2 and 3.3.
 Parasol was developed by Johan Brichau and Andy Kellens from Two Rivers.
 
 ### Getting started
@@ -25,7 +25,7 @@ ZnZincServerAdaptor startOn: 8080.
 ```
 
 
-Since, Parasol uses Selenium WebDriver, you must download Selenium WebDriver and a browser driver, this last one depends on which browser you want to use to test your application.
+Since Parasol uses Selenium WebDriver, you must download Selenium WebDriver and a browser driver, this last one depends on which browser you want to use to test your application.
 
 #### Downloading Selenium web driver
 
@@ -34,20 +34,20 @@ Selenium is a Java program, therefore it requires a Java Runtime Environment \(J
 If Java Runtime Environment \(JRE\) is not installed on your system, you can download the JRE from the Oracle website.
 
 In this chapter, we use Selenium server 3.141.x to run our examples. 
-You can download it from the official page of Selenium. The name of file should contain the following prefix:
+You can download it from the official page of Selenium. The name of the file should contain the following prefix:
 
 ```
 selenium-server-standalone-3.141.x.jar
 ```
 
 
-You may use the following commant to run Selenium server in your computer.
+You may use the following command to run Selenium server on your computer.
 ```
 java -Dwebdriver.chrome.driver=chromedriver -jar selenium-server-standalone-3.141.x.jar
 ```
 
 
-Note that for running the previous command you need to configure  java in the PATH \(environmente variable\).
+Note that for running the previous command you need to configure Java in the PATH \(environment variable\).
 
 #### Browser driver
 
@@ -64,13 +64,13 @@ We use Chromedriver version 80.0.3987.106 to run the chapter examples, but you c
 
 ### First steps with Selenium
 
-This section describes a simple test wrote using parasol. 
+This section describes a simple test written using Parasol. 
 This section assumes that you have already installed Parasol and Selenium server is already running.
 
 #### A first test
 
 Let's start easy and assume we want to test if the title of the [http://pharo.org](http://pharo.org) website is correct. 
-For this, first we need to create a class that inherits from `TestCase`.
+For this, first, we need to create a class that inherits from `TestCase`.
 
 ```
 TestCase << #PharoOrgTest
@@ -90,11 +90,10 @@ PharoOrgTest >> testTitleOfPharoPage
 ```
 
 
-#### Step by step explanation
-
+#### Step-by-step explanation
 
 First, we create a subclass of `TestCase`, we do not need instance or class variables for now. 
-We placed this subclass is in the FT-Parasol package.
+We placed this subclass in the FT-Parasol package.
 
 ```
 TestCase << #PharoOrgTest
@@ -111,8 +110,8 @@ driver := BPRemoteWebDriver withCapabilities: BPChromeOptions new.
 
 Note that if you want to use another driver, you must change the class `BPChromeOptions` to another browser driver compatible with Parasol.
 
-The `get` method loads a given URL and allow you to navigate through the website.
-The WebDriver will wait that the page is fully loaded before returning the control to the test.
+The `get` method loads a given URL and allows you to navigate through the website.
+The WebDriver will wait until the page is fully loaded before returning the control to the test.
  If your page loads a large amount of AJAX, then WebDriver may not know when the page has been fully loaded.
 
 ```
@@ -127,7 +126,7 @@ self assert: 'Pharo - Welcome to Pharo!' equals: driver getTitle.
 ```
 
 
-Finally, we close browser window.
+Finally, we close the browser window.
 
 ```
 driver close.
@@ -139,8 +138,7 @@ Note that the `close` method will close a tab only if there is an open tab, by d
 
 #### Improve the structure of your test
 
-
-In our previous example, we wrote the entire test in one method, however, is a best practice add all the prerequisites of the tests on the `setUp` method and all the steps of cleaning on the `tearDown` method.
+In our previous example, we wrote the entire test in one method, however, the best practice is to add all the prerequisites of the tests on the `setUp` method and all the steps of cleaning on the `tearDown` method.
 
 Therefore, to improve the structure of these tests, we first will convert the temporary variable driver into an instance variable.
 
@@ -151,7 +149,7 @@ TestCase << #PharoOrgTest
 ```
 
 
-Next, we will place the statements that load the drive the `setUp` method:
+Next, we will place the statements that load the driver in the `setUp` method:
 
 ```
 PharoOrgTest >> setUp
@@ -168,7 +166,7 @@ PharoOrgTest >> tearDown
 	driver quit
 ```
 
-Finally, our test method will be rewrited as follows:
+Finally, our test method will be rewritten as follows:
 ```
 PharoOrgTest >> testTitleOfPharoPage
 	self assert: 'Pharo - Welcome to Pharo!' equals: driver getTitle.
@@ -180,7 +178,8 @@ Now, if you run this test again, you should behave in the same way as the first 
 ### Locating elements with Parasol: The basics
 
 
-In our tests, we would like to verify also if some particular HTML elements display the information we want to. But before to perform this verification, we first need to find these elements.
+In our tests, we would like to verify also if some particular HTML elements display the information we want. 
+But before performing this verification, we first need to find these elements.
 Parasol uses what are called _Locators_ to find and match the elements of the web page. 
 Parasol has eight locators as shown in the following table.
 
@@ -201,7 +200,7 @@ You can use any of them to find the element that you are looking for in your app
 
 #### Find element by ID
 
-The use of ID is the easiest and probably the safest way to locate an element on HTML. Test scripts that use IDs are less prone to changes in the application.
+The use of ID is the easiest and probably the safest way to locate an element in HTML. Test scripts that use IDs are less prone to changes in the application.
 For example, consider the following HTML form:
 
 ```
@@ -219,14 +218,16 @@ textField := driver findElementByID: 'fullName'.
 ```
 
 
-If no element has the ID attribute that match with the provided one, a `BPNoSuchElementException` exception will be raised.
+If no element has the ID attribute that matches the provided one, a `BPNoSuchElementException` exception will be raised.
 
 
 #### Find element by name
 
-An HTML element may have an attribute called `name`, they are normally used in the forms such as text fields and selection buttons. The values of the attributes of name are passed to the server when a form is sent. In terms of lower probability of change, the attribute name is probably the second in importance after ID.
+An HTML element may have an attribute called `name`, they are normally used in the forms such as text fields and selection buttons. 
+The values of the attributes of the name are passed to the server when a form is sent. 
+In terms of a lower probability of change, the attribute name is probably the second in importance after ID.
 
-Considering the previous HTML code of example, you can locate the elements using the `findElementByName` method:
+Considering the previous HTML code example, you can locate the elements using the `findElementByName` method:
 ```
 textField := driver findElementByName: 'textInfo'.
 ```
@@ -236,7 +237,9 @@ textField := driver findElementByName: 'textInfo'.
 #### Find element by link and partial link
 
 
-It is possible to find an element based on its link.  You can use this way of location of elements when you know the link text used inside of an anchor tag. With this strategy, the first element with the value of text link that matches with the location will be returned.
+It is possible to find an element based on its link.
+You can use this way of the location of elements when you know the link text used inside of an anchor tag. 
+With this strategy, the first element with the value of the text link that matches the location will be returned.
 For instance, we may find the following anchor element:
 
 ```
@@ -252,13 +255,14 @@ linkPharo := driver findElementByPartialLinkText: 'Go to'.
 ```
 
 
-Notice that with `findElementByPartialLinkText` we don't need to give the full text link, just part of it.
+Notice that with `findElementByPartialLinkText` we don't need to give the full-text link, just part of it.
 
 
 #### Find element by tag name
 
 
-Finding elements by a tag name is used when you want to locate an element by the name of its label. However, because there is a limited set of tag names, it is very possible that more than one element with the same name of tag exists, so this locator is not normally used to identify an element, instead, it is more common to use it in chained locations.
+Finding elements by a tag name is used when you want to locate an element by the name of its label. 
+However, because there is a limited set of tag names, it is very possible that more than one element with the same name of tag exists, so this locator is not normally used to identify an element, instead, it is more common to use it in chained locations.
 
 Consider our previous example form:
 ```
@@ -280,7 +284,7 @@ input := driver findElementByTagName: 'input'
 #### Find element by class name
 
 
-The class attribute of a HTML element is used to add style to our pages. And it can be used to identify elements too.
+The class attribute of an HTML element is used to add style to our pages. And it can be used to identify elements too.
 
 In the next example:
 ```
@@ -289,7 +293,7 @@ In the next example:
 ```
 
 
-We can use any of the following line to locate the _testclass_ elements.
+We can use any of the following lines to locate the _testclass_ elements.
 
 ```
 testClassOne := driver findElementByClassName: 'testclass1'.
@@ -304,7 +308,7 @@ It is common in web applications to use the same class attribute in several elem
 
 You can locate an element through the syntax of the CSS selector.
 
-By example, the element `p` of the next HTML code:
+For example, the element `p` of the next HTML code:
 ```
 <p class="content">Hello, how are you?</p>
 ```
@@ -319,7 +323,8 @@ paragraphHello := driver findElementByCSSSelector: 'p.content'
 
 
 XPath, the XML Path Language, is a query language for selecting nodes from an XML document. 
-When a browser renders a web page, the HTML contents may be parsed into a DOM tree or similar. Therefore, it is possible to find a specific node in the tree using XPath.  To illustrate how to find a element with XPath we will use the next HTML code as example:
+When a browser renders a web page, the HTML contents may be parsed into a DOM tree or similar. Therefore, it is possible to find a specific node in the tree using XPath.  
+To illustrate how to find an element with XPath, we will use the next HTML code as example:
 
 ```
     <div id="testDiv1">
@@ -341,14 +346,14 @@ testDiv := driver findElementByXPath: '//div[@id=''testDiv2'']'
 
 For locating elements with XPath, we first need to understand their syntax. Therefore, to use this option, you will first need to learn XPath syntax.
 
-Note that XPath is a very powerful way to locate web elements when by id, by name or by link text are not applicable. 
-However, XPath expression are vulnerable to structure changes around the web element, because the path from the root to the target element may change.
+Note that XPath is a very powerful way to locate web elements when by id, by name, or by link text are not applicable. 
+However, XPath expressions are vulnerable to structure changes around the web element, because the path from the root to the target element may change.
 
 
 ### Finding multiple elements
 
 There are some cases in which you can have more than one element with the same attributes.
-This is the case of  the following example: two div siblings have the same attributes.
+This is the case of the following example: two div siblings have the same attributes.
 
 ```
 <div id = "div1">
@@ -360,7 +365,7 @@ This is the case of  the following example: two div siblings have the same attri
 ```
 #### Chaining findElement to find a child element
 In these cases, XPATH can be used, however, there is a simpler way, using nested selectors which is nothing else than locating elements in the result of a previous location.
-For example the following locates the div entry with id `'div2'` :
+For example, the following locates the div entry with id `'div2'` :
 
 ```
 inputOfDiv2 := (driver findElementByID: 'div2') findElementByName: 'same'
@@ -370,7 +375,7 @@ inputOfDiv2 := (driver findElementByID: 'div2') findElementByName: 'same'
 #### Multiple elements
 
 
-As the name suggests, `findElementsByTagName` returns a list of matching elements. Its syntax is exactly the same as `findElement`, but in plural `findElements`.
+As the name suggests, `findElementsByTagName` returns a list of matching elements. Its syntax is exactly the same as `findElement`, but in the plural `findElements`.
 
 For example, to get all div of our previous example:
 ```
@@ -410,7 +415,7 @@ Using the following form as an example we will show how to interact with it and 
 #### Filling text in a text field
 
 
-To fill the username and password fields in this form, we first have to select them, for this, we will use the following code:
+To fill in the username and password fields in this form, we first have to select them, for this, we will use the following code:
 ```
 name := driver findElementByName: 'username'.
 password := driver findElementByName: 'password'
@@ -425,7 +430,7 @@ password sendKeys: 'xxxxxxx'.
 ```
 
 
-It is possible  to  send the message `sendKeys:` in any element: This makes it possible to validate keyboard shortcuts.
+It is possible to send the message `sendKeys:` in any element: This makes it possible to validate keyboard shortcuts.
 However, writing something in a text field does not automatically delete it.
 Instead, what you write will be attached to what is already there. 
 You can easily delete the content of a text field or text area with the message `clear`.
@@ -447,10 +452,10 @@ loginButton click.
 ### Parasol in action
 
 
-Previous sections introduced Parasol features though basic examples. 
-This section applies eveything learned during the chapter to create a number of tests for a small but real website called _Mercury Tours_.
+Previous sections introduced Parasol features through basic examples. 
+This section applies everything learned during the chapter to create a number of tests for a small but real website called _Mercury Tours_.
 _Mercury Tours_ is an agency that offers trips. 
-Maybe if you worked with automated web test before, you are familiar with it.
+Maybe if you worked with automated web tests before, you are familiar with them.
 
 #### Setting up tests
 
@@ -462,9 +467,8 @@ TestCase << #EPTest
 	package: 'Example-Parasol-Tests'
 ```
 
-
 As we see in previous sections, the instance variable driver represents our browser driver necessary to work with Parasol and its methods.
-Second, we need to initiallize the driver and load the page, since we need to do this step for all the tests we will place this in the `setUp` method.
+Second, we need to initialize the driver and load the page, since we need to do this step for all the tests we will place this in the `setUp` method.
 
 ```
 EPTest >> setUp
@@ -510,7 +514,7 @@ With the Selenium server and the test running, we can see that our browser was o
 ![The Mercury Tours WebSite.](figures/newtours width=80&label=newtours)
 
 
-After the web browser is closed, we can see that the test passed because our page have the title _Welcome: Mercury Tours_ in our tab. 
+After the web browser is closed, we can see that the test passed because our page has the title _Welcome: Mercury Tours_ in our tab. 
 So it's time to do something more complex.
 
 ### Testing displayed information
@@ -520,7 +524,7 @@ The Mercury Tours page has a lot of information on its home page.
 So, why not try to test this information?
 As an example, we will write a test to verify the information in the table called _specials_.
 Assume that you want to test that the first row is the flight from Atlanta to Las Vegas and the price is \$398. 
-How do we do that? First step is to know how our page represents this information.
+How do we do that? The first step is to know how our page represents this information.
 
 Use the developer tools of Chrome browser and select the desired row. 
 We get the following HTML code:
@@ -549,10 +553,10 @@ We can see the following details:
 - The CSS or the Tag Name can't help us to find this row.
 
 
-In this special  cases, XPath is a useful locator in this particular case.
+In this special case, XPath is a useful locator in this particular case.
 First, we need to create a subclass of `EPTest`. 
 We are using `EPTest` as a base class for future test classes.
-This decision give us a number of benefits, for instance, we may find easily all test classes by inspecting the subclasses of `EPTest`, and we can reuse some methods in the subclasses, in particular, the `setUp` and `tearDown` methods.
+This decision gives us a number of benefits, for instance, we may find easily all test classes by inspecting the subclasses of `EPTest`, and we can reuse some methods in the subclasses, in particular, the `setUp` and `tearDown` methods.
 
 Therefore, we define the following class:
 ```
@@ -562,8 +566,8 @@ EPTest << #EPHomePageTest
 
 
 `EPHomePageTest` is a class only dedicated to testing the home page and all elements that are part of this.
-Taking our HTML code as a base, create a method to get the flight and and its price, then test if the value of these elements is the same as the expected result.
-The following method give us the expected result, but it contains some things that we can improve.
+Taking our HTML code as a base, create a method to get the flight and its price, then test if the value of these elements is the same as the expected result.
+The following method gives us the expected result, but it contains some things that we can improve.
 
 ```
 EPHomePageTest >> testPriceAndInfoForFlightFromAtlantaToLasVegas
@@ -609,13 +613,13 @@ EPHomePageTest >> testFlightFromAtlantaToLasVegas
 
 
 We test a part of the home page, if you want to test other parts, follow the previous steps and try to construct multiple tests.
-The tests above are a good example of how we get elements from a HTML page and test if the displayed page contains the correct information we want to display.
+The tests above are a good example of how we get elements from an HTML page and test if the displayed page contains the correct information we want to display.
 
 ### Testing interactions
 
 We will now show how to test interactions. 
-It's an important step to test, so we will explain how you could you do it.
-In this example, we will create a test that registers a user in the website.
+It's an important step to test, so we will explain how you could do it.
+In this example, we will create a test that registers a user on the website.
 First, we will create another subclass of `EPTest` called `EPRegisterUserTest`.
 
 ```
@@ -658,11 +662,11 @@ EPRegisterUserTest >> testEntryToRegisterPage
 ```
 
 
-In this page we have a registration form with multiple fields.
+In this page, we have a registration form with multiple fields.
 If we want to register on the page we must complete three sections in the form.
-Contact, mailing and user information, so we define three tests to complete these sections.
+Contact, mailing, and user information, so we define three tests to complete these sections.
 
-As you remember, the first step is to see how the page render the elements in the form. 
+As you remember, the first step is to see how the page renders the elements in the form. 
 For this, we inspect the HTML code using the browser tools.
 The following code shows the contact information HTML code:
 
@@ -715,10 +719,10 @@ We can draw the following conclusions from the HTML code:
 - All forms are in a table.
 
 
-With these conclusions we can start with the tests.
+With these conclusions, we can start with the tests.
 The test `firstNameField` tests whether the correct information is entered into the contact information section.
-Like our previous methods, we need to create multiple methods to get the fields elements to put some information into them.
-At following we show one method that returns the field with the name `firstName`.
+Like our previous methods, we need to create multiple methods to get the field's elements to put some information into them.
+In the following, we show one method that returns the field with the name `firstName`.
 
 
 ```
@@ -727,8 +731,8 @@ EPRegisterUserTest >> firstNameField
 ```
 
 
-You need to create as many of these you need to get all the form fields you need for your test.
-The next step is create a method to set information to fields.
+You need to create as many of these as you need to get all the form fields you need for your test.
+The next step is to create a method to set information to fields.
 We use the message `sendKeys` to set the information that we want.
 
 ```
@@ -756,8 +760,8 @@ If we run the test we can see how Parasol introduces the information to the fiel
 ![Filling fields using Parasol.](figures/contactInfo width=80&label=contactInfo)
 
 
-Now, we can create tests to fill information to other sections. 
-An important observation is the select box in mailing information section.
+Now, we can create tests to fill in the information to other sections. 
+An important observation is the select box in the mailing information section.
 If we want to test it, we need to use another method to assert it.
 In this case, the selected option contains the attribute called `selected`. 
 So, we define the next method to get this element:
@@ -779,9 +783,9 @@ EPRegisterUserTest >> testIntroduceInformationInMailingSection
 ```
 
 
-It is also posible change the value of the combo box using the `sendKeys` message as we saw in previous examples.
+It is also possible to change the value of the combo box using the `sendKeys` message as we saw in previous examples.
 
-Now, with all fields tested, we define a test to the user registration on the page.
+Now, with all fields tested, we define a test for the user registration on the page.
 If you created the `fillInformationToMailingSection` and `fillInformationToUserSection` methods, we will use these methods.
 If you didn't, you need to create these methods.
 
@@ -798,7 +802,7 @@ In the page, when you register a user you obtain the following view:
 
 
 We have two options to assert if the user is registered:
-- Get the text 'sign-off' of sign-off option
+- Get the text 'sign-off' of the sign-off option
 - Get the description text below the register title.
 
 
@@ -827,15 +831,14 @@ and password you''ve just entered.'
 ```
 
 
-Sometimes this test can fail because the page needs to save the new user and load the successfully message.
+Sometimes this test can fail because the page needs to save the new user and load the successful message.
 Another problem that can cause the test failure is the time it takes for our Selenium server to use the browser driver.
 So we use the timeout pragma to try to avoid this, but you can also use the `Delay` class.
 If you don't have this problem, delete the line.
 
-Finally run the test and observe its result. If the test passed, you are now able to create multiple tests using Parasol. 
+Finally, run the test and observe its result. If the test passed, you are now able to create multiple tests using Parasol. 
 
 ### Conclusion
 
-
 The purpose of this chapter was to introduce the basics of Parasol to create a test suite.
-You should now be able to find elements in a website, fill information in fields, and interact with the website throught links and buttons.
+You should now be able to find elements in a website, fill in the information in fields, and interact with the website through links and buttons.
