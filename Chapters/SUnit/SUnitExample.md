@@ -57,7 +57,7 @@ The method `assert:` checks that the argument is a boolean true.
 
 Define the following test methods. The first test, named `testIncludes`, tests
 the `includes:` method of `Set`. For example, the test says that sending the message
-`includes: 5` to a set containing 5 should return `true`.
+&nbsp;`includes: 5` to a set containing 5 should return `true`.
 
 ```caption=Testing includes
 MyExampleSetTest >> testIncludes
@@ -191,8 +191,8 @@ MyExampleSetTest >> testRemove
 
 
 Note the use of the method `TestCase >> deny:` to assert something that should not be true. 
-`aTest deny: anExpression` is equivalent to
-`aTest assert: anExpression not`, but is much more readable and expresses the intent more clearly.
+&nbsp;`aTest deny: anExpression` is equivalent to
+&nbsp;`aTest assert: anExpression not`, but is much more readable and expresses the intent more clearly.
 
 % !!!Step 6: Other ways to run the tests
 % +Should use DrTests.>file://figures/updatedbrowsertests.png|width=80|label=fig:browsertests+
@@ -232,7 +232,7 @@ MyExampleSetTest >> testRemove
 
 
 The tests that did not pass \(if any\) are listed in the right-hand panes of the
-_Test Runner_. If you want to debug one, to see why it failed, just click on
+&nbsp;_Test Runner_. If you want to debug one, to see why it failed, just click on
 the name. Alternatively, you can execute one of the following expressions:
 
 ```
