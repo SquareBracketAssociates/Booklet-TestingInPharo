@@ -818,7 +818,9 @@ table/tbody/tr[4]/td/table/tbody/tr/td[2]/table/tbody/tr[3]/td/p[2]/font'
 And finally create the test to verify if the user is registered successfully.
 ```
 EPRegisterUserTest >> testRegistrationOfUser
-	<timeout: 10>
+	
+	self timeLimit: 10 seconds.
+
 	self sendInformationToContactSection.
 	self sendInformationToMailingSection.
 	self sendInformationToUserSection.
@@ -833,7 +835,7 @@ and password you''ve just entered.'
 
 Sometimes this test can fail because the page needs to save the new user and load the successful message.
 Another problem that can cause the test failure is the time it takes for our Selenium server to use the browser driver.
-So we use the timeout pragma to try to avoid this, but you can also use the `Delay` class.
+So we use the `timeLimit:` message to give the test more time to run, but you can also use the `Delay` class.
 If you don't have this problem, delete the line.
 
 Finally, run the test and observe its result. If the test passed, you are now able to create multiple tests using Parasol. 
