@@ -75,7 +75,7 @@ MyExampleSetTest >> testIncludes
 
 
 The easiest way to run the tests is directly from the browser. Press on the icon on the side of the class name, or on an individual test method.
-The test methods will be flagged depending on whether they pass or not \(as shown in *@fig:browsertests2@*\).
+The test methods will be flagged depending on whether they pass or not (as shown in *@fig:browsertests2@*).
 
 ![Running SUnit tests from the System Browser.](figures/updatedbrowsertests.png width=80&label=fig:browsertests2)
 
@@ -84,8 +84,7 @@ The test methods will be flagged depending on whether they pass or not \(as show
 ### Step 4: Another test
 
 Following the same pattern, here is a test verifying that the method `occurrencesOf:` works as expected.
-The second test, named `testOccurrences`, verifies that the number of occurrences of 5 in `full` set is equal to one, even if we
-add another element 5 to the set. 
+The second test, named `testOccurrences`, verifies that the number of occurrences of 5 in `full` set is equal to one, even if we add another element 5 to the set. 
 
 
 ```caption=Testing occurrences
@@ -191,8 +190,8 @@ MyExampleSetTest >> testRemove
 
 
 Note the use of the method `TestCase >> deny:` to assert something that should not be true. 
-&nbsp;`aTest deny: anExpression` is equivalent to
-&nbsp;`aTest assert: anExpression not`, but is much more readable and expresses the intent more clearly.
+The expression `aTest deny: anExpression` is equivalent to
+the expression `aTest assert: anExpression not`, but is much more readable and expresses the intent more clearly.
 
 % !!!Step 6: Other ways to run the tests
 % +Should use DrTests.>file://figures/updatedbrowsertests.png|width=80|label=fig:browsertests+
@@ -231,9 +230,7 @@ MyExampleSetTest >> testRemove
 ```
 
 
-The tests that did not pass \(if any\) are listed in the right-hand panes of the
-&nbsp;_Test Runner_. If you want to debug one, to see why it failed, just click on
-the name. Alternatively, you can execute one of the following expressions:
+The tests that did not pass \(if any\) are listed in the right-hand panes of the _Test Runner_. If you want to debug one, to see why it failed, just click on the name. Alternatively, you can execute one of the following expressions:
 
 ```
 (MyExampleSetTest selector: #testRemove) debug
