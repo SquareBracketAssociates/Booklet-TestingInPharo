@@ -2,13 +2,11 @@
 
 @cha:sunitexample
 In this chapter we present a small example showing how simple it is to use SUnit. 
-Before going into the details of SUnit \(see next Chapter\), we will show a step-by-step example. 
+Before going into the details of SUnit (see next Chapter), we will show a step-by-step example. 
 We use an example that tests the class `Set`. Try entering the code as we go along.
-We will create a test i.e., create a context \(also called a fixture\), execute a stimulus, and verify that some assertions 
-are working.
+We will create a test i.e., create a context (also called a fixture), execute a stimulus, and verify that some assertions are working.
 
-If you already read the SUnit chapter on Pharo by Example book you can skip this chapter since 
-the contents are the same.
+If you already read the SUnit chapter on Pharo by Example book you can skip this chapter since the contents are the same.
 
 ### Step 1: Create the test class
 
@@ -55,9 +53,7 @@ and third we validate the output using assertion via the ` assert:` message.
 The method `assert:` checks that the argument is a boolean true. 
 
 
-Define the following test methods. The first test, named `testIncludes`, tests
-the `includes:` method of `Set`. For example, the test says that sending the message
-`includes: 5` to a set containing 5 should return `true`.
+Define the following test methods. The first test, named `testIncludes`, tests the `includes:` method of `Set`. For example, the test says that sending the message `includes: 5` to a set containing 5 should return `true`.
 
 ```caption=Testing includes
 MyExampleSetTest >> testIncludes
@@ -75,17 +71,16 @@ MyExampleSetTest >> testIncludes
 
 
 The easiest way to run the tests is directly from the browser. Press on the icon on the side of the class name, or on an individual test method.
-The test methods will be flagged depending on whether they pass or not \(as shown in *@fig:browsertests2@*\).
+The test methods will be flagged depending on whether they pass or not (as shown in *@fig:browsertests2@*).
 
-![Running SUnit tests from the System Browser.](figures/updatedbrowsertests.png width=80&label=fig:browsertests2)
+![Running SUnit tests from the System Browser. %width=80&label=fig:browsertests2](figures/updatedbrowsertests.png)
 
 
 
 ### Step 4: Another test
 
 Following the same pattern, here is a test verifying that the method `occurrencesOf:` works as expected.
-The second test, named `testOccurrences`, verifies that the number of occurrences of 5 in `full` set is equal to one, even if we
-add another element 5 to the set. 
+The second test, named `testOccurrences`, verifies that the number of occurrences of 5 in `full` set is equal to one, even if we add another element 5 to the set. 
 
 
 ```caption=Testing occurrences
@@ -191,8 +186,8 @@ MyExampleSetTest >> testRemove
 
 
 Note the use of the method `TestCase >> deny:` to assert something that should not be true. 
-`aTest deny: anExpression` is equivalent to
-`aTest assert: anExpression not`, but is much more readable and expresses the intent more clearly.
+The expression `aTest deny: anExpression` is equivalent to
+the expression `aTest assert: anExpression not`, but is much more readable and expresses the intent more clearly.
 
 % !!!Step 6: Other ways to run the tests
 % +Should use DrTests.>file://figures/updatedbrowsertests.png|width=80|label=fig:browsertests+
@@ -231,9 +226,7 @@ MyExampleSetTest >> testRemove
 ```
 
 
-The tests that did not pass \(if any\) are listed in the right-hand panes of the
-_Test Runner_. If you want to debug one, to see why it failed, just click on
-the name. Alternatively, you can execute one of the following expressions:
+The tests that did not pass \(if any\) are listed in the right-hand panes of the _Test Runner_. If you want to debug one, to see why it failed, just click on the name. Alternatively, you can execute one of the following expressions:
 
 ```
 (MyExampleSetTest selector: #testRemove) debug
