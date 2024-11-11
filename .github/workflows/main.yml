@@ -13,6 +13,6 @@ on:
 
 jobs:
   build:
-    uses: SquareBracketAssociates/BookBuilderDashboard/.github/workflows/main.yml@newVersionOfPillar
+    uses: SquareBracketAssociates/BookBuilderDashboard/.github/workflows/main.yml
     with:
       bookname: TestingInPharo
