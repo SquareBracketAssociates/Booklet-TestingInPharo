@@ -135,7 +135,3 @@ without fear to break your code and not getting notified about it.
 <!inputFile|path=Chapters/Benchs/Smark.md!>
 
 %<!inputFile|path=Chapters/Misc/Misc.md!>
-
-% Will not be added to the booklet
-%  Building a plugin is too complex so better remove this chapter.
-% ${inputFile:path=Chapters/DrTests/DrTests.pillar}$
