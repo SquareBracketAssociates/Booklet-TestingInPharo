@@ -549,6 +549,66 @@ TestCase class >> shouldInheritSelectors
 		and: [self superclass isAbstract or: [self testSelectors isEmpty]]
 ```
 
+### Manipulate a file system in your tests
+
+In some cases we need to tests things interacting with the file system. For example, if you have an application parametrized with a configuration file, you might want to implement a functional test checking that for a certain configuration, your application behave a certain way.
+
+It is often discouraged to directly manipulate the file system for multiple reasons:
+- there is no guarantee files with matching the name of your files exists
+- you need to think about the current state of your file system (and maybe delete some existing files before creating your owns)
+- you need to think about cleaning the files you are creating
+
+On technic often used is to create a folder based on an UUID or other random name to avoid conflicts but it exists two other ways provided by Pharo.
+
+The fist way is to use the temp folder of your OS. You can access it using `FileLocator`:
+
+```
+MyTestCase >> setUp
+	super setUp.
+	application configurationsFolders: (FileLocator temp / UUID new asString) ensureCreateDirectory
+```
+
+This way you do not have to care about the cleaning of the file system and you avoid the risk of clashing with files of your user. But you still have to take care of the existing files in the temp folder since it is often cleaned when you restart and not all the time.
+
+The second method is to use a memory file system! As its name indicates, it is an emulation of a file system existing in memory. You can create this file system using `FileSystem memory`:
+
+```
+MyTestCase >> setUp
+	super setUp.
+	application configurationsFolders: (FileSystem memory / 'configurations') ensureCreateDirectory
+```
+
+This technic has multiple advantages:
+- It will never conflict with an existing file
+- You will always get a clean file system to setup
+- You never need to clean it since it will be automatically garbage collected when the file system will not be references anymore (usually after the execution of the test)
+
+But this technic also has some drawbacks to keep in mind:
+- Not all file system features are working on a memory file system so it is possible that you cannot use this for some things event if it is edge cases
+- `FileSystem memory` systematically return a new clean file system. This means that if you need to access it again, you need to save your instance!
+
+Example of memory file system access:
+
+```
+MyTestCase >> setUp
+	super setUp.
+	fileSystem := FileSystem memory.
+	application configurationsFolder: (fileSystem / 'configurations') ensureCreateDirectory
+```
+
+```
+MyTestCase >> testDefaultConfiguration
+	application generateDefaultConfiguration.
+	self assert: FileSystem memory / 'configurations' / 'default.config'. "<=== This will not work because the file system will be new!"
+	self assert: fileSystem / 'configurations' / 'default.config'. "<=== This will work because you saved your file system"
+	self assert: application configurationsFolder / 'default.config' "<=== This will work because it will be the saved file reference"
+```
+
+My personnal advice:
+- Use a memory file system when possible
+- Use temp if your features are exploiting a feature not supported by the memory file system
+- Use a folder generated from an UUID only when necessary and both solutions above are impossible to execute
+
 
 ### Conclusion
 
