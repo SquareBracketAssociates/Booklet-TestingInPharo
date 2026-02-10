@@ -1,0 +1,185 @@
+{
+  "type": "excalidraw",
+  "version": 2,
+  "source": "https://excalidraw.com",
+  "elements": [
+    {
+      "type": "ellipse",
+      "version": 1041,
+      "versionNonce": 543586755,
+      "index": "b0Q",
+      "isDeleted": false,
+      "id": "PMeDCwHXgaHnPwNucDuTg",
+      "fillStyle": "hachure",
+      "strokeWidth": 1,
+      "strokeStyle": "solid",
+      "roughness": 1,
+      "opacity": 100,
+      "angle": 0,
+      "x": 715.5,
+      "y": -227.41311166875778,
+      "strokeColor": "#1e1e1e",
+      "backgroundColor": "#69db7c",
+      "width": 325.9999999999999,
+      "height": 154,
+      "seed": 1766399486,
+      "groupIds": [],
+      "frameId": null,
+      "roundness": {
+        "type": 2
+      },
+      "boundElements": [
+        {
+          "type": "text",
+          "id": "XpURgneyLb_4TU68_rCh1"
+        },
+        {
+          "id": "KL5x20iD1Kgks_0XXGDc1",
+          "type": "arrow"
+        }
+      ],
+      "updated": 1714680197972,
+      "link": null,
+      "locked": false
+    },
+    {
+      "type": "text",
+      "version": 873,
+      "versionNonce": 1521039341,
+      "index": "b0QV",
+      "isDeleted": false,
+      "id": "XpURgneyLb_4TU68_rCh1",
+      "fillStyle": "hachure",
+      "strokeWidth": 1,
+      "strokeStyle": "solid",
+      "roughness": 1,
+      "opacity": 100,
+      "angle": 0,
+      "x": 776.3216270152255,
+      "y": -172.86033382012195,
+      "strokeColor": "#1e1e1e",
+      "backgroundColor": "transparent",
+      "width": 204.83993530273438,
+      "height": 45,
+      "seed": 1680565822,
+      "groupIds": [],
+      "frameId": null,
+      "roundness": null,
+      "boundElements": [],
+      "updated": 1714680197972,
+      "link": null,
+      "locked": false,
+      "fontSize": 36,
+      "fontFamily": 1,
+      "text": "All mutants",
+      "textAlign": "center",
+      "verticalAlign": "middle",
+      "containerId": "PMeDCwHXgaHnPwNucDuTg",
+      "originalText": "All mutants",
+      "lineHeight": 1.25
+    },
+    {
+      "type": "arrow",
+      "version": 700,
+      "versionNonce": 1583306051,
+      "index": "b0S",
+      "isDeleted": false,
+      "id": "KL5x20iD1Kgks_0XXGDc1",
+      "fillStyle": "hachure",
+      "strokeWidth": 1,
+      "strokeStyle": "solid",
+      "roughness": 1,
+      "opacity": 100,
+      "angle": 0,
+      "x": 990.159335519342,
+      "y": -176.32118075273593,
+      "strokeColor": "#1e1e1e",
+      "backgroundColor": "transparent",
+      "width": 142.44112558504867,
+      "height": 39.09193091602185,
+      "seed": 377141246,
+      "groupIds": [],
+      "frameId": null,
+      "roundness": {
+        "type": 2
+      },
+      "boundElements": [],
+      "updated": 1714680215278,
+      "link": null,
+      "locked": false,
+      "startBinding": {
+        "elementId": "PMeDCwHXgaHnPwNucDuTg",
+        "focus": 0.22690393525094096,
+        "gap": 1
+      },
+      "endBinding": {
+        "elementId": "_vRkf-4oXDmRQ6oYxbJ8C",
+        "focus": -0.4974675065845302,
+        "gap": 10.000692491701074
+      },
+      "lastCommittedPoint": null,
+      "startArrowhead": null,
+      "endArrowhead": "arrow",
+      "points": [
+        [
+          0,
+          0
+        ],
+        [
+          87.340664480658,
+          -39.09193091602185
+        ],
+        [
+          142.44112558504867,
+          -9.092623407722925
+        ]
+      ]
+    },
+    {
+      "type": "text",
+      "version": 148,
+      "versionNonce": 1786971139,
+      "index": "b0T",
+      "isDeleted": false,
+      "id": "_vRkf-4oXDmRQ6oYxbJ8C",
+      "fillStyle": "hachure",
+      "strokeWidth": 1,
+      "strokeStyle": "solid",
+      "roughness": 1,
+      "opacity": 100,
+      "angle": 0,
+      "x": 1136.5,
+      "y": -175.41311166875778,
+      "strokeColor": "#1e1e1e",
+      "backgroundColor": "transparent",
+      "width": 303.8759460449219,
+      "height": 45,
+      "seed": 591853118,
+      "groupIds": [],
+      "frameId": null,
+      "roundness": null,
+      "boundElements": [
+        {
+          "id": "KL5x20iD1Kgks_0XXGDc1",
+          "type": "arrow"
+        }
+      ],
+      "updated": 1714680205593,
+      "link": null,
+      "locked": false,
+      "fontSize": 36,
+      "fontFamily": 1,
+      "text": "A random mutant",
+      "textAlign": "left",
+      "verticalAlign": "top",
+      "containerId": null,
+      "originalText": "A random mutant",
+      "lineHeight": 1.25
+    }
+  ],
+  "appState": {
+    "gridSize": null,
+    "viewBackgroundColor": "#ffffff"
+  },
+  "files": {}
+}
